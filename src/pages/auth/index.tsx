@@ -26,21 +26,19 @@ const renderAuthContent = (content: React.ReactNode) => {
         margin: "auto",
       }}
     >
-      <Link to="/">
-        <Box
-          sx={{
-            display: "flex",
-            flexdirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <SailingIcon />{" "}
-          <Typography align="center" fontSize={38} fontWeight={600}>
-            Ladoga Rent
-          </Typography>
-        </Box>
-      </Link>
+      <Box
+        sx={{
+          display: "flex",
+          flexdirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <SailingIcon sx={{ height: "100%" }} />{" "}
+        <Typography align="center" fontSize={38} fontWeight={600}>
+          Ladoga Rent
+        </Typography>
+      </Box>
       {content}
     </div>
   );

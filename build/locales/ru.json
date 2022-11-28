@@ -1,0 +1,346 @@
+{
+  "pages": {
+    "login": {
+      "title": "Вход в аккаунт",
+      "signin": "Вход",
+      "signup": "Регистрация",
+      "divider": "или ",
+      "fields": {
+        "email": "Email",
+        "password": "Пароль"
+      },
+      "errors": {
+        "validEmail": "Неправильный Адрес электронной почты"
+      },
+      "buttons": {
+        "submit": "Войти",
+        "forgotPassword": "Забыли пароль?",
+        "noAccount": "Нет аккаунта?",
+        "rememberMe": "Запомнить меня"
+      }
+    },
+    "forgotPassword": {
+      "title": "Забыли пароль?",
+      "fields": {
+        "email": "Email"
+      },
+      "errors": {
+        "validEmail": "Неправильный Адрес электронной почты"
+      },
+      "buttons": {
+        "submit": "Отправить инструкции по восстановленнию"
+      }
+    },
+    "register": {
+      "title": "Зарегистрироваться",
+      "fields": {
+        "email": "Email",
+        "password": "Пароль"
+      },
+      "errors": {
+        "validEmail": "Неправильный Адрес электронной почты"
+      },
+      "buttons": {
+        "submit": "Зарегистрироваться",
+        "haveAccount": "Уже есть аккаунт?"
+      }
+    },
+    "updatePassword": {
+      "title": "Изменить пароль",
+      "fields": {
+        "password": "Новый пароль",
+        "confirmPassword": "Введите пароль ещё раз"
+      },
+      "errors": {
+        "confirmPasswordNotMatch": "Пароли не совпадают"
+      },
+      "buttons": {
+        "submit": "Обновить"
+      }
+    },
+    "error": {
+      "info": "Возможно, вы забыли добавить компонент {{action}} к ресурсу {{resource}}.",
+      "404": "Страницы не существует",
+      "resource404": "Вы уверены, что создали ресурс {{resource}}.",
+      "backHome": "Домой"
+    }
+  },
+  "actions": {
+    "list": "Список",
+    "create": "Создать",
+    "edit": "Редактировать",
+    "show": "Показать"
+  },
+  "buttons": {
+    "add": "Добавить",
+    "create": "Создать",
+    "save": "Сохранить",
+    "logout": "Выйти",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "cancel": "Отмена",
+    "confirm": "Вы уверены?",
+    "filter": "Фильтр",
+    "clear": "Очистить",
+    "refresh": "Обновить",
+    "show": "Показать",
+    "undo": "Отменить",
+    "import": "Импорт",
+    "export": "Экспорт",
+    "clone": "Клонировать",
+    "accept": "Принять",
+    "acceptAll": "Принять всё",
+    "reject": "Отклонить",
+    "rejectAll": "Отклонить всё",
+    "nextStep": "Следующий",
+    "previousStep": "Предыдущий"
+  },
+  "loading": "Загрузка",
+  "tags": {
+    "clone": "Клонировать"
+  },
+  "table": {
+    "actions": "Действия"
+  },
+  "search": {
+    "placeholder": "Поиск по всему",
+    "more": "ещё"
+  },
+  "status": {
+    "enable": "Включить",
+    "disable": "Выключить"
+  },
+  "warnWhenUnsavedChanges": "Вы уверены что хотите покинуть страницу? Есть несохранённые данные",
+  "notifications": {
+    "success": "Успешно",
+    "error": "Ошибка (status code: {{statusCode}})",
+    "undoable": "У вас {{seconds}} секунд для отмены",
+    "createSuccess": "Успешно создано {{resource}}",
+    "createError": "Произошла ошибка при создании {{resource}} (код состояния: {{StatusCode}})",
+    "deleteSuccess": "Успешное удаление {{resource}}",
+    "deleteError": "Ошибка при удалении {{resource}} (код состояния: {{statusCode}})",
+    "editSuccess": "Успешно изменено {{resource}}",
+    "editError": "Ошибка при изменении {{resource}} (код состояния: {{statusCode}})",
+    "importProgress": "Импорт: {{processed}}/{{total}}"
+  },
+  "categories": {
+    "categories": "Категории",
+    "titles": {
+      "list": "Категории"
+    },
+    "fields": {
+      "id": "ID",
+      "title": "Заголовок",
+      "isActive": "Активен"
+    }
+  },
+  "couriers": {
+    "couriers": "Агенты",
+    "titles": {
+      "create": "Добавить агента",
+      "list": "Список агентов",
+      "edit": "Редактировать агента"
+    },
+    "fields": {
+      "id": "ID",
+      "avatar": {
+        "label": "Аватар",
+        "description": "Нажмите, либо перетащите сюда фото для загрузки."
+      },
+      "name": "Имя",
+      "surname": "Фамилия",
+      "gender": {
+        "label": "Пол",
+        "male": "Мужской",
+        "female": "Женский"
+      },
+      "gsm": "Номер телефона",
+      "email": "E-Mail",
+      "address": "Адрес",
+      "createdAt": "Зарегестрирован",
+      "isActive": "Активность",
+      "images": {
+        "label": "Изображения",
+        "description": "Добавьте фото пользователя",
+        "validation": "Необходимое разрешение 480x480 px"
+      },
+      "store": "Магазин",
+      "vehicle": "Транспорт",
+      "accountNumber": "Номер аккаунта"
+    },
+    "steps": {
+      "content": "Введите данные",
+      "relations": "Подтверждение номера"
+    }
+  },
+  "dashboard": {
+    "title": "Панель управления",
+    "deliveryMap": {
+      "title": "Карта доставки"
+    },
+    "orders": {
+      "title": "Заказы"
+    },
+    "totalSales": {
+      "title": "Всего продано"
+    },
+    "dailyRevenue": {
+      "title": "Ежедневный доход"
+    },
+    "dailyOrders": {
+      "title": "Ежедневные заказы"
+    },
+    "newCustomers": {
+      "title": "Новые клиенты"
+    },
+    "timeline": {
+      "title": "Временная шкала",
+      "orderStatuses": {
+        "pending": "Подготовка заказа",
+        "ready": "Заказ готов",
+        "on the way": "Заказ в пути",
+        "delivered": "Заказ доставлен",
+        "cancelled": "Заказ отменён"
+      }
+    },
+    "recentOrders": {
+      "title": "Последние заказы"
+    },
+    "trendingMenus": {
+      "title": "Популярные блюда сегодня"
+    }
+  },
+  "enum": {
+    "orderStatuses": {
+      "Pending": "Ожидание",
+      "Ready": "Готово",
+      "On The Way": "В пути",
+      "Delivered": "Доставлено",
+      "Cancelled": "Отмененно"
+    }
+  },
+  "orders": {
+    "orders": "Заказы",
+    "titles": {
+      "list": "Список заказов",
+      "show": "Показать заказ"
+    },
+    "fields": {
+      "orderNumber": "Номер заказа",
+      "orderID": "ID заказа",
+      "status": "Статус",
+      "store": "Магазин",
+      "user": "Пользователь",
+      "products": "Продукты",
+      "createdAt": "Создан",
+      "amount": "Количество",
+      "itemsAmount": "{{amount}} позиций"
+    },
+    "filter": {
+      "title": "Фильтр",
+      "search": {
+        "label": "Поиск",
+        "placeholder": "Номер заказа, имя пользователя и т.д."
+      },
+      "status": {
+        "label": "Статус",
+        "placeholder": "Статус заказа"
+      },
+      "store": {
+        "label": "Магазин",
+        "placeholder": "Поиск магазина"
+      },
+      "user": {
+        "label": "Пользователь",
+        "placeholder": "Поиск пользователя"
+      },
+      "createdAt": {
+        "label": "Создан"
+      },
+      "submit": "Фильтр"
+    },
+    "courier": {
+      "deliveryTime": "Время доставки",
+      "phone": "Телефон"
+    },
+    "deliverables": {
+      "deliverables": "Результаты",
+      "fields": {
+        "items": "Позиции",
+        "quantity": "Количество",
+        "price": "Цена",
+        "total": "Всего"
+      },
+      "mainTotal": "Общая стоимость"
+    }
+  },
+
+  "users": {
+    "users": "Пользователи",
+    "titles": {
+      "edit": "Редактивровать",
+      "list": "Список пользователей",
+      "show": "Подробно"
+    },
+    "fields": {
+      "id": "ID",
+      "avatar": {
+        "label": "Фото",
+        "description": "Нажмите, либо перетащите сюда фото."
+      },
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "gender": {
+        "label": "Пол",
+        "Male": "Мужской",
+        "Female": "Женский"
+      },
+      "gsm": "Телефон",
+      "createdAt": "Создан",
+      "isActive": {
+        "label": "Активность",
+        "true": "Да",
+        "false": "Нет"
+      }
+    },
+    "filter": {
+      "title": "Фильтр",
+      "search": {
+        "label": "Поиск",
+        "placeholder": "Имя, фамилия, номер телефона и т.д."
+      },
+      "createdAt": {
+        "label": "Создан"
+      },
+      "gender": {
+        "label": "Пол",
+        "placeholder": "Пол",
+        "male": "Мужской",
+        "female": "Женский"
+      },
+      "isActive": {
+        "label": "Активность",
+        "placeholder": "Активность",
+        "true": "Да",
+        "false": "Нет"
+      },
+      "submit": "Фильтр"
+    },
+    "addresses": {
+      "addresses": "Адреса",
+      "address": "Адрес"
+    }
+  },
+  "profit": {
+    "profit": "Прибыль"
+  },
+  "errors": {
+    "required": {
+      "field": "'{{ field }}' обязательное поле",
+      "common": "Обязательное поля",
+      "min": "Минимум {{ min }} символов",
+      "max": "Максимум {{ max }} символов",
+      "invalidMail": "Неверная почта"
+    }
+  }
+}

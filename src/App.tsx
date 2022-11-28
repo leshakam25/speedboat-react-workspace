@@ -14,31 +14,24 @@ import routerProvider from "@pankod/refine-react-router-v6";
 import { useTranslation } from "react-i18next";
 import {
   AddShoppingCartOutlined,
-  StarBorderOutlined,
-  CategoryOutlined,
-  StoreOutlined,
-  LocalPizzaOutlined,
   PeopleOutlineOutlined,
+  CurrencyRuble,
 } from "@mui/icons-material";
-
+import GroupsIcon from "@mui/icons-material/Groups";
 import { authProvider } from "authProvider";
 import { DashboardPage } from "pages/dashboard";
-import { OrderList, OrderShow } from "pages/orders";
+import { OrderCreate, OrderEdit, OrderList, OrderShow } from "pages/orders";
 import { UserList, UserShow } from "pages/users";
-import { ReviewsList } from "pages/reviews";
 import {
   CourierList,
   CourierShow,
   CourierCreate,
   CourierEdit,
-} from "pages/couriers";
+} from "pages/agents";
 import { AuthPage } from "pages/auth";
-import { StoreList, StoreEdit, StoreCreate } from "pages/stores";
-import { ProductList } from "pages/products";
-import { CategoryList } from "pages/categories";
 import { ColorModeContextProvider } from "contexts";
-import { Header, Title, OffLayoutArea } from "components";
-import { BikeWhiteIcon } from "components/icons/bike-white";
+import { Header, Title } from "components";
+import ProfitList from "pages/profit";
 
 const App: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -116,36 +109,14 @@ const App: React.FC = () => {
               warnWhenUnsavedChanges: true,
             }}
             notificationProvider={notificationProvider}
-            OffLayoutArea={OffLayoutArea}
             resources={[
               {
                 name: "orders",
                 list: OrderList,
                 show: OrderShow,
+                create: OrderCreate,
+                edit: OrderEdit,
                 icon: <AddShoppingCartOutlined />,
-              },
-              {
-                name: "users",
-                list: UserList,
-                show: UserShow,
-                icon: <PeopleOutlineOutlined />,
-              },
-              {
-                name: "products",
-                list: ProductList,
-                icon: <LocalPizzaOutlined />,
-              },
-              {
-                name: "stores",
-                list: StoreList,
-                edit: StoreEdit,
-                create: StoreCreate,
-                icon: <StoreOutlined />,
-              },
-              {
-                name: "categories",
-                list: CategoryList,
-                icon: <CategoryOutlined />,
               },
               {
                 name: "couriers",
@@ -153,13 +124,15 @@ const App: React.FC = () => {
                 show: CourierShow,
                 create: CourierCreate,
                 edit: CourierEdit,
-                icon: <BikeWhiteIcon />,
+                icon: <GroupsIcon />,
               },
               {
-                name: "reviews",
-                list: ReviewsList,
-                icon: <StarBorderOutlined />,
+                name: "users",
+                list: UserList,
+                show: UserShow,
+                icon: <PeopleOutlineOutlined />,
               },
+              { name: "profit", list: ProfitList, icon: <CurrencyRuble /> },
             ]}
           />
         </RefineSnackbarProvider>

@@ -27,7 +27,8 @@ export const NewCustomers: React.FC = () => {
       sx={{
         height: "230px",
         p: 1,
-        background: "url(images/new-orders.png)",
+        background: "url(images/new-orders.jpg)",
+        backgroundSize: "cover",
         backgroundColor: "#3d335b",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "right",

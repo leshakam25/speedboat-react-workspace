@@ -43,8 +43,8 @@ export const authProvider: AuthProvider = {
 
         return Promise.resolve({
             id: 1,
-            name: "James Sullivan",
-            avatar: "https://i.pravatar.cc/150",
+            name: "Алексей Колесников",
+            avatar: "https://cs6.pikabu.ru/avatars/1724/v1724973-2109843858.jpg",
         });
     },
 };

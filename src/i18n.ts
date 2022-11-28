@@ -7,11 +7,11 @@ i18n.use(Backend)
     .use(detector)
     .use(initReactI18next)
     .init({
-        supportedLngs: ["en", "de"],
+        supportedLngs: ["ru","en"],
         backend: {
             loadPath: "/locales/{{lng}}.json",
         },
-        fallbackLng: ["en", "de"],
+        fallbackLng: ["ru","en"],
     });
 
 export default i18n;
