@@ -92,7 +92,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         headerAlign: "center",
         align: "center",
         flex: 1,
-        minWidth: 50,
+        maxWidth: 100,
       },
       {
         field: "status.text",
@@ -103,7 +103,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
           return <OrderStatus status={row.status.text} />;
         },
         flex: 1,
-        minWidth: 100,
+        maxWidth: 180,
       },
       {
         field: "date",
@@ -112,15 +112,24 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         align: "center",
         valueGetter: ({ row }) => row.date,
         flex: 1,
-        minWidth: 100,
+        maxWidth: 150,
       },
       {
         field: "user",
         headerName: t("orders.fields.user"),
         valueGetter: ({ row }) => row.user.name,
         flex: 1,
-        minWidth: 150,
+        maxWidth: 200,
         sortable: false,
+      },
+      {
+        field: "agent.phone",
+        headerName: t("orders.fields.phone"),
+        headerAlign: "center",
+        align: "center",
+        valueGetter: ({ row }) => row.agent.phone,
+        flex: 1,
+        maxWidth: 150,
       },
       {
         field: "route.route",
@@ -131,7 +140,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
           return <RouteName status={row.route.route} />;
         },
         flex: 1,
-        minWidth: 200,
+        maxWidth: 180,
       },
       // {
       //   field: "route.route",
@@ -147,12 +156,12 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         field: "createdAt",
         headerName: t("orders.fields.createdAt"),
         flex: 1,
-        minWidth: 170,
+        maxWidth: 180,
         renderCell: function render({ row }) {
           return (
             <DateField
               value={row.createdAt}
-              format="LLL"
+              format="LL"
               sx={{ fontSize: "14px" }}
             />
           );

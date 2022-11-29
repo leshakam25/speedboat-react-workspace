@@ -24,6 +24,7 @@ export interface IAgent {
     email?: string;
     createdAt: string;
     orders: IOrder;
+    avatar:string;
 }
 
 

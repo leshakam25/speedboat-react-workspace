@@ -183,11 +183,11 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
             textAlign={isSmallOrLess ? "center" : "left"}
             gap={2}
           >
-            {/* <Avatar
+            <Avatar
               alt={record?.agent.name}
               src={record?.agent.avatar}
               sx={{ width: 100, height: 100 }}
-            /> */}
+            />
             <Box>
               <Typography>АГЕНТ</Typography>
               <Typography variant="h6">{record?.agent.name}</Typography>

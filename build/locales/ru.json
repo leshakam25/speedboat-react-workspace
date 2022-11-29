@@ -231,7 +231,7 @@
       "show": "Показать заказ"
     },
     "fields": {
-      "orderNumber": "Номер заказа",
+      "orderNumber": "№ заказа",
       "orderID": "ID заказа",
       "status": "Статус",
       "store": "Магазин",
@@ -240,7 +240,8 @@
       "products": "Продукты",
       "createdAt": "Создан",
       "amount": "Количество",
-      "itemsAmount": "{{amount}} позиций"
+      "itemsAmount": "{{amount}} позиций",
+      "phone": "Телефон"
     },
     "filter": {
       "title": "Фильтр",
