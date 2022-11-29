@@ -36,7 +36,8 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 import { OrderStatus, CustomTooltip } from "components";
-import { IOrder, IOrderFilterVariables } from "interfaces";
+import { IOrder, IOrderFilterVariables } from "interfacesNew";
+import { RouteName } from "components/routeName";
 
 export const OrderList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
@@ -50,7 +51,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     initialPageSize: 10,
     onSearch: (params) => {
       const filters: CrudFilters = [];
-      const { q, store, user, status } = params;
+      const { q, phone, user, status } = params;
 
       filters.push({
         field: "q",
@@ -59,9 +60,9 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
       });
 
       filters.push({
-        field: "store.id",
+        field: "phone",
         operator: "eq",
-        value: (store ?? [].length) > 0 ? store : undefined,
+        value: (phone ?? [].length) > 0 ? phone : undefined,
       });
 
       filters.push({
@@ -89,7 +90,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         headerAlign: "center",
         align: "center",
         flex: 1,
-        minWidth: 100,
+        minWidth: 50,
       },
       {
         field: "status.text",
@@ -102,71 +103,24 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         minWidth: 100,
       },
-      {
-        field: "amount",
-        headerName: t("orders.fields.amount"),
-        headerAlign: "center",
-        align: "center",
-        renderCell: function render({ row }) {
-          return (
-            <NumberField
-              options={{
-                currency: "USD",
-                style: "currency",
-              }}
-              value={row.amount / 100}
-              sx={{ fontSize: "14px" }}
-            />
-          );
-        },
-        flex: 1,
-        minWidth: 100,
-      },
-      {
-        field: "store",
-        headerName: t("orders.fields.store"),
-        valueGetter: ({ row }) => row.store.title,
-        flex: 1,
-        minWidth: 150,
-        sortable: false,
-      },
+
       {
         field: "user",
         headerName: t("orders.fields.user"),
-        valueGetter: ({ row }) => row.user.fullName,
+        valueGetter: ({ row }) => row.user.name,
         flex: 1,
         minWidth: 150,
         sortable: false,
       },
       {
-        field: "products",
-        headerName: t("orders.fields.products"),
-        headerAlign: "center",
-        align: "center",
-        sortable: false,
-        renderCell: function render({ row }) {
-          return (
-            <CustomTooltip
-              arrow
-              placement="top"
-              title={
-                <Stack sx={{ padding: "2px" }}>
-                  {row.products.map((product) => (
-                    <li key={product.id}>{product.name}</li>
-                  ))}
-                </Stack>
-              }
-            >
-              <Typography sx={{ fontSize: "14px" }}>
-                {t("orders.fields.itemsAmount", {
-                  amount: row.products.length,
-                })}
-              </Typography>
-            </CustomTooltip>
-          );
-        },
+        field: "route",
+        headerName: t("orders.fields.route"),
+        // renderCell: function render({ row }) {
+        //   return <RouteName status={row.order.route} />;
+        // },
         flex: 1,
-        minWidth: 100,
+        minWidth: 150,
+        sortable: false,
       },
       {
         field: "createdAt",
@@ -245,11 +199,12 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     mapData: (item) => {
       return {
         id: item.id,
-        amount: item.amount,
+        user: item.user,
         orderNumber: item.orderNumber,
+        route: item.route,
         status: item.status.text,
-        store: item.store.title,
-        user: item.user.firstName,
+        agent: item.agent,
+        createdAt: item.createdAt,
       };
     },
   });
@@ -262,7 +217,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     defaultValues: {
       status: getDefaultFilter("status.text", filters, "in"),
       q: getDefaultFilter("q", filters, "eq"),
-      store: getDefaultFilter("store.id", filters, "eq"),
+      phone: getDefaultFilter("phone", filters, "eq"),
       user: getDefaultFilter("user.id", filters, "eq"),
     },
   });
@@ -336,7 +291,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
               />
               <Controller
                 control={control}
-                name="store"
+                name="phone"
                 render={({ field }) => (
                   <Autocomplete
                     {...storeAutocompleteProps}
@@ -360,8 +315,8 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label={t("orders.filter.store.label")}
-                        placeholder={t("orders.filter.store.placeholder")}
+                        label={t("orders.filter.phone")}
+                        placeholder={t("orders.filter.phone")}
                         margin="normal"
                         variant="outlined"
                         size="small"

@@ -92,7 +92,7 @@
     "acceptAll": "Принять всё",
     "reject": "Отклонить",
     "rejectAll": "Отклонить всё",
-    "nextStep": "Следующий",
+    "nextStep": "Дальше",
     "previousStep": "Предыдущий"
   },
   "loading": "Загрузка",
@@ -212,10 +212,9 @@
   },
   "enum": {
     "orderStatuses": {
-      "Pending": "Ожидание",
-      "Ready": "Готово",
-      "On The Way": "В пути",
-      "Delivered": "Доставлено",
+      "Payment is expected": "Ожидается оплата",
+      "Paid": "Оплачено",
+      "Done": "Выполнено",
       "Cancelled": "Отмененно"
     }
   },

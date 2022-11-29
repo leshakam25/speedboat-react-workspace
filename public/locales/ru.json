@@ -212,11 +212,10 @@
   },
   "enum": {
     "orderStatuses": {
-      "Pending": "Ожидание",
-      "Ready": "Готово",
-      "On The Way": "В пути",
-      "Delivered": "Доставлено",
-      "Cancelled": "Отмененно"
+      "payment is expected": "Ожидается оплата",
+      "paid": "Оплачено",
+      "done": "Выполнено",
+      "cancelled": "Отмененно"
     }
   },
   "orders": {
@@ -230,6 +229,7 @@
       "orderID": "ID заказа",
       "status": "Статус",
       "store": "Магазин",
+      "route": "Маршрут",
       "user": "Пользователь",
       "products": "Продукты",
       "createdAt": "Создан",
@@ -242,6 +242,7 @@
         "label": "Поиск",
         "placeholder": "Номер заказа, имя пользователя и т.д."
       },
+      "phone": "Телефон",
       "status": {
         "label": "Статус",
         "placeholder": "Статус заказа"

@@ -84,7 +84,7 @@ const App: React.FC = () => {
                 },
               ],
             }}
-            dataProvider={dataProvider("https://api.finefoods.refine.dev")}
+            dataProvider={dataProvider("http://localhost:3000")}
             authProvider={authProvider}
             i18nProvider={i18nProvider}
             DashboardPage={DashboardPage}
@@ -118,21 +118,21 @@ const App: React.FC = () => {
                 edit: OrderEdit,
                 icon: <AddShoppingCartOutlined />,
               },
-              {
-                name: "couriers",
-                list: CourierList,
-                show: CourierShow,
-                create: CourierCreate,
-                edit: CourierEdit,
-                icon: <GroupsIcon />,
-              },
-              {
-                name: "users",
-                list: UserList,
-                show: UserShow,
-                icon: <PeopleOutlineOutlined />,
-              },
-              { name: "profit", list: ProfitList, icon: <CurrencyRuble /> },
+              // {
+              //   name: "couriers",
+              //   list: CourierList,
+              //   show: CourierShow,
+              //   create: CourierCreate,
+              //   edit: CourierEdit,
+              //   icon: <GroupsIcon />,
+              // },
+              // {
+              //   name: "users",
+              //   list: UserList,
+              //   show: UserShow,
+              //   icon: <PeopleOutlineOutlined />,
+              // },
+              // { name: "profit", list: ProfitList, icon: <CurrencyRuble /> },
             ]}
           />
         </RefineSnackbarProvider>

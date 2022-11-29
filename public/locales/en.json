@@ -212,11 +212,10 @@
   },
   "enum": {
     "orderStatuses": {
-      "Pending": "Pending",
-      "Ready": "Ready",
-      "On The Way": "On the way",
-      "Delivered": "Delivered",
-      "Cancelled": "Cancelled"
+      "payment is expected": "payment is expected",
+      "paid": "paid",
+      "done": "done",
+      "cancelled": "cancelled"
     }
   },
   "orders": {
@@ -231,6 +230,7 @@
       "status": "Status",
       "store": "Store",
       "user": "User",
+      "route": "Route",
       "products": "Products",
       "createdAt": "CreatedAt",
       "amount": "Amount",
