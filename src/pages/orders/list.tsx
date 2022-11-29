@@ -34,7 +34,7 @@ import {
 import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-
+import EmailIcon from "@mui/icons-material/Email";
 import { CustomTooltip, OrderStatus } from "components";
 import { IOrder, IOrderFilterVariables } from "interfacesNew";
 import { RouteName } from "components/routeName";
@@ -258,12 +258,12 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
   });
 
   const { autocompleteProps: orderAutocompleteProps } = useAutocomplete({
-    resource: "user",
+    resource: "orders",
   });
 
   const { autocompleteProps: userAutocompleteProps } = useAutocomplete({
     resource: "orders",
-    defaultValue: getDefaultFilter("user.id", filters, "eq"),
+    defaultValue: getDefaultFilter("user.name", filters, "eq"),
   });
 
   return (

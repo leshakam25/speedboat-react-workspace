@@ -134,45 +134,7 @@
       "isActive": "Активен"
     }
   },
-  "couriers": {
-    "couriers": "Агенты",
-    "titles": {
-      "create": "Добавить агента",
-      "list": "Список агентов",
-      "edit": "Редактировать агента"
-    },
-    "fields": {
-      "id": "ID",
-      "avatar": {
-        "label": "Аватар",
-        "description": "Нажмите, либо перетащите сюда фото для загрузки."
-      },
-      "name": "Имя",
-      "surname": "Фамилия",
-      "gender": {
-        "label": "Пол",
-        "male": "Мужской",
-        "female": "Женский"
-      },
-      "gsm": "Номер телефона",
-      "email": "E-Mail",
-      "address": "Адрес",
-      "createdAt": "Зарегестрирован",
-      "isActive": "Активность",
-      "images": {
-        "label": "Изображения",
-        "description": "Добавьте фото пользователя",
-        "validation": "Необходимое разрешение 480x480 px"
-      },
-      "store": "Магазин",
-      "vehicle": "Транспорт",
-      "accountNumber": "Номер аккаунта"
-    },
-    "steps": {
-      "content": "Введите данные",
-      "relations": "Подтверждение номера"
-    }
-  },
+
   "dashboard": {
     "title": "Панель управления",
     "deliveryMap": {
@@ -265,17 +227,6 @@
         "label": "Создан"
       },
       "submit": "Фильтр"
-    },
-
-    "deliverables": {
-      "deliverables": "Результаты",
-      "fields": {
-        "items": "Позиции",
-        "quantity": "Количество",
-        "price": "Цена",
-        "total": "Всего"
-      },
-      "mainTotal": "Общая стоимость"
     }
   },
 

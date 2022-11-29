@@ -9,34 +9,27 @@ import {
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   CardHeader,
-  DataGrid,
-  GridColumns,
   IconButton,
   Stack,
-  Step,
-  StepLabel,
-  Stepper,
   Typography,
-  List,
   Paper,
   useMediaQuery,
   useTheme,
 } from "@pankod/refine-mui";
 // import dayjs from "dayjs";
-
+import EmailIcon from "@mui/icons-material/Email";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
-import MopedIcon from "@mui/icons-material/Moped";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 // import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
-import { CourierInfoBox } from "components";
+import { CourierInfoBox, OrderStatus } from "components";
 
 import { IOrder, IOrderStatus } from "interfacesNew";
+import { RouteName } from "components/routeName";
 // import { useOrderCustomKbarActions } from "hooks";
 
 export const OrderShow: React.FC<IResourceComponentsProps> = () => {
@@ -57,27 +50,27 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
 
   const isSmallOrLess = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const columns = React.useMemo<GridColumns<IOrder>>(
-    () => [
-      {
-        field: "orderNumber",
-        headerName: t("orders.titles.list"),
-        width: 300,
-        renderCell: function render({ row }) {
-          return (
-            <Stack direction="row" spacing={4} alignItems="center">
-              <Box>
-                <Typography variant="body1" whiteSpace="break-spaces">
-                  {row.orderNumber}
-                </Typography>
-              </Box>
-            </Stack>
-          );
-        },
-      },
-    ],
-    [t]
-  );
+  // const columns = React.useMemo<GridColumns<IOrder>>(
+  //   () => [
+  //     {
+  //       field: "orderNumber",
+  //       headerName: t("orders.titles.list"),
+  //       width: 300,
+  //       renderCell: function render({ row }) {
+  //         return (
+  //           <Stack direction="row" spacing={4} alignItems="center">
+  //             <Box>
+  //               <Typography variant="body1" whiteSpace="break-spaces">
+  //                 {row.orderNumber}
+  //               </Typography>
+  //             </Box>
+  //           </Stack>
+  //         );
+  //       },
+  //     },
+  //   ],
+  //   [t]
+  // );
 
   // const CustomFooter = () => (
   //   <Stack direction="row" spacing={4} justifyContent="flex-end" p={1}>
@@ -103,7 +96,14 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
   // useOrderCustomKbarActions(record);
 
   return (
-    <Stack spacing={2}>
+    <Stack
+      display="flex"
+      direction="column"
+      flexWrap="wrap"
+      spacing={2}
+      justifyContent="center"
+      alignItems="flex-start"
+    >
       <Card>
         <CardHeader
           sx={{
@@ -117,9 +117,9 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               <Typography variant="h6">
                 {t("orders.fields.orderNumber")}
               </Typography>
-              <Typography variant="caption">{`#${
-                record?.orderNumber ?? ""
-              }`}</Typography>
+              <Typography variant="h5">
+                {`${record?.orderNumber ?? ""}`}
+              </Typography>
             </Stack>
           }
           avatar={
@@ -163,34 +163,77 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
         />
         <CardContent>
           <Box>
-            <Typography variant="h6">Маршрут: {record?.route.route}</Typography>
-            <Typography variant="h6">Дата: {record?.date}</Typography>
-            <Typography variant="h6">Статус: {record?.status.text}</Typography>
-            <Typography variant="h6">Создан: {record?.createdAt}</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography variant="body1">Маршрут: </Typography>
+              <RouteName status={record?.route.route} />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography variant="body1">Дата: </Typography>
+              {record?.date}
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography variant="body1">Статус: </Typography>{" "}
+              <OrderStatus status={record?.status.text} />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography variant="body1">Создан: </Typography>
+              {record?.createdAt}
+            </Box>
           </Box>
         </CardContent>
       </Card>
 
       <Paper sx={{ padding: 2 }}>
         <Stack
-          direction="row"
+          direction="column"
           flexWrap="wrap"
           justifyContent={isSmallOrLess ? "center" : "space-between"}
+          alignItems="center"
+          gap={4}
         >
+          {" "}
+          <Avatar
+            alt={record?.agent.name}
+            src={record?.agent.avatar}
+            sx={{ width: 180, height: 180 }}
+          />
           <Stack
             direction={isSmallOrLess ? "column" : "row"}
             alignItems={isSmallOrLess ? "center" : "flex-start"}
             textAlign={isSmallOrLess ? "center" : "left"}
             gap={2}
           >
-            <Avatar
-              alt={record?.agent.name}
-              src={record?.agent.avatar}
-              sx={{ width: 100, height: 100 }}
-            />
             <Box>
-              <Typography>АГЕНТ</Typography>
-              <Typography variant="h6">{record?.agent.name}</Typography>
+              <Typography variant="h4">АГЕНТ</Typography>
+              <Typography variant="h5">{record?.agent.name}</Typography>
             </Box>
           </Stack>
           <Stack
@@ -207,29 +250,12 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
             />
             <CourierInfoBox
               text={t("agents.agent.email")}
-              icon={<MopedIcon sx={{ fontSize: 36 }} />}
+              icon={<EmailIcon sx={{ fontSize: 36 }} />}
               value={record?.agent.email}
             />
           </Stack>
         </Stack>
       </Paper>
-
-      {/* <List
-        cardHeaderProps={{
-          title: t("orders.deliverables.deliverables"),
-        }}
-      >
-        <DataGrid
-          autoHeight
-          columns={columns}
-          rows={record?.products || []}
-          hideFooterPagination
-          rowHeight={124}
-          components={{
-            Footer: CustomFooter,
-          }}
-        />
-      </List> */}
     </Stack>
   );
 };
