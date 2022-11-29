@@ -1,9 +1,11 @@
-
-
+export interface IRouteName {
+    id: number;
+    route: "valaam" | "shchery" | "valaam and shchery";
+}
 
 export interface IOrderStatus {
     id: number;
-    text: "Payment is expected" | "Paid" | "Done" | "Cancelled";
+    text: | "paid" | "done" | "cancelled";
 }
 
 export interface IUser {
@@ -12,6 +14,7 @@ export interface IUser {
     phone: string;
     email?: string;
     createdAt: string;
+    orders: IOrder;
 }
 
 export interface IAgent {
@@ -20,22 +23,21 @@ export interface IAgent {
     phone: string;
     email?: string;
     createdAt: string;
+    orders: IOrder;
 }
 
-export interface IRoute {
-    id: number;
-    route: "Valaam" | "Shchery" | "Valaam and Shchery";
-}
+
 
 export interface IOrder {
     id: number;
     orderNumber: number;
     user: IUser;
-    route: IRoute;
+    route: IRouteName;
     status: IOrderStatus;
     agent: IAgent;
     date: string;
     createdAt: string;
+    // 
 }
 
 export interface IOrderFilterVariables {

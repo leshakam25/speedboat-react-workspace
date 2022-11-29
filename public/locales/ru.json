@@ -216,6 +216,11 @@
       "paid": "Оплачено",
       "done": "Выполнено",
       "cancelled": "Отмененно"
+    },
+    "routes": {
+      "valaam": "Валаам",
+      "shchery": "Шхеры",
+      "valaam and shchery": "Валаам и Шхеры"
     }
   },
   "orders": {

@@ -1,24 +1,24 @@
 import { useTranslate } from "@pankod/refine-core";
 import { Chip, ChipProps, useTheme } from "@pankod/refine-mui";
 
-type RouteProps = {
-  status?: "Valaam" | "Shchery" | "Valaam and Shchery";
+type RouteNameProps = {
+  status?: "valaam" | "shchery" | "valaam and shchery";
 };
 
-export const RouteName: React.FC<RouteProps> = ({ status }) => {
+export const RouteName: React.FC<RouteNameProps> = ({ status }) => {
   const t = useTranslate();
   const { palette } = useTheme();
 
   let color: ChipProps["color"];
 
   switch (status) {
-    case "Valaam":
-      color = "warning";
-      break;
-    case "Shchery":
+    case "valaam":
       color = "info";
       break;
-    case "Valaam and Shchery":
+    case "shchery":
+      color = "warning";
+      break;
+    case "valaam and shchery":
       color = "success";
       break;
   }
@@ -28,7 +28,7 @@ export const RouteName: React.FC<RouteProps> = ({ status }) => {
       variant="outlined"
       size="small"
       color={color}
-      label={t(`enum.orderStatuses.${status}`)}
+      label={t(`enum.routes.${status}`)}
     />
   );
 };

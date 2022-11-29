@@ -2,7 +2,7 @@ import { useTranslate } from "@pankod/refine-core";
 import { Chip, ChipProps, useTheme } from "@pankod/refine-mui";
 
 type OrderStatusProps = {
-  status?: "Payment is expected" | "Paid" | "Done" | "Cancelled";
+  status?: "payment is expected" | "paid" | "done" | "cancelled";
 };
 
 export const OrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
@@ -12,31 +12,16 @@ export const OrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
   let color: ChipProps["color"];
 
   switch (status) {
-    // case "Pending":
-    //   color = "warning";
-    //   break;
-    // case "Ready":
-    //   color = "success";
-    //   break;
-    // case "On The Way":
-    //   color = "info";
-    //   break;
-    // case "Delivered":
-    //   color = palette.mode === "dark" ? "default" : "secondary";
-    //   break;
-    // case "Cancelled":
-    //   color = "error";
-    //   break;
-    case "Payment is expected":
+    case "payment is expected":
       color = "warning";
       break;
-    case "Paid":
+    case "paid":
       color = "info";
       break;
-    case "Done":
+    case "done":
       color = "success";
       break;
-    case "Cancelled":
+    case "cancelled":
       color = "error";
       break;
   }

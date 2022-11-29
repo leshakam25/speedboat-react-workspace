@@ -218,6 +218,12 @@
       "Cancelled": "Отмененно"
     }
   },
+  "agents": {
+    "agent": {
+      "email": "E-Mail",
+      "phone": "Телефон"
+    }
+  },
   "orders": {
     "orders": "Заказы",
     "titles": {
@@ -230,6 +236,7 @@
       "status": "Статус",
       "store": "Магазин",
       "user": "Пользователь",
+      "date": "Дата",
       "products": "Продукты",
       "createdAt": "Создан",
       "amount": "Количество",
@@ -258,10 +265,7 @@
       },
       "submit": "Фильтр"
     },
-    "courier": {
-      "deliveryTime": "Время доставки",
-      "phone": "Телефон"
-    },
+
     "deliverables": {
       "deliverables": "Результаты",
       "fields": {

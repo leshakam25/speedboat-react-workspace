@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   IResourceComponentsProps,
   BaseRecord,
@@ -35,7 +35,7 @@ import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
-import { OrderStatus, CustomTooltip } from "components";
+import { CustomTooltip, OrderStatus } from "components";
 import { IOrder, IOrderFilterVariables } from "interfacesNew";
 import { RouteName } from "components/routeName";
 
@@ -62,7 +62,9 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
       filters.push({
         field: "phone",
         operator: "eq",
-        value: (phone ?? [].length) > 0 ? phone : undefined,
+        value: phone !== "" ? phone : undefined,
+
+        // value: (phone ?? [].length) > 0 ? phone : undefined,
       });
 
       filters.push({
@@ -103,7 +105,15 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         minWidth: 100,
       },
-
+      {
+        field: "date",
+        headerName: t("orders.fields.date"),
+        headerAlign: "center",
+        align: "center",
+        valueGetter: ({ row }) => row.date,
+        flex: 1,
+        minWidth: 100,
+      },
       {
         field: "user",
         headerName: t("orders.fields.user"),
@@ -113,15 +123,26 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         sortable: false,
       },
       {
-        field: "route",
+        field: "route.route",
         headerName: t("orders.fields.route"),
-        // renderCell: function render({ row }) {
-        //   return <RouteName status={row.order.route} />;
-        // },
+        headerAlign: "center",
+        align: "center",
+        renderCell: function render({ row }) {
+          return <RouteName status={row.route.route} />;
+        },
         flex: 1,
-        minWidth: 150,
-        sortable: false,
+        minWidth: 200,
       },
+      // {
+      //   field: "route.route",
+      //   headerName: t("orders.fields.route"),
+      //   renderCell: function render({ row }) {
+      //     return <RouteName status={row.route.route} />;
+      //   },
+      //   flex: 1,
+      //   minWidth: 150,
+      //   sortable: false,
+      // },
       {
         field: "createdAt",
         headerName: t("orders.fields.createdAt"),
@@ -137,54 +158,54 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
           );
         },
       },
-      {
-        field: "actions",
-        type: "actions",
-        headerName: t("table.actions"),
-        flex: 1,
-        minWidth: 100,
-        sortable: false,
-        getActions: ({ id }) => [
-          <GridActionsCellItem
-            key={1}
-            icon={<CheckOutlinedIcon color="success" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.accept")}
-            showInMenu
-            onClick={() => {
-              mutate({
-                resource: "orders",
-                id,
-                values: {
-                  status: {
-                    id: 2,
-                    text: "Ready",
-                  },
-                },
-              });
-            }}
-          />,
-          <GridActionsCellItem
-            key={2}
-            icon={<CloseOutlinedIcon color="error" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.reject")}
-            showInMenu
-            onClick={() =>
-              mutate({
-                resource: "orders",
-                id,
-                values: {
-                  status: {
-                    id: 5,
-                    text: "Cancelled",
-                  },
-                },
-              })
-            }
-          />,
-        ],
-      },
+      // {
+      //   field: "actions",
+      //   type: "actions",
+      //   headerName: t("table.actions"),
+      //   flex: 1,
+      //   minWidth: 100,
+      //   sortable: false,
+      //   getActions: ({ id }) => [
+      //     <GridActionsCellItem
+      //       key={1}
+      //       icon={<CheckOutlinedIcon color="success" />}
+      //       sx={{ padding: "2px 6px" }}
+      //       label={t("buttons.accept")}
+      //       showInMenu
+      //       onClick={() => {
+      //         mutate({
+      //           resource: "orders",
+      //           id,
+      //           values: {
+      //             status: {
+      //               id: 2,
+      //               text: "Ready",
+      //             },
+      //           },
+      //         });
+      //       }}
+      //     />,
+      //     <GridActionsCellItem
+      //       key={2}
+      //       icon={<CloseOutlinedIcon color="error" />}
+      //       sx={{ padding: "2px 6px" }}
+      //       label={t("buttons.reject")}
+      //       showInMenu
+      //       onClick={() =>
+      //         mutate({
+      //           resource: "orders",
+      //           id,
+      //           values: {
+      //             status: {
+      //               id: 5,
+      //               text: "Cancelled",
+      //             },
+      //           },
+      //         })
+      //       }
+      //     />,
+      //   ],
+      // },
     ],
     [t]
   );
@@ -201,7 +222,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         id: item.id,
         user: item.user,
         orderNumber: item.orderNumber,
-        route: item.route,
+        route: item.route.route,
         status: item.status.text,
         agent: item.agent,
         createdAt: item.createdAt,
@@ -223,16 +244,16 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
   });
 
   const { autocompleteProps: storeAutocompleteProps } = useAutocomplete({
-    resource: "stores",
-    defaultValue: getDefaultFilter("store.id", filters, "eq"),
+    resource: "orders",
+    defaultValue: getDefaultFilter("id", filters, "eq"),
   });
 
   const { autocompleteProps: orderAutocompleteProps } = useAutocomplete({
-    resource: "orderStatuses",
+    resource: "user",
   });
 
   const { autocompleteProps: userAutocompleteProps } = useAutocomplete({
-    resource: "users",
+    resource: "orders",
     defaultValue: getDefaultFilter("user.id", filters, "eq"),
   });
 

@@ -231,6 +231,8 @@
       "status": "Status",
       "store": "Store",
       "user": "User",
+      "date": "Date",
+
       "products": "Products",
       "createdAt": "CreatedAt",
       "amount": "Amount",
