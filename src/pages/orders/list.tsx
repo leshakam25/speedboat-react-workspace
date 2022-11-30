@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   IResourceComponentsProps,
   BaseRecord,
@@ -17,12 +17,8 @@ import {
   Box,
   TextField,
   Button,
-  NumberField,
-  Typography,
   DateField,
   GridColumns,
-  GridActionsCellItem,
-  Stack,
   useAutocomplete,
   Autocomplete,
   CardContent,
@@ -30,6 +26,10 @@ import {
   CardHeader,
   List,
   ExportButton,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@pankod/refine-mui";
 import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
@@ -38,6 +38,8 @@ import EmailIcon from "@mui/icons-material/Email";
 import { CustomTooltip, OrderStatus } from "components";
 import { IOrder, IOrderFilterVariables } from "interfacesNew";
 import { RouteName } from "components/routeName";
+import { OrderCreate } from "./create";
+import { RecentOrders } from "components/dashboard";
 
 export const OrderList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
@@ -51,7 +53,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     initialPageSize: 10,
     onSearch: (params) => {
       const filters: CrudFilters = [];
-      const { q, phone, user, status } = params;
+      const { q, status, route } = params;
 
       filters.push({
         field: "q",
@@ -60,23 +62,14 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
       });
 
       filters.push({
-        field: "phone",
-        operator: "eq",
-        value: phone !== "" ? phone : undefined,
-
-        // value: (phone ?? [].length) > 0 ? phone : undefined,
-      });
-
-      filters.push({
-        field: "user.id",
-        operator: "eq",
-        value: user,
-      });
-
-      filters.push({
         field: "status.text",
         operator: "in",
         value: (status ?? []).length > 0 ? status : undefined,
+      });
+      filters.push({
+        field: "route.route",
+        operator: "in",
+        value: (route ?? []).length > 0 ? route : undefined,
       });
 
       return filters;
@@ -101,6 +94,17 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         align: "center",
         renderCell: function render({ row }) {
           return <OrderStatus status={row.status.text} />;
+        },
+        flex: 1,
+        maxWidth: 180,
+      },
+      {
+        field: "route.route",
+        headerName: t("orders.fields.route"),
+        headerAlign: "center",
+        align: "center",
+        renderCell: function render({ row }) {
+          return <RouteName status={row.route.route} />;
         },
         flex: 1,
         maxWidth: 180,
@@ -131,27 +135,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         maxWidth: 150,
       },
-      {
-        field: "route.route",
-        headerName: t("orders.fields.route"),
-        headerAlign: "center",
-        align: "center",
-        renderCell: function render({ row }) {
-          return <RouteName status={row.route.route} />;
-        },
-        flex: 1,
-        maxWidth: 180,
-      },
-      // {
-      //   field: "route.route",
-      //   headerName: t("orders.fields.route"),
-      //   renderCell: function render({ row }) {
-      //     return <RouteName status={row.route.route} />;
-      //   },
-      //   flex: 1,
-      //   minWidth: 150,
-      //   sortable: false,
-      // },
+
       {
         field: "createdAt",
         headerName: t("orders.fields.createdAt"),
@@ -219,7 +203,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     [t]
   );
 
-  const { show } = useNavigation();
+  const { show, create } = useNavigation();
 
   const { isLoading, triggerExport } = useExport<IOrder>({
     sorter,
@@ -245,30 +229,15 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     IOrderFilterVariables
   >({
     defaultValues: {
-      status: getDefaultFilter("status.text", filters, "in"),
       q: getDefaultFilter("q", filters, "eq"),
-      phone: getDefaultFilter("phone", filters, "eq"),
-      user: getDefaultFilter("user.id", filters, "eq"),
     },
-  });
-
-  const { autocompleteProps: storeAutocompleteProps } = useAutocomplete({
-    resource: "orders",
-    defaultValue: getDefaultFilter("id", filters, "eq"),
-  });
-
-  const { autocompleteProps: orderAutocompleteProps } = useAutocomplete({
-    resource: "orders",
-  });
-
-  const { autocompleteProps: userAutocompleteProps } = useAutocomplete({
-    resource: "orders",
-    defaultValue: getDefaultFilter("user.name", filters, "eq"),
   });
 
   return (
     <Grid container spacing={2}>
+      {/* FILTER */}
       <Grid item xs={12} lg={3}>
+        {" "}
         <Card sx={{ paddingX: { xs: 2, md: 0 } }}>
           <CardHeader title={t("orders.filter.title")} />
           <CardContent sx={{ pt: 0 }}>
@@ -291,104 +260,55 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                 control={control}
                 name="status"
                 render={({ field }) => (
-                  <Autocomplete
-                    {...orderAutocompleteProps}
-                    {...field}
-                    multiple
-                    onChange={(_, value) => {
-                      field.onChange(value.map((p) => p.text ?? p));
-                    }}
-                    getOptionLabel={(item) => {
-                      return item?.text ? item.text : item;
-                    }}
-                    isOptionEqualToValue={(option, value) => {
-                      return (
-                        option.text === value || option.text === value.text
-                      );
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label={t("orders.filter.status.label")}
-                        placeholder={t("orders.filter.status.placeholder")}
-                        margin="normal"
-                        variant="outlined"
-                        size="small"
-                      />
-                    )}
-                  />
+                  <FormControl margin="normal" size="small">
+                    <InputLabel id="gender-select">
+                      {t("orders.fields.status")}
+                    </InputLabel>
+                    <Select
+                      {...field}
+                      labelId="status-select"
+                      label={t("orders.fields.status")}
+                    >
+                      <MenuItem value="">
+                        <br />
+                      </MenuItem>
+                      <MenuItem value="payment is expected">
+                        {t("enum.orderStatuses.payment is expected")}
+                      </MenuItem>
+                      <MenuItem value="paid">
+                        {t("enum.orderStatuses.paid")}
+                      </MenuItem>
+                      <MenuItem value="done">
+                        {t("enum.orderStatuses.done")}
+                      </MenuItem>
+                      <MenuItem value="cancelled">
+                        {t("enum.orderStatuses.cancelled")}
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
                 )}
               />
               <Controller
                 control={control}
-                name="phone"
+                name="route"
                 render={({ field }) => (
-                  <Autocomplete
-                    {...storeAutocompleteProps}
-                    {...field}
-                    onChange={(_, value) => {
-                      field.onChange(value?.id ?? value);
-                    }}
-                    getOptionLabel={(item) => {
-                      return item.title
-                        ? item.title
-                        : storeAutocompleteProps?.options?.find(
-                            (p) => p.id.toString() === item.toString()
-                          )?.title ?? "";
-                    }}
-                    isOptionEqualToValue={(option, value) => {
-                      return (
-                        option.id.toString() === value.id?.toString() ||
-                        option.id.toString() === value.toString()
-                      );
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label={t("orders.filter.phone")}
-                        placeholder={t("orders.filter.phone")}
-                        margin="normal"
-                        variant="outlined"
-                        size="small"
-                      />
-                    )}
-                  />
-                )}
-              />
-              <Controller
-                control={control}
-                name="user"
-                render={({ field }) => (
-                  <Autocomplete
-                    {...userAutocompleteProps}
-                    {...field}
-                    onChange={(_, value) => {
-                      field.onChange(value?.id ?? value);
-                    }}
-                    getOptionLabel={(item) => {
-                      return item.fullName
-                        ? item.fullName
-                        : userAutocompleteProps?.options?.find(
-                            (p) => p.id.toString() === item.toString()
-                          )?.fullName ?? "";
-                    }}
-                    isOptionEqualToValue={(option, value) => {
-                      return (
-                        option.id.toString() === value.id?.toString() ||
-                        option.id.toString() === value.toString()
-                      );
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label={t("orders.filter.user.label")}
-                        placeholder={t("orders.filter.user.placeholder")}
-                        margin="normal"
-                        variant="outlined"
-                        size="small"
-                      />
-                    )}
-                  />
+                  <FormControl margin="normal" size="small">
+                    <InputLabel id="gender-select">
+                      {t("orders.fields.route")}
+                    </InputLabel>
+                    <Select
+                      {...field}
+                      labelId="route-select"
+                      label={t("orders.fields.route")}
+                    >
+                      <MenuItem value="">
+                        <br />
+                      </MenuItem>
+                      <MenuItem>{t("enum.routes.valaam")}</MenuItem>
+                      <MenuItem>{t("enum.routes.shchery")}</MenuItem>
+                      <MenuItem>{t("enum.routes.valaam and shchery")}</MenuItem>
+                    </Select>
+                  </FormControl>
                 )}
               />
               <br />
@@ -399,12 +319,21 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
           </CardContent>
         </Card>
       </Grid>
+      {/* TABLE */}
       <Grid item xs={12} lg={9}>
         <List
-          cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
-          cardHeaderProps={{
+          wrapperProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
+          headerProps={{
             action: (
-              <ExportButton onClick={triggerExport} loading={isLoading} />
+              <>
+                <Button
+                  onClick={(): void => create("orders")}
+                  variant="contained"
+                >
+                  Создать
+                </Button>
+                <ExportButton onClick={triggerExport} loading={isLoading} />
+              </>
             ),
           }}
         >

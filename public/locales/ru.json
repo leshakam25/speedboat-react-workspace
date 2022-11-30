@@ -185,6 +185,7 @@
       "valaam and shchery": "Валаам и Шхеры"
     }
   },
+  "agents": { "agent": { "phone": "Телефон", "email": "Почта" } },
   "orders": {
     "orders": "Заказы",
     "titles": {
@@ -192,10 +193,12 @@
       "show": "Показать заказ"
     },
     "fields": {
-      "orderNumber": "Номер заказа:",
+      "orderNumber": "№ заказа",
       "orderID": "ID заказа",
       "status": "Статус",
       "store": "Магазин",
+      "date": "Дата",
+      "phone": "№ телефона",
       "route": "Маршрут",
       "user": "Пользователь",
       "products": "Продукты",

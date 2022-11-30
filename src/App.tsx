@@ -132,7 +132,7 @@ const App: React.FC = () => {
                 show: UserShow,
                 icon: <PeopleOutlineOutlined />,
               },
-              { name: "profit", list: ProfitList, icon: <CurrencyRuble /> },
+              { name: "profit", icon: <CurrencyRuble /> },
             ]}
           />
         </RefineSnackbarProvider>

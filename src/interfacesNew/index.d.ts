@@ -15,6 +15,8 @@ export interface IUser {
     email?: string;
     createdAt: string;
     orders: IOrder;
+    avatar:string;
+
 }
 
 export interface IAgent {
@@ -38,14 +40,12 @@ export interface IOrder {
     agent: IAgent;
     date: string;
     createdAt: string;
-    // 
 }
 
 export interface IOrderFilterVariables {
     q?: string;
-    phone?: string;
-    user?: string;
     status?: string[];
+    route?: string[];
 }
 
 export interface ICategory {
