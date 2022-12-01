@@ -34,6 +34,7 @@ import {
   FormControl,
   GridActionsCellItem,
 } from "@pankod/refine-mui";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
@@ -159,9 +160,9 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "actions",
         type: "actions",
-        headerName: t("table.actions"),
+        headerName: "#",
         flex: 1,
-        minWidth: 100,
+        maxWidth: 40,
         sortable: false,
         getActions: ({ row }) => [
           <GridActionsCellItem

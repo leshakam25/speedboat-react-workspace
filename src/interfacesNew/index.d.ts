@@ -1,3 +1,5 @@
+import { GridEnrichedColDef } from "@pankod/refine-mui";
+
 export interface IRouteName {
     id: number;
     route: "valaam" | "shchery" | "valaam and shchery";
@@ -40,6 +42,8 @@ export interface IOrder {
     agent: IAgent;
     date: string;
     createdAt: string;
+    headerName?: GridEnrichedColDef;
+    
 }
 
 export interface IOrderFilterVariables {

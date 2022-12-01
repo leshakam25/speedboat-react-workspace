@@ -30,11 +30,17 @@ import {
   TextFieldProps,
 } from "@pankod/refine-mui";
 import { useStepsForm, Controller } from "@pankod/refine-react-hook-form";
-import { ICourier, IStore } from "interfaces";
+import { IAgent, IUser, IOrder } from "interfacesNew";
 
 export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
-  const stepTitles = [t("orders.steps.content"), t("orders.steps.relations")];
+  const stepTitles = [
+    t("orders.steps.agent"),
+    t("orders.steps.user"),
+    t("orders.steps.route"),
+    t("orders.steps.auth"),
+    t("orders.steps.pay"),
+  ];
   const apiUrl = useApiUrl();
 
   const {
@@ -46,55 +52,55 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
     setValue,
     formState: { errors },
     steps: { currentStep, gotoStep },
-  } = useStepsForm<ICourier, HttpError, ICourier>({
+  } = useStepsForm<IOrder, HttpError, IAgent, IUser>({
     stepsProps: {
       isBackValidate: false,
     },
     warnWhenUnsavedChanges: true,
   });
 
-  const imageInput = watch("avatar");
+  // const imageInput = watch("avatar");
 
-  const onChangeHandler = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const formData = new FormData();
+  // const onChangeHandler = async (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const formData = new FormData();
 
-    const target = event.target;
-    const file: File = (target.files as FileList)[0];
+  //   const target = event.target;
+  //   const file: File = (target.files as FileList)[0];
 
-    formData.append("file", file);
+  //   formData.append("file", file);
 
-    const res = await axios.post<{ url: string }>(
-      `${apiUrl}/media/upload`,
-      formData,
-      {
-        withCredentials: false,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      }
-    );
+  //   const res = await axios.post<{ url: string }>(
+  //     `${apiUrl}/media/upload`,
+  //     formData,
+  //     {
+  //       withCredentials: false,
+  //       headers: {
+  //         "Access-Control-Allow-Origin": "*",
+  //       },
+  //     }
+  //   );
 
-    const { name, size, type, lastModified } = file;
+  //   const { name, size, type, lastModified } = file;
 
-    // eslint-disable-next-line
-    const imagePaylod: any = [
-      {
-        name,
-        size,
-        type,
-        lastModified,
-        url: res.data.url,
-      },
-    ];
-    setValue("avatar", imagePaylod, {
-      shouldDirty: true,
-    });
-  };
+  //   // eslint-disable-next-line
+  //   const imagePaylod: any = [
+  //     {
+  //       name,
+  //       size,
+  //       type,
+  //       lastModified,
+  //       url: res.data.url,
+  //     },
+  //   ];
+  //   setValue("avatar", imagePaylod, {
+  //     shouldDirty: true,
+  //   });
+  // };
 
-  const { autocompleteProps } = useAutocomplete<IStore>({
-    resource: "stores",
+  const { autocompleteProps } = useAutocomplete<IOrder>({
+    resource: "orders",
   });
 
   const renderFormByStep = (step: number) => {
@@ -108,6 +114,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                 marginX: { xs: "0px" },
               }}
             >
+              {/* avatar */}
               <Grid item xs={12} md={4}>
                 <Stack gap={1} justifyContent="center" alignItems="center">
                   <label htmlFor="avatar-input">
@@ -117,9 +124,13 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                       sx={{
                         display: "none",
                       }}
-                      onChange={onChangeHandler}
+                      // onChange={onChangeHandler}
                     />
-                    <input id="file" {...register("avatar")} type="hidden" />
+                    <input
+                      id="file"
+                      // {...register("avatar")}
+                      type="hidden"
+                    />
                     <Avatar
                       sx={{
                         cursor: "pointer",
@@ -134,7 +145,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                           lg: "200px",
                         },
                       }}
-                      src={imageInput && imageInput[0].url}
+                      // src={imageInput && imageInput[0].url}
                       alt="User Picture"
                     />
                   </label>
@@ -144,20 +155,20 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    {t("couriers.fields.images.description")}
+                    {t("orders.fields.avatar.label")}
                   </Typography>
                   <Typography sx={{ fontSize: "12px" }}>
-                    {t("couriers.fields.images.validation")}
+                    {t("orders.fields.avatar.description")}
                   </Typography>
                 </Stack>
               </Grid>
               <Grid item xs={12} md={8}>
                 <Grid container>
+                  {/* left block */}
                   <Grid item paddingX={4} xs={12} md={6}>
                     <Stack gap="24px">
-                      <FormControl>
+                      <FormControl fullWidth>
                         <FormLabel
-                          required
                           sx={{
                             marginBottom: "8px",
                             fontWeight: "700",
@@ -165,14 +176,69 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                             color: "text.primary",
                           }}
                         >
-                          {t("couriers.fields.name")}
+                          {t("orders.fields.chooseAgent")}
                         </FormLabel>
                         <TextField
-                          {...register("name", {
+                          size="small"
+                          margin="none"
+                          variant="outlined"
+                        />
+                        {/* <Controller
+                          control={control}
+                          name="agents"
+                          rules={{
                             required: t("errors.required.field", {
-                              field: "Name",
+                              field: "agent",
                             }),
-                          })}
+                          }}
+                          render={({ field }) => (
+                            <Autocomplete
+                              size="small"
+                              {...field}
+                              onChange={(_, value) => {
+                                field.onChange(value);
+                              }}
+                              options={agents}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  variant="outlined"
+                                  error={!!errors.gender}
+                                  required
+                                />
+                              )}
+                            />
+                          )}
+                        /> */}
+                        {/* {errors.agent && (
+                          <FormHelperText error>
+                            {errors.agent.message}
+                          </FormHelperText>
+                        )} */}
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel
+                          sx={{
+                            marginBottom: "8px",
+                            fontWeight: "700",
+                            fontSize: "14px",
+                            color: "text.primary",
+                          }}
+                        >
+                          {t("orders.fields.name")}
+                        </FormLabel>
+                        <TextField
+                          {
+                            ...register
+                            //   (
+                            //   "agent"
+                            //   {
+                            //     required: t("errors.required.field", {
+                            //       field: "agent",
+                            //     }),
+                            //   }
+                            // )
+                          }
                           size="small"
                           margin="none"
                           variant="outlined"
@@ -185,7 +251,6 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                       </FormControl>
                       <FormControl>
                         <FormLabel
-                          required
                           sx={{
                             marginBottom: "8px",
                             fontWeight: "700",
@@ -193,93 +258,19 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                             color: "text.primary",
                           }}
                         >
-                          {t("couriers.fields.surname")}
-                        </FormLabel>
-                        <TextField
-                          {...register("surname", {
-                            required: t("errors.required.field", {
-                              field: "Surname",
-                            }),
-                          })}
-                          size="small"
-                          margin="none"
-                          variant="outlined"
-                        />
-                        {errors.surname && (
-                          <FormHelperText error>
-                            {errors.surname.message}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                      <FormControl fullWidth>
-                        <FormLabel
-                          required
-                          sx={{
-                            marginBottom: "8px",
-                            fontWeight: "700",
-                            fontSize: "14px",
-                            color: "text.primary",
-                          }}
-                        >
-                          {t("couriers.fields.gender.label")}
-                        </FormLabel>
-                        <Controller
-                          control={control}
-                          name="gender"
-                          rules={{
-                            required: t("errors.required.field", {
-                              field: "Gender",
-                            }),
-                          }}
-                          render={({ field }) => (
-                            <Autocomplete
-                              size="small"
-                              {...field}
-                              onChange={(_, value) => {
-                                field.onChange(value);
-                              }}
-                              options={["Male", "Female"]}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  variant="outlined"
-                                  error={!!errors.gender}
-                                  required
-                                />
-                              )}
-                            />
-                          )}
-                        />
-                        {errors.gender && (
-                          <FormHelperText error>
-                            {errors.gender.message}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    </Stack>
-                  </Grid>
-                  <Grid item paddingX={4} xs={12} md={6}>
-                    <Stack gap="24px">
-                      <FormControl>
-                        <FormLabel
-                          required
-                          sx={{
-                            marginBottom: "8px",
-                            fontWeight: "700",
-                            fontSize: "14px",
-                            color: "text.primary",
-                          }}
-                        >
-                          {t("stores.fields.gsm")}
+                          {t("orders.fields.phone")}
                         </FormLabel>
                         <InputMask
                           mask="(999) 999 99 99"
                           disabled={false}
-                          {...register("gsm", {
-                            required: t("errors.required.field", {
-                              field: "Phone",
-                            }),
-                          })}
+                          // {...register(
+                          //   "phone"
+                          //   {
+                          //     required: t("errors.required.field", {
+                          //       field: "phone",
+                          //     }),
+                          //   }
+                          // )}
                         >
                           {/* // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                                     // @ts-expect-error */}
@@ -292,15 +283,14 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                             />
                           )}
                         </InputMask>
-                        {errors.gsm && (
+                        {errors.phone && (
                           <FormHelperText error>
-                            {errors.gsm.message}
+                            {errors.phone.message}
                           </FormHelperText>
                         )}
                       </FormControl>
                       <FormControl>
                         <FormLabel
-                          required
                           sx={{
                             marginBottom: "8px",
                             fontWeight: "700",
@@ -308,18 +298,21 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                             color: "text.primary",
                           }}
                         >
-                          {t("couriers.fields.email")}
+                          {t("orders.fields.email")}
                         </FormLabel>
                         <TextField
-                          {...register("email", {
-                            required: t("errors.required.field", {
-                              field: "Email",
-                            }),
-                            pattern: {
-                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                              message: t("errors.required.invalidMail"),
-                            },
-                          })}
+                          // {...register(
+                          //   "email"
+                          //   // {
+                          //   //   required: t("errors.required.field", {
+                          //   //     field: "Email",
+                          //   //   }),
+                          //   //   pattern: {
+                          //   //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          //   //     message: t("errors.required.invalidMail"),
+                          //   //   },
+                          //   // }
+                          // )}
                           size="small"
                           margin="none"
                           variant="outlined"
@@ -332,46 +325,10 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                       </FormControl>
                     </Stack>
                   </Grid>
-                </Grid>
-                <Grid
-                  item
-                  paddingX={4}
-                  paddingY={4}
-                  xs={12}
-                  md={12}
-                  justifyContent="flex-end"
-                >
-                  <FormControl fullWidth>
-                    <FormLabel
-                      required
-                      sx={{
-                        marginBottom: "8px",
-                        fontWeight: "700",
-                        fontSize: "14px",
-                        color: "text.primary",
-                      }}
-                    >
-                      {t("stores.fields.address")}
-                    </FormLabel>
-                    <TextField
-                      {...register("address", {
-                        required: t("errors.required.field", {
-                          field: "Address",
-                        }),
-                      })}
-                      margin="none"
-                      variant="outlined"
-                      multiline
-                      minRows={5}
-                      required
-                      fullWidth
-                    />
-                    {errors.address && (
-                      <FormHelperText error>
-                        {errors.address.message}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
+                  {/* right block */}
+                  <Grid item paddingX={4} xs={12} md={6}>
+                    <Stack gap="24px"></Stack>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
@@ -380,131 +337,326 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
       case 1:
         return (
           <>
-            <Grid container spacing={2}>
-              <Grid container item xs={12} md={12} gap={5}>
-                <Grid item xs={8} md={6}>
-                  <FormControl fullWidth>
-                    <FormLabel
-                      required
+            <Grid
+              container
+              sx={{
+                marginX: { xs: "0px" },
+              }}
+            >
+              {/* avatar */}
+              <Grid item xs={12} md={4}>
+                <Stack gap={1} justifyContent="center" alignItems="center">
+                  <label htmlFor="avatar-input">
+                    <Input
+                      id="avatar-input"
+                      type="file"
                       sx={{
-                        marginBottom: "8px",
-                        fontWeight: "700",
-                        fontSize: "14px",
-                        color: "text.primary",
+                        display: "none",
                       }}
-                    >
-                      {t("couriers.fields.store")}
-                    </FormLabel>
-                    <Controller
-                      control={control}
-                      name="store"
-                      rules={{
-                        required: "Store required",
-                      }}
-                      render={({ field }) => (
-                        <Autocomplete
-                          size="small"
-                          {...autocompleteProps}
-                          {...field}
-                          onChange={(_, value) => {
-                            field.onChange(value);
-                          }}
-                          getOptionLabel={(item) => {
-                            return item.title ? item.title : "";
-                          }}
-                          isOptionEqualToValue={(option, value) =>
-                            value === undefined || option.id === value.id
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              variant="outlined"
-                              error={!!errors.store?.message}
-                              required
-                            />
-                          )}
-                        />
-                      )}
+                      // onChange={onChangeHandler}
                     />
-                    {errors.store && (
-                      <FormHelperText error>
-                        {errors.store.message}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-                <Grid item xs={4} md={5}>
-                  <FormControl fullWidth>
-                    <FormLabel
-                      required
+                    <input
+                      id="file"
+                      // {...register("avatar")}
+                      type="hidden"
+                    />
+                    <Avatar
                       sx={{
-                        marginBottom: "8px",
-                        fontWeight: "700",
-                        fontSize: "14px",
-                        color: "text.primary",
+                        cursor: "pointer",
+                        width: {
+                          xs: "120px",
+                          md: "160px",
+                          lg: "200px",
+                        },
+                        height: {
+                          xs: "120px",
+                          md: "160px",
+                          lg: "200px",
+                        },
                       }}
-                    >
-                      {t("couriers.fields.vehicle")}
-                    </FormLabel>
-                    <TextField
-                      {...register("licensePlate", {
-                        required: t("errors.required.field", {
-                          field: "Vehicle Number",
-                        }),
-                      })}
-                      size="small"
-                      margin="none"
-                      variant="outlined"
+                      // src={imageInput && imageInput[0].url}
+                      alt="User Picture"
                     />
-                    {errors.licensePlate && (
-                      <FormHelperText error>
-                        {errors.licensePlate.message}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Grid item xs={4} md={6}>
-                <FormControl fullWidth>
-                  <FormLabel
-                    required
+                  </label>
+                  <Typography
                     sx={{
-                      marginBottom: "8px",
-                      fontWeight: "700",
                       fontSize: "14px",
-                      color: "text.primary",
+                      fontWeight: "bold",
                     }}
                   >
-                    {t("couriers.fields.accountNumber")}
-                  </FormLabel>
-                  <TextField
-                    {...register("accountNumber", {
-                      required: t("errors.required.field", {
-                        field: "Account Number",
-                      }),
-                      maxLength: {
-                        value: 10,
-                        message: t("errors.required.max", { max: 10 }),
-                      },
-                      minLength: {
-                        value: 10,
-                        message: t("errors.required.min", { min: 10 }),
-                      },
-                    })}
-                    size="small"
-                    margin="none"
-                    variant="outlined"
-                  />
-                  {errors.accountNumber && (
-                    <FormHelperText error>
-                      {errors.accountNumber.message}
-                    </FormHelperText>
-                  )}
-                </FormControl>
+                    {t("orders.fields.avatar.label")}
+                  </Typography>
+                  <Typography sx={{ fontSize: "12px" }}>
+                    {t("orders.fields.avatar.description")}
+                  </Typography>
+                </Stack>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Grid container>
+                  {/* left block */}
+                  <Grid item paddingX={4} xs={12} md={6}>
+                    <Stack gap="24px">
+                      <FormControl fullWidth>
+                        <FormLabel
+                          sx={{
+                            marginBottom: "8px",
+                            fontWeight: "700",
+                            fontSize: "14px",
+                            color: "text.primary",
+                          }}
+                        >
+                          {t("orders.fields.chooseUser")}
+                        </FormLabel>
+                        <TextField
+                          size="small"
+                          margin="none"
+                          variant="outlined"
+                        />
+                        {/* <Controller
+                        control={control}
+                        name="agents"
+                        rules={{
+                          required: t("errors.required.field", {
+                            field: "agent",
+                          }),
+                        }}
+                        render={({ field }) => (
+                          <Autocomplete
+                            size="small"
+                            {...field}
+                            onChange={(_, value) => {
+                              field.onChange(value);
+                            }}
+                            options={agents}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                variant="outlined"
+                                error={!!errors.gender}
+                                required
+                              />
+                            )}
+                          />
+                        )}
+                      /> */}
+                        {/* {errors.agent && (
+                        <FormHelperText error>
+                          {errors.agent.message}
+                        </FormHelperText>
+                      )} */}
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel
+                          sx={{
+                            marginBottom: "8px",
+                            fontWeight: "700",
+                            fontSize: "14px",
+                            color: "text.primary",
+                          }}
+                        >
+                          {t("orders.fields.name")}
+                        </FormLabel>
+                        <TextField
+                          {
+                            ...register
+                            //   (
+                            //   "agent"
+                            //   {
+                            //     required: t("errors.required.field", {
+                            //       field: "agent",
+                            //     }),
+                            //   }
+                            // )
+                          }
+                          size="small"
+                          margin="none"
+                          variant="outlined"
+                        />
+                        {errors.name && (
+                          <FormHelperText error>
+                            {errors.name.message}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel
+                          sx={{
+                            marginBottom: "8px",
+                            fontWeight: "700",
+                            fontSize: "14px",
+                            color: "text.primary",
+                          }}
+                        >
+                          {t("orders.fields.phone")}
+                        </FormLabel>
+                        <InputMask
+                          mask="(999) 999 99 99"
+                          disabled={false}
+                          // {...register(
+                          //   "phone"
+                          //   {
+                          //     required: t("errors.required.field", {
+                          //       field: "phone",
+                          //     }),
+                          //   }
+                          // )}
+                        >
+                          {/* // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                  // @ts-expect-error */}
+                          {(props: TextFieldProps) => (
+                            <TextField
+                              {...props}
+                              size="small"
+                              margin="none"
+                              variant="outlined"
+                            />
+                          )}
+                        </InputMask>
+                        {errors.phone && (
+                          <FormHelperText error>
+                            {errors.phone.message}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel
+                          sx={{
+                            marginBottom: "8px",
+                            fontWeight: "700",
+                            fontSize: "14px",
+                            color: "text.primary",
+                          }}
+                        >
+                          {t("orders.fields.email")}
+                        </FormLabel>
+                        <TextField
+                          // {...register(
+                          //   "email"
+                          //   // {
+                          //   //   required: t("errors.required.field", {
+                          //   //     field: "Email",
+                          //   //   }),
+                          //   //   pattern: {
+                          //   //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          //   //     message: t("errors.required.invalidMail"),
+                          //   //   },
+                          //   // }
+                          // )}
+                          size="small"
+                          margin="none"
+                          variant="outlined"
+                        />
+                        {errors.email && (
+                          <FormHelperText error>
+                            {errors.email.message}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Stack>
+                  </Grid>
+                  {/* right block */}
+                  <Grid item paddingX={4} xs={12} md={6}>
+                    <Stack gap="24px"></Stack>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </>
         );
+      case 2:
+        return (
+          <>
+            <Grid
+              container
+              sx={{
+                marginX: { xs: "0px" },
+              }}
+            >
+              {/* image */}
+              <Grid item xs={12} md={4}>
+                <Stack gap={1} justifyContent="center" alignItems="center">
+                  <Box
+                    sx={{
+                      maxWidth: "140px",
+                    }}
+                  >
+                    <img
+                      src="https://wallbox.ru/resize/800x480/wallpapers/main2/201733/15031899135998db99886518.44634886.jpg"
+                      alt=""
+                      width="240px"
+                    />
+                  </Box>
+                </Stack>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Grid container>
+                  {/* left block */}
+                  <Grid item paddingX={4} xs={12} md={6}>
+                    <Stack gap="24px">
+                      <FormControl>
+                        <FormLabel
+                          sx={{
+                            marginBottom: "8px",
+                            fontWeight: "700",
+                            fontSize: "14px",
+                            color: "text.primary",
+                          }}
+                        >
+                          {t("orders.fields.chooseRoute")}
+                        </FormLabel>
+                        <TextField
+                          size="small"
+                          margin="none"
+                          variant="outlined"
+                        />
+                        {/* <Controller
+                        control={control}
+                        name="agents"
+                        rules={{
+                          required: t("errors.required.field", {
+                            field: "agent",
+                          }),
+                        }}
+                        render={({ field }) => (
+                          <Autocomplete
+                            size="small"
+                            {...field}
+                            onChange={(_, value) => {
+                              field.onChange(value);
+                            }}
+                            options={agents}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                variant="outlined"
+                                error={!!errors.gender}
+                                required
+                              />
+                            )}
+                          />
+                        )}
+                      /> */}
+                        {/* {errors.agent && (
+                        <FormHelperText error>
+                          {errors.agent.message}
+                        </FormHelperText>
+                      )} */}
+                      </FormControl>
+                    </Stack>
+                  </Grid>
+                  {/* right block */}
+                  <Grid item paddingX={4} xs={12} md={6}>
+                    <Stack gap="24px"> right block</Stack>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </>
+        );
+      case 3:
+        return <></>;
+      case 4:
+        return <></>;
     }
   };
 

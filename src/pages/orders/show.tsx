@@ -118,7 +118,7 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               direction="row"
               alignItems="center"
               spacing={1}
-              justifyContent="left"
+              justifyContent="right"
             >
               <Typography variant="h6">
                 {t("orders.fields.orderNumber")}
@@ -175,6 +175,7 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               alignItems: "center",
               justifyContent: "space-between",
               my: 1,
+              minWidth: "280px",
             }}
           >
             <Typography variant="body1">Маршрут: </Typography>
