@@ -1,4 +1,5 @@
 import React from "react";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   IResourceComponentsProps,
   BaseRecord,
@@ -9,6 +10,7 @@ import {
   useUpdate,
   useExport,
   getDefaultFilter,
+  useDelete,
 } from "@pankod/refine-core";
 import {
   useDataGrid,
@@ -30,6 +32,7 @@ import {
   Select,
   InputLabel,
   FormControl,
+  GridActionsCellItem,
 } from "@pankod/refine-mui";
 import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
@@ -44,6 +47,8 @@ import { RecentOrders } from "components/dashboard";
 export const OrderList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
   const { mutate } = useUpdate();
+  const { edit } = useNavigation();
+  const { mutate: mutateDelete } = useDelete();
 
   const { dataGridProps, search, filters, sorter } = useDataGrid<
     IOrder,
@@ -151,54 +156,63 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
           );
         },
       },
-      // {
-      //   field: "actions",
-      //   type: "actions",
-      //   headerName: t("table.actions"),
-      //   flex: 1,
-      //   minWidth: 100,
-      //   sortable: false,
-      //   getActions: ({ id }) => [
-      //     <GridActionsCellItem
-      //       key={1}
-      //       icon={<CheckOutlinedIcon color="success" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.accept")}
-      //       showInMenu
-      //       onClick={() => {
-      //         mutate({
-      //           resource: "orders",
-      //           id,
-      //           values: {
-      //             status: {
-      //               id: 2,
-      //               text: "Ready",
-      //             },
-      //           },
-      //         });
-      //       }}
-      //     />,
-      //     <GridActionsCellItem
-      //       key={2}
-      //       icon={<CloseOutlinedIcon color="error" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.reject")}
-      //       showInMenu
-      //       onClick={() =>
-      //         mutate({
-      //           resource: "orders",
-      //           id,
-      //           values: {
-      //             status: {
-      //               id: 5,
-      //               text: "Cancelled",
-      //             },
-      //           },
-      //         })
-      //       }
-      //     />,
-      //   ],
-      // },
+      {
+        field: "actions",
+        type: "actions",
+        headerName: t("table.actions"),
+        flex: 1,
+        minWidth: 100,
+        sortable: false,
+        getActions: ({ row }) => [
+          <GridActionsCellItem
+            key={1}
+            icon={<EditIcon color="success" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.edit")}
+            showInMenu
+            onClick={() => edit("orders", row.id)}
+
+            // onClick={() => {
+            //   mutate({
+            //     resource: "orders",
+            //     id,
+            //     values: {
+            //       status: {
+            //         id: 2,
+            //         text: "Ready",
+            //       },
+            //     },
+            //   });
+            // }}
+          />,
+          <GridActionsCellItem
+            key={2}
+            icon={<CloseOutlinedIcon color="error" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.delete")}
+            showInMenu
+            onClick={() => {
+              mutateDelete({
+                resource: "orders",
+                id: row.id,
+                mutationMode: "undoable",
+              });
+            }}
+            // onClick={() =>
+            //   mutate({
+            //     resource: "orders",
+            //     id,
+            //     values: {
+            //       status: {
+            //         id: 5,
+            //         text: "Cancelled",
+            //       },
+            //     },
+            //   })
+            // }
+          />,
+        ],
+      },
     ],
     [t]
   );
