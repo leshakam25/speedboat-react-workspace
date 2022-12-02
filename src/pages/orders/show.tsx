@@ -102,7 +102,7 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
       flexWrap="wrap"
       spacing={2}
       gap={2}
-      justifyContent="center"
+      justifyContent="left"
       alignItems="center"
     >
       <Card sx={{ minHeight: "432px" }}>

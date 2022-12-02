@@ -134,45 +134,7 @@
       "isActive": "Active"
     }
   },
-  "couriers": {
-    "couriers": "Agents",
-    "titles": {
-      "create": "Create Agent",
-      "list": "Agents list",
-      "edit": "Edit Agent"
-    },
-    "fields": {
-      "id": "ID",
-      "avatar": {
-        "label": "Avatar",
-        "description": "Click or drag avatar image to this area to upload."
-      },
-      "name": "Name",
-      "surname": "Surname",
-      "gender": {
-        "label": "Gender",
-        "male": "Male",
-        "female": "Female"
-      },
-      "gsm": "Phone",
-      "email": "E-Mail",
-      "address": "Address",
-      "createdAt": "CreatedAt",
-      "isActive": "Is Active",
-      "images": {
-        "label": "Images",
-        "description": "Add user picture",
-        "validation": "must be 480x480 px"
-      },
-      "store": "Store",
-      "vehicle": "Vehicle",
-      "accountNumber": "Account Number"
-    },
-    "steps": {
-      "content": "Content",
-      "relations": "Relations"
-    }
-  },
+
   "dashboard": {
     "title": "Dashboard",
     "deliveryMap": {
@@ -212,11 +174,10 @@
   },
   "enum": {
     "orderStatuses": {
-      "Pending": "Pending",
-      "Ready": "Ready",
-      "On The Way": "On the way",
-      "Delivered": "Delivered",
-      "Cancelled": "Cancelled"
+      "payment is expected": "payment is expected",
+      "paid": "paid",
+      "done": "done",
+      "cancelled": "cancelled"
     }
   },
   "orders": {
@@ -231,8 +192,7 @@
       "status": "Status",
       "store": "Store",
       "user": "User",
-      "date": "Date",
-
+      "route": "Route",
       "products": "Products",
       "createdAt": "CreatedAt",
       "amount": "Amount",

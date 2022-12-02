@@ -1,6 +1,6 @@
 {
-  "name": "mui-fine-foods",
-  "version": "3.25.0",
+  "name": "ladoga-rent-alpha",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@googlemaps/react-wrapper": "^1.1.35",

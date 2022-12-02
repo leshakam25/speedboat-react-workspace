@@ -28,6 +28,12 @@ import {
   Autocomplete,
   Input,
   TextFieldProps,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "@pankod/refine-mui";
 import { useStepsForm, Controller } from "@pankod/refine-react-hook-form";
 import { IAgent, IUser, IOrder } from "interfacesNew";
@@ -38,7 +44,6 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
     t("orders.steps.agent"),
     t("orders.steps.user"),
     t("orders.steps.route"),
-    t("orders.steps.auth"),
     t("orders.steps.pay"),
   ];
   const apiUrl = useApiUrl();
@@ -102,6 +107,15 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   const { autocompleteProps } = useAutocomplete<IOrder>({
     resource: "orders",
   });
+
+  const [alignment, setAlignment] = React.useState("orders");
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setAlignment(newAlignment);
+  };
 
   const renderFormByStep = (step: number) => {
     switch (step) {
@@ -566,97 +580,66 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
       case 2:
         return (
           <>
-            <Grid
-              container
+            <ToggleButtonGroup
+              color="primary"
+              value={alignment}
+              exclusive
+              onChange={handleChange}
+              aria-label="Platform"
+              sx={{ mb: 4, boxShadow: "2" }}
+              fullWidth
+              aria-required
+            >
+              <ToggleButton value="valaam">
+                {t("enum.routes.valaam")}
+              </ToggleButton>
+              <ToggleButton value="schery">
+                {" "}
+                {t("enum.routes.shchery")}
+              </ToggleButton>
+              <ToggleButton value="valaam and schery">
+                {t("enum.routes.valaam and shchery")}
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <Card
               sx={{
-                marginX: { xs: "0px" },
+                maxWidth: "100vw",
+                display: "flex",
+                boxShadow: "none",
               }}
             >
-              {/* image */}
-              <Grid item xs={12} md={4}>
-                <Stack gap={1} justifyContent="center" alignItems="center">
-                  <Box
-                    sx={{
-                      maxWidth: "140px",
-                    }}
-                  >
-                    <img
-                      src="https://wallbox.ru/resize/800x480/wallpapers/main2/201733/15031899135998db99886518.44634886.jpg"
-                      alt=""
-                      width="240px"
-                    />
-                  </Box>
-                </Stack>
-              </Grid>
-              <Grid item xs={12} md={8}>
-                <Grid container>
-                  {/* left block */}
-                  <Grid item paddingX={4} xs={12} md={6}>
-                    <Stack gap="24px">
-                      <FormControl>
-                        <FormLabel
-                          sx={{
-                            marginBottom: "8px",
-                            fontWeight: "700",
-                            fontSize: "14px",
-                            color: "text.primary",
-                          }}
-                        >
-                          {t("orders.fields.chooseRoute")}
-                        </FormLabel>
-                        <TextField
-                          size="small"
-                          margin="none"
-                          variant="outlined"
-                        />
-                        {/* <Controller
-                        control={control}
-                        name="agents"
-                        rules={{
-                          required: t("errors.required.field", {
-                            field: "agent",
-                          }),
-                        }}
-                        render={({ field }) => (
-                          <Autocomplete
-                            size="small"
-                            {...field}
-                            onChange={(_, value) => {
-                              field.onChange(value);
-                            }}
-                            options={agents}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                variant="outlined"
-                                error={!!errors.gender}
-                                required
-                              />
-                            )}
-                          />
-                        )}
-                      /> */}
-                        {/* {errors.agent && (
-                        <FormHelperText error>
-                          {errors.agent.message}
-                        </FormHelperText>
-                      )} */}
-                      </FormControl>
-                    </Stack>
-                  </Grid>
-                  {/* right block */}
-                  <Grid item paddingX={4} xs={12} md={6}>
-                    <Stack gap="24px"> right block</Stack>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
+              <CardMedia
+                component="img"
+                alt="green iguana"
+                image="https://turproezdka.ru/wp-content/uploads/2018/07/1.-ostrov.jpg"
+                sx={{ maxWidth: 700, borderRadius: "14px" }}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {t("enum.routes.valaam")}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {t("enum.routes.valaamDesc")}
+                </Typography>
+                {/* <CardActions>
+                  <Button size="small">Share</Button>
+                  <Button size="small">Learn More</Button>
+                </CardActions> */}
+              </CardContent>
+            </Card>
           </>
         );
       case 3:
-        return <></>;
-      case 4:
-        return <></>;
+        return (
+          <>
+            <CardMedia
+              component="img"
+              alt="uKassa"
+              image="https://icqinfo.ru/800/600/https/i3.wp.com/hsp.kz/wp-content/uploads/sposoby-oplaty-platezhnoi-sistemy-yandex-kassa.jpg"
+              sx={{ maxWidth: 800, borderRadius: "14px", margin: "0 auto" }}
+            />
+          </>
+        );
     }
   };
 

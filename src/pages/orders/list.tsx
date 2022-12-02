@@ -276,7 +276,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                 name="status"
                 render={({ field }) => (
                   <FormControl margin="normal" size="small">
-                    <InputLabel id="gender-select">
+                    <InputLabel id="status-select">
                       {t("orders.fields.status")}
                     </InputLabel>
                     <Select
@@ -308,7 +308,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                 name="route"
                 render={({ field }) => (
                   <FormControl margin="normal" size="small">
-                    <InputLabel id="gender-select">
+                    <InputLabel id="route-select">
                       {t("orders.fields.route")}
                     </InputLabel>
                     <Select
@@ -319,9 +319,15 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                       <MenuItem value="">
                         <br />
                       </MenuItem>
-                      <MenuItem>{t("enum.routes.valaam")}</MenuItem>
-                      <MenuItem>{t("enum.routes.shchery")}</MenuItem>
-                      <MenuItem>{t("enum.routes.valaam and shchery")}</MenuItem>
+                      <MenuItem value="valaam">
+                        {t("enum.routes.valaam")}
+                      </MenuItem>
+                      <MenuItem value="shchery">
+                        {t("enum.routes.shchery")}
+                      </MenuItem>
+                      <MenuItem value="valaam and shchery">
+                        {t("enum.routes.valaam and shchery")}
+                      </MenuItem>
                     </Select>
                   </FormControl>
                 )}

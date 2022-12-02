@@ -37,7 +37,7 @@ export const RecentOrders: React.FC = () => {
         value: "Pending",
       },
     ],
-    syncWithLocation: false,
+    syncWithLocation: true,
   });
 
   const columns = React.useMemo<GridColumns<IOrder>>(
