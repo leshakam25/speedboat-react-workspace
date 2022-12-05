@@ -21,7 +21,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import { authProvider } from "authProvider";
 import { DashboardPage } from "pages/dashboard";
 import { OrderCreate, OrderEdit, OrderList, OrderShow } from "pages/orders";
-import { UserList, UserShow } from "pages/users";
+import { UserList, UserShow, UserCreate } from "pages/users";
 import {
   CourierList,
   CourierShow,
@@ -119,20 +119,22 @@ const App: React.FC = () => {
                 icon: <AddShoppingCartOutlined />,
               },
               {
-                name: "couriers",
-                list: CourierList,
-                show: CourierShow,
-                create: CourierCreate,
-                edit: CourierEdit,
-                icon: <GroupsIcon />,
-              },
-              {
                 name: "users",
                 list: UserList,
                 show: UserShow,
+                create: UserCreate,
                 icon: <PeopleOutlineOutlined />,
               },
-              { name: "profit", icon: <CurrencyRuble /> },
+              // {
+              //   name: "couriers",
+              //   list: CourierList,
+              //   show: CourierShow,
+              //   create: CourierCreate,
+              //   edit: CourierEdit,
+              //   icon: <GroupsIcon />,
+              // },
+
+              // { name: "profit", icon: <CurrencyRuble /> },
             ]}
           />
         </RefineSnackbarProvider>

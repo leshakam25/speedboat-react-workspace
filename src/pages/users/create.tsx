@@ -38,7 +38,7 @@ import {
 import { useStepsForm, Controller } from "@pankod/refine-react-hook-form";
 import { IAgent, IUser, IOrder } from "interfacesNew";
 
-export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
+export const UserCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
   const stepTitles = [
     t("orders.steps.agent"),
