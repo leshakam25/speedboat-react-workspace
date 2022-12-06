@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-
 import InputMask from "react-input-mask";
 import {
   IResourceComponentsProps,
@@ -11,7 +10,7 @@ import {
 import {
   Avatar,
   Button,
-  Create,
+  Edit,
   Box,
   FormControl,
   FormHelperText,
@@ -28,17 +27,13 @@ import {
   Autocomplete,
   Input,
   TextFieldProps,
-  Card,
-  CardMedia,
-  CardContent,
-  CardActions,
   ToggleButtonGroup,
   ToggleButton,
 } from "@pankod/refine-mui";
 import { useStepsForm, Controller } from "@pankod/refine-react-hook-form";
-import { IAgent, IUser, IOrder } from "interfacesNew";
+import { IUser } from "interfacesNew";
 
-export const UserCreate: React.FC<IResourceComponentsProps> = () => {
+export const UserEdit: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
 
   const apiUrl = useApiUrl();
@@ -51,55 +46,54 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useStepsForm<IOrder, HttpError, IAgent, IUser>({
+  } = useStepsForm<
+    IUser,
+    HttpError & {
+      avatar: any; // eslint-disable-line
+    }
+  >({
     warnWhenUnsavedChanges: true,
   });
 
-  // const imageInput = watch("avatar");
+  const imageInput = watch("avatar");
 
-  // const onChangeHandler = async (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const formData = new FormData();
+  const onChangeHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const formData = new FormData();
 
-  //   const target = event.target;
-  //   const file: File = (target.files as FileList)[0];
+    const target = event.target;
+    const file: File = (target.files as FileList)[0];
 
-  //   formData.append("file", file);
+    formData.append("file", file);
 
-  //   const res = await axios.post<{ url: string }>(
-  //     `${apiUrl}/media/upload`,
-  //     formData,
-  //     {
-  //       withCredentials: false,
-  //       headers: {
-  //         "Access-Control-Allow-Origin": "*",
-  //       },
-  //     }
-  //   );
+    const res = await axios.post<{ url: string }>(
+      `${apiUrl}/media/upload`,
+      formData,
+      {
+        withCredentials: false,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
 
-  //   const { name, size, type, lastModified } = file;
+    const { name, size, type, lastModified } = file;
 
-  //   // eslint-disable-next-line
-  //   const imagePaylod: any = [
-  //     {
-  //       name,
-  //       size,
-  //       type,
-  //       lastModified,
-  //       url: res.data.url,
-  //     },
-  //   ];
-  //   setValue("avatar", imagePaylod, {
-  //     shouldDirty: true,
-  //   });
-  // };
+    const imagePayload = [
+      {
+        name,
+        size,
+        type,
+        lastModified,
+        url: res.data.url,
+      },
+    ];
 
-  const { autocompleteProps } = useAutocomplete<IOrder>({
-    resource: "users",
-  });
-
-  const [alignment, setAlignment] = React.useState("users");
+    setValue("avatar", imagePayload, {
+      shouldDirty: true,
+    });
+  };
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -107,12 +101,14 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
   ) => {
     setAlignment(newAlignment);
   };
+  const { autocompleteProps } = useAutocomplete<IUser>({
+    resource: "users",
+  });
+
+  const [alignment, setAlignment] = React.useState("orders");
 
   return (
-    <Create
-      isLoading={formLoading}
-      actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
-    >
+    <Edit isLoading={formLoading}>
       <Box
         component="form"
         sx={{
@@ -244,11 +240,11 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                       margin="none"
                       variant="outlined"
                     />
-                    {errors.name && (
+                    {/* {errors.name && (
                       <FormHelperText error>
                         {errors.name.message}
                       </FormHelperText>
-                    )}
+                    )} */}
                   </FormControl>
                   <FormControl>
                     <FormLabel
@@ -284,11 +280,11 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                         />
                       )}
                     </InputMask>
-                    {errors.phone && (
+                    {/* {errors.phone && (
                       <FormHelperText error>
                         {errors.phone.message}
                       </FormHelperText>
-                    )}
+                    )} */}
                   </FormControl>
                   <FormControl>
                     <FormLabel
@@ -318,11 +314,11 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                       margin="none"
                       variant="outlined"
                     />
-                    {errors.email && (
+                    {/* {errors.email && (
                       <FormHelperText error>
                         {errors.email.message}
                       </FormHelperText>
-                    )}
+                    )} */}
                   </FormControl>
                 </Stack>
               </Grid>
@@ -334,6 +330,6 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
           </Grid>
         </Grid>
       </Box>
-    </Create>
+    </Edit>
   );
 };

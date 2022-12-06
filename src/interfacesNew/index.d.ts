@@ -52,6 +52,13 @@ export interface IOrderFilterVariables {
     route?: string[];
 }
 
+export interface IUserFilterVariables {
+    q: string;
+    status: boolean;
+    gender: string;
+    isActive: boolean | string;
+}
+
 export interface ICategory {
     id: number;
     title: string;

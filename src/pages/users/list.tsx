@@ -5,6 +5,8 @@ import {
   HttpError,
   IResourceComponentsProps,
   useTranslate,
+  useDelete,
+  useNavigation,
 } from "@pankod/refine-core";
 import {
   DataGrid,
@@ -27,14 +29,20 @@ import {
   Card,
   CardContent,
   List,
+  GridActionsCellItem,
 } from "@pankod/refine-mui";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+
 import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
-import { IUser, IUserFilterVariables } from "interfaces";
+import { IUser, IUserFilterVariables } from "interfacesNew";
 
 export const UserList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
+  const { mutate: mutateDelete } = useDelete();
+  const { edit } = useNavigation();
 
   const { dataGridProps, search, filters } = useDataGrid<
     IUser,
@@ -71,32 +79,28 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
   const columns = React.useMemo<GridColumns<IUser>>(
     () => [
       {
-        field: "phone",
-        headerName: t("users.fields.gsm"),
-        minWidth: 150,
-        flex: 1,
-      },
-      {
         field: "avatar",
         headerName: t("users.fields.avatar.label"),
         renderCell: function render({ row }) {
-          return <Avatar src={row.avatar[0].url} />;
+          return <Avatar src={row.avatar} />;
         },
-        minWidth: 100,
-        flex: 1,
-        sortable: false,
+        maxWidth: 60,
       },
       {
+        field: "phone",
+        headerName: t("users.fields.phone"),
+        maxWidth: 170,
+      },
+
+      {
         field: "name",
-        headerName: t("users.fields.firstName"),
-        minWidth: 150,
-        flex: 1,
+        headerName: t("users.fields.name"),
+        maxWidth: 240,
       },
       {
         field: "email",
-        headerName: t("users.fields.lastName"),
-        minWidth: 150,
-        flex: 1,
+        headerName: t("users.fields.email"),
+        maxWidth: 200,
       },
 
       {
@@ -105,19 +109,52 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         renderCell: function render({ row }) {
           return <DateField value={row.createdAt} format="LLL" />;
         },
-        minWidth: 200,
-        flex: 1,
+        maxWidth: 160,
       },
       {
         field: "actions",
-        headerName: t("table.actions"),
-        renderCell: function render({ row }) {
-          return <ShowButton size="small" hideText recordItemId={row.id} />;
-        },
-        align: "center",
-        headerAlign: "center",
+        type: "actions",
+        headerName: "#",
         flex: 1,
-        minWidth: 80,
+        maxWidth: 40,
+        sortable: false,
+        getActions: ({ row }) => [
+          <GridActionsCellItem
+            key={1}
+            icon={<EditIcon color="success" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.edit")}
+            showInMenu
+            onClick={() => edit("users", row.id)}
+
+            // onClick={() => {
+            //   mutate({
+            //     resource: "orders",
+            //     id,
+            //     values: {
+            //       status: {
+            //         id: 2,
+            //         text: "Ready",
+            //       },
+            //     },
+            //   });
+            // }}
+          />,
+          <GridActionsCellItem
+            key={2}
+            icon={<CloseOutlinedIcon color="error" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.delete")}
+            showInMenu
+            // onClick={() => {
+            //   mutateDelete({
+            //     resource: "orders",
+            //     id: row.id,
+            //     mutationMode: "undoable",
+            //   });
+            // }}
+          />,
+        ],
       },
     ],
     [t]
@@ -163,32 +200,7 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
                   ),
                 }}
               />
-              <Controller
-                control={control}
-                name="gender"
-                render={({ field }) => (
-                  <FormControl margin="normal" size="small">
-                    <InputLabel id="gender-select">
-                      {t("users.filter.gender.label")}
-                    </InputLabel>
-                    <Select
-                      {...field}
-                      labelId="gender-select"
-                      label={t("users.filter.gender.label")}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value="Male">
-                        {t("users.filter.gender.male")}
-                      </MenuItem>
-                      <MenuItem value="Female">
-                        {t("users.filter.gender.female")}
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                )}
-              />
+
               <Controller
                 control={control}
                 name="isActive"

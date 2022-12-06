@@ -21,7 +21,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import { authProvider } from "authProvider";
 import { DashboardPage } from "pages/dashboard";
 import { OrderCreate, OrderEdit, OrderList, OrderShow } from "pages/orders";
-import { UserList, UserShow, UserCreate } from "pages/users";
+import { UserList, UserShow, UserCreate, UserEdit } from "pages/users";
 import {
   CourierList,
   CourierShow,
@@ -123,6 +123,7 @@ const App: React.FC = () => {
                 list: UserList,
                 show: UserShow,
                 create: UserCreate,
+                edit: UserEdit,
                 icon: <PeopleOutlineOutlined />,
               },
               // {
