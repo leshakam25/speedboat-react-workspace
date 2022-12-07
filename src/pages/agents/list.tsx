@@ -88,9 +88,6 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "createdAt",
         headerName: t("users.fields.createdAt"),
-        renderCell: function render({ row }) {
-          return <DateField value={row.createdAt} format="LLL" />;
-        },
         minWidth: 140,
       },
       {

@@ -14,7 +14,6 @@ import {
   GridColumns,
   Avatar,
   useDataGrid,
-  DateField,
   Button,
   TextField,
   Box,
@@ -27,10 +26,8 @@ import {
 } from "@pankod/refine-mui";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import EditIcon from "@mui/icons-material/Edit";
-
 import { useForm } from "@pankod/refine-react-hook-form";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-
 import { IUser, IUserFilterVariables } from "interfaces";
 
 export const UserList: React.FC<IResourceComponentsProps> = () => {
@@ -53,18 +50,6 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         operator: "eq",
         value: q !== "" ? q : undefined,
       });
-
-      // filters.push({
-      //     field: "gender",
-      //     operator: "eq",
-      //     value: gender !== "" ? gender : undefined,
-      // });
-
-      // filters.push({
-      //     field: "isActive",
-      //     operator: "eq",
-      //     value: isActive !== "" ? isActive : undefined,
-      // });
 
       return filters;
     },
@@ -100,9 +85,6 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "createdAt",
         headerName: t("users.fields.createdAt"),
-        renderCell: function render({ row }) {
-          return <DateField value={row.createdAt} format="LLL" />;
-        },
         minWidth: 140,
       },
       {
@@ -126,13 +108,13 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
             sx={{ padding: "2px 6px" }}
             label={t("buttons.delete")}
             showInMenu
-            // onClick={() => {
-            //   mutateDelete({
-            //     resource: "users",
-            //     id: row.id,
-            //     mutationMode: "undoable",
-            //   });
-            // }}
+            onClick={() => {
+              mutateDelete({
+                resource: "users",
+                id: row.id,
+                mutationMode: "undoable",
+              });
+            }}
           />,
         ],
       },

@@ -74,7 +74,6 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
         field: "orderNumber",
         headerName: t("orders.fields.orderNumber"),
         width: 100,
-        // valueGetter: ({ row }) => row.orders.orderNumber,
       },
 
       {
@@ -92,15 +91,6 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
       {
         field: "createdAt",
         headerName: t("orders.fields.createdAt"),
-        // renderCell: function render({ row }) {
-        //   return (
-        //     <DateField
-        //       value={row.createdAt}
-        //       format="LLL"
-        //       sx={{ whiteSpace: "pre-wrap", fontSize: "14px" }}
-        //     />
-        //   );
-        // },
       },
     ],
     [t]
@@ -143,7 +133,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
             </UserInfoText>
           </Stack>
         </Grid>
-        <Grid item xs={12} lg={4}>
+        {/* <Grid item xs={12} lg={4}>
           <Stack direction="column" spacing={2}>
             <List
               cardHeaderProps={{ title: t("orders.orders") }}
@@ -157,7 +147,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
               />
             </List>
           </Stack>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Show>
   );

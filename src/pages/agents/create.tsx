@@ -7,10 +7,10 @@ import {
   useTranslate,
   useApiUrl,
   HttpError,
+  useSelect,
 } from "@pankod/refine-core";
 import {
   Avatar,
-  Button,
   Create,
   Box,
   FormControl,
@@ -21,12 +21,11 @@ import {
   Stack,
   TextField,
   Typography,
-  useAutocomplete,
   Input,
   TextFieldProps,
 } from "@pankod/refine-mui";
-import { useStepsForm } from "@pankod/refine-react-hook-form";
-import { IAgent, IUser, IOrder } from "interfaces";
+import { useForm } from "@pankod/refine-react-hook-form";
+import { IAgent } from "interfaces";
 
 export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
@@ -35,64 +34,28 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
 
   const {
     refineCore: { onFinish, formLoading },
-    control,
-    watch,
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
-  } = useStepsForm<IOrder, HttpError, IAgent, IUser>({
-    warnWhenUnsavedChanges: true,
-  });
+  } = useForm<
+    IAgent,
+    HttpError & {
+      avatar: any; // eslint-disable-line
+    }
+  >();
 
-  // const imageInput = watch("avatar");
+  // const { options } = useSelect({
+  //   resource: "users",
+  // });
 
-  // const onChangeHandler = async (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const formData = new FormData();
-
-  //   const target = event.target;
-  //   const file: File = (target.files as FileList)[0];
-
-  //   formData.append("file", file);
-
-  //   const res = await axios.post<{ url: string }>(
-  //     `${apiUrl}/media/upload`,
-  //     formData,
-  //     {
-  //       withCredentials: false,
-  //       headers: {
-  //         "Access-Control-Allow-Origin": "*",
-  //       },
-  //     }
-  //   );
-
-  //   const { name, size, type, lastModified } = file;
-
-  //   // eslint-disable-next-line
-  //   const imagePaylod: any = [
-  //     {
-  //       name,
-  //       size,
-  //       type,
-  //       lastModified,
-  //       url: res.data.url,
-  //     },
-  //   ];
-  //   setValue("avatar", imagePaylod, {
-  //     shouldDirty: true,
-  //   });
-  // };
-
-  const [alignment, setAlignment] = React.useState("users");
-
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
-  ) => {
-    setAlignment(newAlignment);
-  };
+  const dateNow = new Date();
+  const secondNow = dateNow.getSeconds();
+  const hourNow = dateNow.getHours();
+  const minuteNow = dateNow.getMinutes();
+  const dayNow = dateNow.getDate();
+  const monthNow = dateNow.getMonth();
+  const yearNow = dateNow.getFullYear();
+  const currentDate = `${hourNow}:${minuteNow}:${secondNow}, ${dayNow}.${monthNow}.${yearNow}`;
 
   return (
     <Create
@@ -100,6 +63,7 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
       actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
     >
       <Box
+        onSubmit={handleSubmit(onFinish)}
         component="form"
         sx={{
           display: "flex",
@@ -178,18 +142,14 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
                       {t("orders.fields.name")}
                     </FormLabel>
                     <TextField
-                      // {...register("orders", {
-                      //   field: "name",
-                      // })}
+                      {...register(
+                        "name"
+                        // , { required: true }
+                      )}
                       size="small"
                       margin="none"
                       variant="outlined"
                     />
-                    {errors.name && (
-                      <FormHelperText error>
-                        {errors.name.message}
-                      </FormHelperText>
-                    )}
                   </FormControl>
                   <FormControl>
                     <FormLabel
@@ -203,16 +163,16 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
                       {t("orders.fields.phone")}
                     </FormLabel>
                     <InputMask
-                      mask="(999) 999 99 99"
+                      mask="9 (999) 999 99 99"
                       disabled={false}
-                      // {...register(
-                      //   "phone"
-                      //   {
-                      //     required: t("errors.required.field", {
-                      //       field: "phone",
-                      //     }),
-                      //   }
-                      // )}
+                      {...register(
+                        "phone"
+                        // , {
+                        //   required: t("errors.required.field", {
+                        //     field: "phone",
+                        //   }),
+                        // }
+                      )}
                     >
                       {/* // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                                     // @ts-expect-error */}
@@ -225,11 +185,6 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
                         />
                       )}
                     </InputMask>
-                    {errors.phone && (
-                      <FormHelperText error>
-                        {errors.phone.message}
-                      </FormHelperText>
-                    )}
                   </FormControl>
                   <FormControl>
                     <FormLabel
@@ -243,33 +198,27 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
                       {t("orders.fields.email")}
                     </FormLabel>
                     <TextField
-                      // {...register(
-                      //   "email"
-                      //   // {
-                      //   //   required: t("errors.required.field", {
-                      //   //     field: "Email",
-                      //   //   }),
-                      //   //   pattern: {
-                      //   //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      //   //     message: t("errors.required.invalidMail"),
-                      //   //   },
-                      //   // }
-                      // )}
+                      {...register(
+                        "email"
+                        // , {
+                        //   required: t("errors.required.field", {
+                        //     field: "Email",
+                        //   }),
+                        //   pattern: {
+                        //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        //     message: t("errors.required.invalidMail"),
+                        //   },
+                        // }
+                      )}
                       size="small"
                       margin="none"
                       variant="outlined"
                     />
-                    {errors.email && (
-                      <FormHelperText error>
-                        {errors.email.message}
-                      </FormHelperText>
-                    )}
                   </FormControl>
+                  <Box sx={{ display: "none" }}>
+                    <input value={currentDate} {...register("createdAt")} />
+                  </Box>
                 </Stack>
-              </Grid>
-              {/* right block */}
-              <Grid item paddingX={4} xs={12} md={6}>
-                <Stack gap="24px"></Stack>
               </Grid>
             </Grid>
           </Grid>

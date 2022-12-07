@@ -111,7 +111,14 @@ export const AgentShow: React.FC<IResourceComponentsProps> = () => {
       {" "}
       <Grid container spacing={2}>
         <Grid item xs={12} lg={4}>
-          <Paper sx={{ p: 2, paddingX: { xs: 4, md: 2 } }}>
+          <Paper
+            sx={{
+              boxShadow: "none",
+              border: "none",
+              p: 2,
+              paddingX: { xs: 4, md: 2 },
+            }}
+          >
             <Stack alignItems="center">
               <Avatar
                 variant="rounded"
@@ -146,8 +153,12 @@ export const AgentShow: React.FC<IResourceComponentsProps> = () => {
             </Stack>
           </Paper>
         </Grid>
-        <Grid item xs={12} lg={4}>
-          <Stack direction="column" spacing={2}>
+        {/* <Grid item xs={12} lg={4}>
+          <Stack
+            sx={{ boxShadow: "none", border: "none" }}
+            direction="column"
+            spacing={2}
+          >
             <List
               cardHeaderProps={{ title: t("orders.orders") }}
               cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
@@ -160,7 +171,7 @@ export const AgentShow: React.FC<IResourceComponentsProps> = () => {
               />
             </List>
           </Stack>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Show>
   );
