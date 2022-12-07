@@ -31,7 +31,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "@pankod/refine-react-hook-form";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
-import { IAgent, IAgentFilterVariables } from "interfacesNew";
+import { IAgent, IAgentFilterVariables } from "interfaces";
 
 export const AgentList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();

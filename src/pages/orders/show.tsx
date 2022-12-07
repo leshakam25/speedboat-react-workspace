@@ -19,6 +19,7 @@ import {
   useMediaQuery,
   useTheme,
   Grid,
+  Show,
 } from "@pankod/refine-mui";
 // import dayjs from "dayjs";
 import EmailIcon from "@mui/icons-material/Email";
@@ -29,7 +30,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { CourierInfoBox, OrderStatus } from "components";
 
-import { IOrder, IOrderStatus } from "interfacesNew";
+import { IOrder, IOrderStatus } from "interfaces";
 import { RouteName } from "components/routeName";
 // import { useOrderCustomKbarActions } from "hooks";
 
@@ -97,127 +98,126 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
   // useOrderCustomKbarActions(record);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} lg={3}>
-        <Card sx={{ minHeight: "432px" }}>
-          <CardHeader
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 2,
-            }}
-            title={
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={1}
-                justifyContent="right"
-              >
-                <Typography variant="h6">
-                  {t("orders.fields.orderNumber")}
-                </Typography>
-                <Typography variant="h5">
-                  {`${record?.orderNumber ?? ""}`}
-                </Typography>
-              </Stack>
-            }
-            avatar={
-              <IconButton onClick={goBack}>
-                <ArrowBackIcon />
-              </IconButton>
-            }
-            // action={
-            //   <Stack direction="row" spacing={2}>
-            //     <Button
-            //       disabled={!canAcceptOrder}
-            //       variant="outlined"
-            //       size="small"
-            //       startIcon={<CheckOutlinedIcon />}
-            //       onClick={() =>
-            //         handleMutate({
-            //           id: 2,
-            //           text: "Ready",
-            //         })
-            //       }
-            //     >
-            //       {t("buttons.accept")}
-            //     </Button>
-            //     <Button
-            //       disabled={!canRejectOrder}
-            //       variant="outlined"
-            //       size="small"
-            //       color="error"
-            //       startIcon={<CloseOutlinedIcon sx={{ bg: "red" }} />}
-            //       onClick={() =>
-            //         handleMutate({
-            //           id: 5,
-            //           text: "Cancelled",
-            //         })
-            //       }
-            //     >
-            //       {t("buttons.reject")}
-            //     </Button>
-            //   </Stack>
-            // }
-          />
+    <Show>
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={3}>
+          <Card sx={{ boxShadow: "none", border: "none" }}>
+            <CardHeader
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+              }}
+              title={
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Typography variant="h6">
+                    {t("orders.fields.orderNumber")}
+                  </Typography>
+                  <Typography variant="h5">
+                    {`${record?.orderNumber ?? ""}`}
+                  </Typography>
+                </Stack>
+              }
+              // avatar={
+              //   <IconButton onClick={goBack}>
+              //     <ArrowBackIcon />
+              //   </IconButton>
+              // }
+              // action={
+              //   <Stack direction="row" spacing={2}>
+              //     <Button
+              //       disabled={!canAcceptOrder}
+              //       variant="outlined"
+              //       size="small"
+              //       startIcon={<CheckOutlinedIcon />}
+              //       onClick={() =>
+              //         handleMutate({
+              //           id: 2,
+              //           text: "Ready",
+              //         })
+              //       }
+              //     >
+              //       {t("buttons.accept")}
+              //     </Button>
+              //     <Button
+              //       disabled={!canRejectOrder}
+              //       variant="outlined"
+              //       size="small"
+              //       color="error"
+              //       startIcon={<CloseOutlinedIcon sx={{ bg: "red" }} />}
+              //       onClick={() =>
+              //         handleMutate({
+              //           id: 5,
+              //           text: "Cancelled",
+              //         })
+              //       }
+              //     >
+              //       {t("buttons.reject")}
+              //     </Button>
+              //   </Stack>
+              // }
+            />
 
-          <CardContent>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                my: 1,
-                minWidth: "280px",
-              }}
-            >
-              <Typography variant="body1">Маршрут: </Typography>
-              <RouteName status={record?.route.route} />
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                my: 1,
-              }}
-            >
-              <Typography variant="body1">Дата: </Typography>
-              {record?.date}
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                my: 1,
-              }}
-            >
-              <Typography variant="body1">Статус: </Typography>{" "}
-              <OrderStatus status={record?.status.text} />
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                my: 1,
-              }}
-            >
-              <Typography variant="body1">Создан: </Typography>
-              {record?.createdAt}
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-      {/* user */}
-      <Grid item xs={12} lg={4.5}>
-        <Paper sx={{ padding: 2 }}>
+            <CardContent>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  my: 1,
+                  minWidth: "280px",
+                }}
+              >
+                <Typography variant="body1">Маршрут: </Typography>
+                <RouteName status={record?.route.route} />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  my: 1,
+                }}
+              >
+                <Typography variant="body1">Дата: </Typography>
+                {record?.date}
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  my: 1,
+                }}
+              >
+                <Typography variant="body1">Статус: </Typography>{" "}
+                <OrderStatus status={record?.status.text} />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  my: 1,
+                }}
+              >
+                <Typography variant="body1">Создан: </Typography>
+                {record?.createdAt}
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        {/* user */}
+        <Grid item xs={12} lg={4.5}>
           <Stack
             direction="column"
             flexWrap="wrap"
@@ -261,11 +261,9 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               />
             </Stack>
           </Stack>
-        </Paper>
-      </Grid>
-      {/* agent */}
-      <Grid item xs={12} lg={4.5}>
-        <Paper sx={{ padding: 2 }}>
+        </Grid>
+        {/* agent */}
+        <Grid item xs={12} lg={4.5}>
           <Stack
             direction="column"
             flexWrap="wrap"
@@ -308,8 +306,8 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               />
             </Stack>
           </Stack>
-        </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </Show>
   );
 };

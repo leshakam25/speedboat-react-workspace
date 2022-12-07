@@ -29,7 +29,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { CourierInfoBox, OrderStatus } from "components";
 
-import { IOrder, IOrderStatus } from "interfacesNew";
+import { IOrder, IOrderStatus } from "interfaces";
 import { RouteName } from "components/routeName";
 // import { useOrderCustomKbarActions } from "hooks";
 

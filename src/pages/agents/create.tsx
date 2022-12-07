@@ -26,7 +26,7 @@ import {
   TextFieldProps,
 } from "@pankod/refine-mui";
 import { useStepsForm } from "@pankod/refine-react-hook-form";
-import { IAgent, IUser, IOrder } from "interfacesNew";
+import { IAgent, IUser, IOrder } from "interfaces";
 
 export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();

@@ -28,7 +28,7 @@ import {
 } from "@mui/icons-material";
 import i18n from "i18n";
 
-import { IOrder, IStore, ICourier } from "interfaces";
+import { IOrder, IStore, ICourier } from "interfacesOld";
 import { ColorModeContext } from "contexts";
 
 interface IOptions {

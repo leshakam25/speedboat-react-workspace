@@ -22,7 +22,7 @@ import {
   TextFieldProps,
 } from "@pankod/refine-mui";
 import { useStepsForm } from "@pankod/refine-react-hook-form";
-import { IUser } from "interfacesNew";
+import { IUser } from "interfaces";
 
 export const UserEdit: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();

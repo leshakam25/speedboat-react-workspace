@@ -31,7 +31,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "@pankod/refine-react-hook-form";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
-import { IUser, IUserFilterVariables } from "interfacesNew";
+import { IUser, IUserFilterVariables } from "interfaces";
 
 export const UserList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();

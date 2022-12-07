@@ -20,13 +20,13 @@ import {
 import GroupsIcon from "@mui/icons-material/Groups";
 import { authProvider } from "authProvider";
 import { DashboardPage } from "pages/dashboard";
-import { OrderCreate, OrderEdit, OrderList, OrderShow } from "pages/ordersNew";
+import { OrderCreate, OrderEdit, OrderList, OrderShow } from "pages/orders";
 import { UserList, UserShow, UserCreate, UserEdit } from "pages/users";
 import { AgentList, AgentShow, AgentCreate, AgentEdit } from "pages/agents";
 import { AuthPage } from "pages/auth";
 import { ColorModeContextProvider } from "contexts";
 import { Header, Title } from "components";
-import ProfitList from "pages/profit";
+import { ProfitList } from "pages/profit";
 
 const App: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -130,7 +130,7 @@ const App: React.FC = () => {
                 icon: <GroupsIcon />,
               },
 
-              // { name: "profit", icon: <CurrencyRuble /> },
+              { name: "profit", list: ProfitList, icon: <CurrencyRuble /> },
             ]}
           />
         </RefineSnackbarProvider>

@@ -6,6 +6,7 @@ import {
   GridColumns,
   List,
   Paper,
+  Show,
   Stack,
   Typography,
   useDataGrid,
@@ -19,7 +20,7 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import { IUser, IUserFilterVariables } from "interfacesNew";
+import { IUser, IUserFilterVariables } from "interfaces";
 
 const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -106,58 +107,61 @@ export const AgentShow: React.FC<IResourceComponentsProps> = () => {
   );
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} lg={4}>
-        <Paper sx={{ p: 2, paddingX: { xs: 4, md: 2 } }}>
-          <Stack alignItems="center">
-            <Avatar
-              variant="rounded"
-              src={user?.avatar}
-              sx={{ width: 240, height: 240 }}
-            />
-            <Typography variant="h5">{user?.name}</Typography>
+    <Show>
+      {" "}
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={4}>
+          <Paper sx={{ p: 2, paddingX: { xs: 4, md: 2 } }}>
+            <Stack alignItems="center">
+              <Avatar
+                variant="rounded"
+                src={user?.avatar}
+                sx={{ width: 240, height: 240 }}
+              />
+              <Typography variant="h5">{user?.name}</Typography>
+            </Stack>
+            <br />
+            <Stack spacing={1}>
+              <UserInfoText>
+                <LocalPhoneOutlinedIcon />
+                <Typography variant="body1">
+                  {t("orders.fields.phone")} <br /> {user?.phone}
+                </Typography>
+              </UserInfoText>
+              <UserInfoText>
+                <EmailIcon />
+                <Typography variant="body1">
+                  {t("orders.fields.email")}
+                  <br /> {user?.email}
+                </Typography>
+              </UserInfoText>
+              <UserInfoText>
+                <DateRangeOutlinedIcon />
+                <Typography variant="body1">
+                  {t("orders.fields.createdAt")}
+                  <br />
+                  {user?.createdAt}
+                </Typography>
+              </UserInfoText>
+            </Stack>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Stack direction="column" spacing={2}>
+            <List
+              cardHeaderProps={{ title: t("orders.orders") }}
+              cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
+            >
+              <DataGrid
+                {...dataGridProps}
+                columns={columns}
+                autoHeight
+                rowsPerPageOptions={[4, 10, 20, 100]}
+              />
+            </List>
           </Stack>
-          <br />
-          <Stack spacing={1}>
-            <UserInfoText>
-              <LocalPhoneOutlinedIcon />
-              <Typography variant="body1">
-                {t("orders.fields.phone")} <br /> {user?.phone}
-              </Typography>
-            </UserInfoText>
-            <UserInfoText>
-              <EmailIcon />
-              <Typography variant="body1">
-                {t("orders.fields.email")}
-                <br /> {user?.email}
-              </Typography>
-            </UserInfoText>
-            <UserInfoText>
-              <DateRangeOutlinedIcon />
-              <Typography variant="body1">
-                {t("orders.fields.createdAt")}
-                <br />
-                {user?.createdAt}
-              </Typography>
-            </UserInfoText>
-          </Stack>
-        </Paper>
+        </Grid>
       </Grid>
-      <Grid item xs={12} lg={4}>
-        <Stack direction="column" spacing={2}>
-          <List
-            cardHeaderProps={{ title: t("orders.orders") }}
-            cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
-          >
-            <DataGrid
-              {...dataGridProps}
-              columns={columns}
-              autoHeight
-              rowsPerPageOptions={[4, 10, 20, 100]}
-            />
-          </List>
-        </Stack>
-      </Grid>
-    </Grid>
+    </Show>
   );
 };

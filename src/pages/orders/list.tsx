@@ -40,7 +40,7 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import { CustomTooltip, OrderStatus } from "components";
-import { IOrder, IOrderFilterVariables } from "interfacesNew";
+import { IOrder, IOrderFilterVariables } from "interfaces";
 import { RouteName } from "components/routeName";
 import { OrderCreate } from "./create";
 import { RecentOrders } from "components/dashboard";

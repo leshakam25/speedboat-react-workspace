@@ -31,7 +31,7 @@ import {
   ToggleButton,
 } from "@pankod/refine-mui";
 import { useStepsForm, Controller } from "@pankod/refine-react-hook-form";
-import { ICourier, IStore } from "interfaces";
+import { ICourier, IStore } from "interfacesOld";
 
 export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();

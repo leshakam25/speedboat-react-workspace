@@ -14,7 +14,7 @@ import {
 import { CheckOutlined, CloseOutlined } from "@mui/icons-material";
 
 import { OrderStatus } from "components/orderStatus";
-import { IOrder } from "interfaces";
+import { IOrder } from "interfacesOld";
 
 export const RecentOrders: React.FC = () => {
   const t = useTranslate();

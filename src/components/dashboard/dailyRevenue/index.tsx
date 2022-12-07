@@ -5,7 +5,7 @@ import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 
 import { ChartTooltip } from "../chartTooltip";
-import { ISalesChart } from "interfaces";
+import { ISalesChart } from "interfacesOld";
 
 export const DailyRevenue: React.FC = () => {
   const t = useTranslate();

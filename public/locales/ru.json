@@ -243,7 +243,8 @@
       "chooseUser": "Выберите, либо создайте  пользователя ",
       "chooseRoute": "Выберите маршрут",
       "verifyPhone": "Подтвердите номер телефона",
-      "verifyEmail": "Подтвер"
+      "verifyEmail": "Подтвердите адрес электронной почты",
+      "choose": "Выбрать"
     },
     "filter": {
       "title": "Фильтр",
@@ -344,7 +345,16 @@
     }
   },
   "profit": {
-    "profit": "Прибыль"
+    "profit": "Финансы",
+    "titles": {
+      "list": "Мои финансы",
+      "show": "Показать заказ"
+    },
+    "fields": {
+      "createInvoice": "Выставить счёт",
+      "profit": "Прибыль",
+      "listInvoice": "Список счетов"
+    }
   },
   "errors": {
     "required": {

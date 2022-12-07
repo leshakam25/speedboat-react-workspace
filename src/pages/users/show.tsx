@@ -6,6 +6,7 @@ import {
   GridColumns,
   List,
   Paper,
+  Show,
   Stack,
   Typography,
   useDataGrid,
@@ -19,7 +20,7 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import { IUser, IUserFilterVariables } from "interfacesNew";
+import { IUser, IUserFilterVariables } from "interfaces";
 
 const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -106,9 +107,9 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
   );
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} lg={4}>
-        <Paper sx={{ p: 2, paddingX: { xs: 4, md: 2 } }}>
+    <Show>
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={4}>
           <Stack alignItems="center">
             <Avatar
               variant="rounded"
@@ -141,23 +142,23 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
               </Typography>
             </UserInfoText>
           </Stack>
-        </Paper>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Stack direction="column" spacing={2}>
+            <List
+              cardHeaderProps={{ title: t("orders.orders") }}
+              cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
+            >
+              <DataGrid
+                {...dataGridProps}
+                columns={columns}
+                autoHeight
+                rowsPerPageOptions={[4, 10, 20, 100]}
+              />
+            </List>
+          </Stack>
+        </Grid>
       </Grid>
-      <Grid item xs={12} lg={4}>
-        <Stack direction="column" spacing={2}>
-          <List
-            cardHeaderProps={{ title: t("orders.orders") }}
-            cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
-          >
-            <DataGrid
-              {...dataGridProps}
-              columns={columns}
-              autoHeight
-              rowsPerPageOptions={[4, 10, 20, 100]}
-            />
-          </List>
-        </Stack>
-      </Grid>
-    </Grid>
+    </Show>
   );
 };
