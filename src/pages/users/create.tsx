@@ -180,51 +180,6 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
               {/* left block */}
               <Grid item paddingX={4} xs={12} md={6}>
                 <Stack gap="24px">
-                  <FormControl fullWidth>
-                    <FormLabel
-                      sx={{
-                        marginBottom: "8px",
-                        fontWeight: "700",
-                        fontSize: "14px",
-                        color: "text.primary",
-                      }}
-                    >
-                      {t("orders.fields.chooseAgent")}
-                    </FormLabel>
-                    <TextField size="small" margin="none" variant="outlined" />
-                    {/* <Controller
-                          control={control}
-                          name="agents"
-                          rules={{
-                            required: t("errors.required.field", {
-                              field: "agent",
-                            }),
-                          }}
-                          render={({ field }) => (
-                            <Autocomplete
-                              size="small"
-                              {...field}
-                              onChange={(_, value) => {
-                                field.onChange(value);
-                              }}
-                              options={agents}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  variant="outlined"
-                                  error={!!errors.gender}
-                                  required
-                                />
-                              )}
-                            />
-                          )}
-                        /> */}
-                    {/* {errors.agent && (
-                          <FormHelperText error>
-                            {errors.agent.message}
-                          </FormHelperText>
-                        )} */}
-                  </FormControl>
                   <FormControl>
                     <FormLabel
                       sx={{

@@ -1,209 +1,163 @@
 import React from "react";
 import {
-    HttpError,
-    IResourceComponentsProps,
-    useNavigation,
-    useShow,
-    useTranslate,
-} from "@pankod/refine-core";
-
-import {
-    Avatar,
-    DataGrid,
-    Grid,
-    GridColumns,
-    List,
-    Paper,
-    Stack,
-    Typography,
-    useDataGrid,
-    Button,
-    Tooltip,
-    Rating,
+  Avatar,
+  DataGrid,
+  Grid,
+  GridColumns,
+  List,
+  Paper,
+  Stack,
+  Typography,
+  useDataGrid,
 } from "@pankod/refine-mui";
 import {
-    LocalPhoneOutlined,
-    MapOutlined,
-    DirectionsCarFilledOutlined,
-    EmailOutlined,
-    AccountBalanceOutlined,
-    StoreOutlined,
-} from "@mui/icons-material";
+  HttpError,
+  IResourceComponentsProps,
+  useShow,
+  useTranslate,
+} from "@pankod/refine-core";
+import EmailIcon from "@mui/icons-material/Email";
+import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
+import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
+import { IUser, IUserFilterVariables } from "interfacesNew";
 
-import { ICourier, IReview } from "interfaces";
-
-type CourierInfoTextProps = {
-    icon: React.ReactNode;
-    text?: string;
-};
-
-const CourierInfoText: React.FC<CourierInfoTextProps> = ({ icon, text }) => (
-    <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent={{
-            sm: "center",
-            lg: "flex-start",
-        }}
-        gap={1}
-    >
-        {icon}
-        <Typography variant="body1">{text}</Typography>
-    </Stack>
+const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <Stack
+    direction="row"
+    alignItems="center"
+    justifyContent={{
+      sm: "center",
+      lg: "flex-start",
+    }}
+    gap={1}
+  >
+    {children}
+  </Stack>
 );
 
-export const CourierShow: React.FC<IResourceComponentsProps> = () => {
-    const t = useTranslate();
-    const { show } = useNavigation();
+export const AgentShow: React.FC<IResourceComponentsProps> = () => {
+  const t = useTranslate();
 
-    const {
-        queryResult: { data },
-    } = useShow<ICourier>();
-    const courier = data?.data;
+  const { queryResult } = useShow<IUser>();
+  const user = queryResult.data?.data;
 
-    const { dataGridProps } = useDataGrid<IReview, HttpError>({
-        resource: "reviews",
-        initialSorter: [
-            {
-                field: "id",
-                order: "desc",
-            },
-        ],
-        permanentFilter: [
-            {
-                field: "order.courier.id",
-                operator: "eq",
-                value: courier?.id,
-            },
-        ],
-        initialPageSize: 4,
-        queryOptions: {
-            enabled: courier !== undefined,
+  const { dataGridProps } = useDataGrid<IUser, HttpError, IUserFilterVariables>(
+    {
+      resource: "users",
+      initialSorter: [
+        {
+          field: "createdAt",
+          order: "desc",
         },
-        syncWithLocation: false,
-    });
+      ],
+      permanentFilter: [
+        {
+          field: "user.id",
+          operator: "eq",
+          value: user?.id,
+        },
+      ],
+      initialPageSize: 4,
+      queryOptions: {
+        enabled: user !== undefined,
+      },
+      syncWithLocation: false,
+    }
+  );
 
-    const columns = React.useMemo<GridColumns<IReview>>(
-        () => [
-            {
-                field: "order.id",
-                headerName: t("reviews.fields.orderId"),
-                renderCell: function render({ row }) {
-                    return (
-                        <Button
-                            onClick={() => {
-                                show("orders", row.order.id);
-                            }}
-                        >
-                            #{row.order.id}
-                        </Button>
-                    );
-                },
-                width: 150,
-            },
+  const columns = React.useMemo<GridColumns<IUser>>(
+    () => [
+      {
+        field: "orderNumber",
+        headerName: t("orders.fields.orderNumber"),
+        width: 100,
+        // valueGetter: ({ row }) => row.orders.orderNumber,
+      },
 
-            {
-                field: "review",
-                headerName: t("reviews.fields.review"),
-                renderCell: function render({ row }) {
-                    return (
-                        <Tooltip title={row.comment[0]}>
-                            <Typography
-                                sx={{
-                                    textOverflow: "ellipsis",
-                                    overflow: "hidden",
-                                }}
-                            >
-                                {row.comment[0]}
-                            </Typography>
-                        </Tooltip>
-                    );
-                },
-                flex: 1,
-            },
-            {
-                field: "star",
-                headerName: t("reviews.fields.rating"),
-                headerAlign: "center",
-                flex: 1,
-                align: "center",
-                renderCell: function render({ row }) {
-                    return (
-                        <Stack alignItems="center">
-                            <Typography variant="h5" fontWeight="bold">
-                                {row.star}
-                            </Typography>
-                            <Rating
-                                name="rating"
-                                defaultValue={row.star}
-                                readOnly
-                            />
-                        </Stack>
-                    );
-                },
-            },
-        ],
-        [t],
-    );
+      {
+        field: "route",
+        headerName: t("orders.fields.route"),
+        sortable: false,
+        width: 150,
+      },
+      {
+        field: "status",
+        headerName: t("orders.fields.status"),
+        sortable: false,
+        width: 150,
+      },
+      {
+        field: "createdAt",
+        headerName: t("orders.fields.createdAt"),
+        // renderCell: function render({ row }) {
+        //   return (
+        //     <DateField
+        //       value={row.createdAt}
+        //       format="LLL"
+        //       sx={{ whiteSpace: "pre-wrap", fontSize: "14px" }}
+        //     />
+        //   );
+        // },
+      },
+    ],
+    [t]
+  );
 
-    return (
-        <Grid container spacing={2}>
-            <Grid item xs={12} lg={3}>
-                <Paper sx={{ p: 2 }}>
-                    <Stack alignItems="center" spacing={1}>
-                        <Avatar
-                            src={courier?.avatar?.[0].url}
-                            sx={{ width: 120, height: 120 }}
-                        />
-                        <Typography variant="h6">
-                            {courier?.name} {courier?.surname}
-                        </Typography>
-                    </Stack>
-                    <br />
-                    <Stack spacing={1}>
-                        <CourierInfoText
-                            icon={<StoreOutlined />}
-                            text={courier?.store.title}
-                        />
-                        <CourierInfoText
-                            icon={<LocalPhoneOutlined />}
-                            text={courier?.gsm}
-                        />
-                        <CourierInfoText
-                            icon={<EmailOutlined />}
-                            text={courier?.email}
-                        />
-                        <CourierInfoText
-                            icon={<AccountBalanceOutlined />}
-                            text={courier?.accountNumber}
-                        />
-                        <CourierInfoText
-                            icon={<MapOutlined />}
-                            text={courier?.address}
-                        />
-                        <CourierInfoText
-                            icon={<DirectionsCarFilledOutlined />}
-                            text={courier?.licensePlate}
-                        />
-                    </Stack>
-                </Paper>
-            </Grid>
-            <Grid item xs={12} lg={9}>
-                <Stack direction="column" spacing={2}>
-                    <List
-                        cardHeaderProps={{ title: t("orders.orders") }}
-                        canCreate={false}
-                    >
-                        <DataGrid
-                            {...dataGridProps}
-                            columns={columns}
-                            autoHeight
-                            rowHeight={80}
-                            rowsPerPageOptions={[4, 10, 20, 100]}
-                        />
-                    </List>
-                </Stack>
-            </Grid>
-        </Grid>
-    );
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={12} lg={4}>
+        <Paper sx={{ p: 2, paddingX: { xs: 4, md: 2 } }}>
+          <Stack alignItems="center">
+            <Avatar
+              variant="rounded"
+              src={user?.avatar}
+              sx={{ width: 240, height: 240 }}
+            />
+            <Typography variant="h5">{user?.name}</Typography>
+          </Stack>
+          <br />
+          <Stack spacing={1}>
+            <UserInfoText>
+              <LocalPhoneOutlinedIcon />
+              <Typography variant="body1">
+                {t("orders.fields.phone")} <br /> {user?.phone}
+              </Typography>
+            </UserInfoText>
+            <UserInfoText>
+              <EmailIcon />
+              <Typography variant="body1">
+                {t("orders.fields.email")}
+                <br /> {user?.email}
+              </Typography>
+            </UserInfoText>
+            <UserInfoText>
+              <DateRangeOutlinedIcon />
+              <Typography variant="body1">
+                {t("orders.fields.createdAt")}
+                <br />
+                {user?.createdAt}
+              </Typography>
+            </UserInfoText>
+          </Stack>
+        </Paper>
+      </Grid>
+      <Grid item xs={12} lg={4}>
+        <Stack direction="column" spacing={2}>
+          <List
+            cardHeaderProps={{ title: t("orders.orders") }}
+            cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
+          >
+            <DataGrid
+              {...dataGridProps}
+              columns={columns}
+              autoHeight
+              rowsPerPageOptions={[4, 10, 20, 100]}
+            />
+          </List>
+        </Stack>
+      </Grid>
+    </Grid>
+  );
 };

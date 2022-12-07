@@ -1,144 +1,199 @@
 import React from "react";
 import {
-  useTranslate,
+  CrudFilters,
+  getDefaultFilter,
+  HttpError,
   IResourceComponentsProps,
+  useTranslate,
   useDelete,
   useNavigation,
 } from "@pankod/refine-core";
 import {
   DataGrid,
-  useDataGrid,
+  Grid,
   GridColumns,
-  GridActionsCellItem,
-  List,
-  Stack,
   Avatar,
-  Typography,
-  Tooltip,
+  useDataGrid,
+  DateField,
+  Button,
+  TextField,
+  Box,
+  InputAdornment,
+  CardHeader,
+  Card,
+  CardContent,
+  List,
+  GridActionsCellItem,
 } from "@pankod/refine-mui";
-import { Edit, Close } from "@mui/icons-material";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import EditIcon from "@mui/icons-material/Edit";
 
-import { ICourier } from "interfaces";
+import { useForm } from "@pankod/refine-react-hook-form";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
-export const CourierList: React.FC<IResourceComponentsProps> = () => {
-  const { show, edit } = useNavigation();
+import { IAgent, IAgentFilterVariables } from "interfacesNew";
+
+export const AgentList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
   const { mutate: mutateDelete } = useDelete();
+  const { edit, show } = useNavigation();
 
-  const { dataGridProps } = useDataGrid<ICourier>({
+  const { dataGridProps, search, filters } = useDataGrid<
+    IAgent,
+    HttpError,
+    IAgentFilterVariables
+  >({
     initialPageSize: 10,
-    initialSorter: [
-      {
-        field: "id",
-        order: "desc",
-      },
-    ],
+    onSearch: (params) => {
+      const filters: CrudFilters = [];
+      const { q } = params;
+
+      filters.push({
+        field: "q",
+        operator: "eq",
+        value: q !== "" ? q : undefined,
+      });
+
+      return filters;
+    },
   });
 
-  const columns = React.useMemo<GridColumns<ICourier>>(
+  const columns = React.useMemo<GridColumns<IAgent>>(
     () => [
       {
-        field: "name",
-        headerName: t("couriers.fields.name"),
+        field: "avatar",
+        headerName: t("users.fields.avatar.label"),
         renderCell: function render({ row }) {
-          return (
-            <Stack alignItems="center" direction="row" spacing={2}>
-              <Avatar
-                alt={`${row.name} ${row.surname}`}
-                src={row.avatar?.[0]?.url}
-              />
-              <Typography variant="body2">
-                {row.name} {row.surname}
-              </Typography>
-            </Stack>
-          );
+          return <Avatar src={row.avatar} />;
         },
-        flex: 1,
-        minWidth: 200,
+        width: 40,
       },
       {
-        field: "gsm",
-        headerName: t("couriers.fields.gsm"),
-        flex: 1,
-        minWidth: 200,
+        field: "phone",
+        headerName: t("users.fields.phone"),
+        minWidth: 140,
+      },
+
+      {
+        field: "name",
+        headerName: t("users.fields.name"),
+        minWidth: 140,
       },
       {
         field: "email",
-        headerName: t("couriers.fields.email"),
-        flex: 1,
-        minWidth: 300,
+        headerName: t("users.fields.email"),
+        minWidth: 140,
       },
+
       {
-        field: "address",
-        headerName: t("couriers.fields.address"),
+        field: "createdAt",
+        headerName: t("users.fields.createdAt"),
         renderCell: function render({ row }) {
-          return (
-            <Tooltip title={row.address}>
-              <Typography
-                variant="body2"
-                sx={{
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                }}
-              >
-                {row.address}
-              </Typography>
-            </Tooltip>
-          );
+          return <DateField value={row.createdAt} format="LLL" />;
         },
-        flex: 1,
-        minWidth: 300,
+        minWidth: 140,
       },
       {
         field: "actions",
-        headerName: t("table.actions"),
         type: "actions",
-        getActions: function render({ row }) {
-          return [
-            <GridActionsCellItem
-              key={1}
-              label={t("buttons.edit")}
-              icon={<Edit color="success" />}
-              onClick={() => edit("couriers", row.id)}
-              showInMenu
-            />,
-            <GridActionsCellItem
-              key={2}
-              label={t("buttons.delete")}
-              icon={<Close color="error" />}
-              onClick={() => {
-                mutateDelete({
-                  resource: "couriers",
-                  id: row.id,
-                  mutationMode: "undoable",
-                });
-              }}
-              showInMenu
-            />,
-          ];
-        },
+        headerName: "#",
+        minWidth: 10,
+        sortable: false,
+        getActions: ({ row }) => [
+          <GridActionsCellItem
+            key={1}
+            icon={<EditIcon color="success" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.edit")}
+            showInMenu
+            onClick={() => edit("agents", row.id)}
+          />,
+          <GridActionsCellItem
+            key={2}
+            icon={<CloseOutlinedIcon color="error" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.delete")}
+            showInMenu
+            onClick={() => {
+              mutateDelete({
+                resource: "agents",
+                id: row.id,
+                mutationMode: "undoable",
+              });
+            }}
+          />,
+        ],
       },
     ],
     [t]
   );
 
+  const { register, handleSubmit } = useForm<
+    IAgent,
+    HttpError,
+    IAgentFilterVariables
+  >({
+    defaultValues: {
+      q: getDefaultFilter("q", filters, "eq"),
+    },
+  });
+
   return (
-    <List cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}>
-      <DataGrid
-        {...dataGridProps}
-        columns={columns}
-        autoHeight
-        rowsPerPageOptions={[10, 20, 50, 100]}
-        density="comfortable"
-        sx={{
-          "& .MuiDataGrid-cell:hover": {
-            cursor: "pointer",
-          },
-        }}
-        onRowClick={(row) => {
-          show("couriers", row.id);
-        }}
-      />
-    </List>
+    <Grid container spacing={2}>
+      <Grid item xs={12} lg={3}>
+        <Card sx={{ paddingX: { xs: 2, md: 0 } }}>
+          <CardHeader title={t("users.filter.title")} />
+          <CardContent sx={{ pt: 0 }}>
+            <Box
+              component="form"
+              sx={{ display: "flex", flexDirection: "column" }}
+              autoComplete="off"
+              onSubmit={handleSubmit(search)}
+            >
+              <TextField
+                {...register("q")}
+                label={t("users.filter.search.label")}
+                placeholder={t("users.filter.search.placeholder")}
+                margin="normal"
+                fullWidth
+                autoFocus
+                size="small"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchOutlinedIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <br />
+              <Button type="submit" variant="contained">
+                {t("orders.filter.submit")}
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} lg={9}>
+        <List cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}>
+          <DataGrid
+            {...dataGridProps}
+            columns={columns}
+            filterModel={undefined}
+            autoHeight
+            onRowClick={({ id }) => {
+              show("agents", id);
+            }}
+            rowsPerPageOptions={[10, 20, 50, 100]}
+            sx={{
+              ...dataGridProps.sx,
+              "& .MuiDataGrid-row": {
+                cursor: "pointer",
+              },
+            }}
+          />
+        </List>
+      </Grid>
+    </Grid>
   );
 };

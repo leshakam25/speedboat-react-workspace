@@ -53,10 +53,10 @@ export interface IOrderFilterVariables {
 }
 
 export interface IUserFilterVariables {
-    q: string;
-    status: boolean;
-    gender: string;
-    isActive: boolean | string;
+    q: string;   
+}
+export interface IAgentFilterVariables {
+    q: string;  
 }
 
 export interface ICategory {

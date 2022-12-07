@@ -20,14 +20,9 @@ import {
 import GroupsIcon from "@mui/icons-material/Groups";
 import { authProvider } from "authProvider";
 import { DashboardPage } from "pages/dashboard";
-import { OrderCreate, OrderEdit, OrderList, OrderShow } from "pages/orders";
+import { OrderCreate, OrderEdit, OrderList, OrderShow } from "pages/ordersNew";
 import { UserList, UserShow, UserCreate, UserEdit } from "pages/users";
-import {
-  CourierList,
-  CourierShow,
-  CourierCreate,
-  CourierEdit,
-} from "pages/agents";
+import { AgentList, AgentShow, AgentCreate, AgentEdit } from "pages/agents";
 import { AuthPage } from "pages/auth";
 import { ColorModeContextProvider } from "contexts";
 import { Header, Title } from "components";
@@ -126,14 +121,14 @@ const App: React.FC = () => {
                 edit: UserEdit,
                 icon: <PeopleOutlineOutlined />,
               },
-              // {
-              //   name: "couriers",
-              //   list: CourierList,
-              //   show: CourierShow,
-              //   create: CourierCreate,
-              //   edit: CourierEdit,
-              //   icon: <GroupsIcon />,
-              // },
+              {
+                name: "agents",
+                list: AgentList,
+                show: AgentShow,
+                create: AgentCreate,
+                edit: AgentEdit,
+                icon: <GroupsIcon />,
+              },
 
               // { name: "profit", icon: <CurrencyRuble /> },
             ]}

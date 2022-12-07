@@ -2,19 +2,11 @@ import React from "react";
 import {
   Avatar,
   DataGrid,
-  DateField,
   Grid,
   GridColumns,
   List,
-  NumberField,
   Paper,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Typography,
   useDataGrid,
 } from "@pankod/refine-mui";
@@ -24,15 +16,10 @@ import {
   useShow,
   useTranslate,
 } from "@pankod/refine-core";
-
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
-
-import { CustomTooltip, OrderStatus } from "components";
-
-import { IOrder, IOrderFilterVariables, IUser } from "interfaces";
+import { IUser, IUserFilterVariables } from "interfacesNew";
 
 const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -56,114 +43,63 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
   const { queryResult } = useShow<IUser>();
   const user = queryResult.data?.data;
 
-  const { dataGridProps } = useDataGrid<
-    IOrder,
-    HttpError,
-    IOrderFilterVariables
-  >({
-    resource: "orders",
-    initialSorter: [
-      {
-        field: "createdAt",
-        order: "desc",
+  const { dataGridProps } = useDataGrid<IUser, HttpError, IUserFilterVariables>(
+    {
+      resource: "users",
+      initialSorter: [
+        {
+          field: "createdAt",
+          order: "desc",
+        },
+      ],
+      permanentFilter: [
+        {
+          field: "user.id",
+          operator: "eq",
+          value: user?.id,
+        },
+      ],
+      initialPageSize: 4,
+      queryOptions: {
+        enabled: user !== undefined,
       },
-    ],
-    permanentFilter: [
-      {
-        field: "user.id",
-        operator: "eq",
-        value: user?.id,
-      },
-    ],
-    initialPageSize: 4,
-    queryOptions: {
-      enabled: user !== undefined,
-    },
-    syncWithLocation: false,
-  });
+      syncWithLocation: false,
+    }
+  );
 
-  const columns = React.useMemo<GridColumns<IOrder>>(
+  const columns = React.useMemo<GridColumns<IUser>>(
     () => [
       {
         field: "orderNumber",
         headerName: t("orders.fields.orderNumber"),
-        width: 150,
+        width: 100,
+        // valueGetter: ({ row }) => row.orders.orderNumber,
       },
 
       {
-        field: "amount",
-        align: "right",
-        headerAlign: "right",
-        headerName: t("orders.fields.amount"),
-        renderCell: function render({ row }) {
-          return (
-            <NumberField
-              options={{
-                currency: "USD",
-                style: "currency",
-                notation: "compact",
-              }}
-              value={row.amount}
-            />
-          );
-        },
-        width: 100,
-      },
-      {
-        field: "store",
-        headerName: t("orders.fields.store"),
+        field: "route",
+        headerName: t("orders.fields.route"),
+        sortable: false,
         width: 150,
-        valueGetter: ({ row }) => row.store.title,
-        sortable: false,
       },
       {
-        field: "user",
-        headerName: t("orders.fields.user"),
-        valueGetter: ({ row }) => row.user.fullName,
+        field: "status",
+        headerName: t("orders.fields.status"),
         sortable: false,
-      },
-      {
-        field: "products",
-        headerName: t("orders.fields.products"),
-        flex: 1,
-        headerAlign: "center",
-        align: "center",
-        sortable: false,
-        renderCell: function render({ row }) {
-          return (
-            <CustomTooltip
-              arrow
-              placement="top"
-              title={
-                <Stack sx={{ padding: "2px" }}>
-                  {row.products.map((product) => (
-                    <li key={product.id}>{product.name}</li>
-                  ))}
-                </Stack>
-              }
-            >
-              <Typography sx={{ fontSize: "14px" }}>
-                {t("orders.fields.itemsAmount", {
-                  amount: row.products.length,
-                })}
-              </Typography>
-            </CustomTooltip>
-          );
-        },
+        width: 150,
       },
       {
         field: "createdAt",
         headerName: t("orders.fields.createdAt"),
-        flex: 1,
-        renderCell: function render({ row }) {
-          return (
-            <DateField
-              value={row.createdAt}
-              format="LLL"
-              sx={{ whiteSpace: "pre-wrap", fontSize: "14px" }}
-            />
-          );
-        },
+        // renderCell: function render({ row }) {
+        //   return (
+        //     <DateField
+        //       value={row.createdAt}
+        //       format="LLL"
+        //       sx={{ whiteSpace: "pre-wrap", fontSize: "14px" }}
+        //     />
+        //   );
+        // },
       },
     ],
     [t]
@@ -171,45 +107,43 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} lg={3}>
+      <Grid item xs={12} lg={4}>
         <Paper sx={{ p: 2, paddingX: { xs: 4, md: 2 } }}>
-          <Stack alignItems="center" spacing={1}>
+          <Stack alignItems="center">
             <Avatar
-              src={user?.avatar?.[0].url}
-              sx={{ width: 120, height: 120 }}
+              variant="rounded"
+              src={user?.avatar}
+              sx={{ width: 240, height: 240 }}
             />
-            <Typography variant="h6">
-              {user?.firstName} {user?.lastName}
-            </Typography>
+            <Typography variant="h5">{user?.name}</Typography>
           </Stack>
           <br />
           <Stack spacing={1}>
             <UserInfoText>
-              <PersonOutlineOutlinedIcon />
+              <LocalPhoneOutlinedIcon />
               <Typography variant="body1">
-                {t(`users.fields.gender.${user?.gender}`)}
+                {t("orders.fields.phone")} <br /> {user?.phone}
               </Typography>
             </UserInfoText>
             <UserInfoText>
-              <LocalPhoneOutlinedIcon />
-              <Typography variant="body1">{user?.gsm}</Typography>
+              <EmailIcon />
+              <Typography variant="body1">
+                {t("orders.fields.email")}
+                <br /> {user?.email}
+              </Typography>
             </UserInfoText>
             <UserInfoText>
               <DateRangeOutlinedIcon />
-              <Typography variant="body1">{user?.createdAt}</Typography>
-            </UserInfoText>
-            <UserInfoText>
-              <CheckOutlinedIcon />
               <Typography variant="body1">
-                {user?.isActive
-                  ? t("users.fields.isActive.true")
-                  : t("users.fields.isActive.false")}
+                {t("orders.fields.createdAt")}
+                <br />
+                {user?.createdAt}
               </Typography>
             </UserInfoText>
           </Stack>
         </Paper>
       </Grid>
-      <Grid item xs={12} lg={9}>
+      <Grid item xs={12} lg={4}>
         <Stack direction="column" spacing={2}>
           <List
             cardHeaderProps={{ title: t("orders.orders") }}
@@ -222,22 +156,6 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
               rowsPerPageOptions={[4, 10, 20, 100]}
             />
           </List>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>{t("users.addresses.address")}</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {user?.addresses.map((row) => (
-                  <TableRow key={row.text}>
-                    <TableCell>{row.text}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
         </Stack>
       </Grid>
     </Grid>

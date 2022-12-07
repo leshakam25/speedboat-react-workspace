@@ -14,17 +14,11 @@ import {
   GridColumns,
   Avatar,
   useDataGrid,
-  BooleanField,
   DateField,
-  ShowButton,
   Button,
   TextField,
   Box,
   InputAdornment,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   CardHeader,
   Card,
   CardContent,
@@ -34,7 +28,7 @@ import {
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 
-import { Controller, useForm } from "@pankod/refine-react-hook-form";
+import { useForm } from "@pankod/refine-react-hook-form";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import { IUser, IUserFilterVariables } from "interfacesNew";
@@ -42,7 +36,7 @@ import { IUser, IUserFilterVariables } from "interfacesNew";
 export const UserList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
   const { mutate: mutateDelete } = useDelete();
-  const { edit } = useNavigation();
+  const { edit, show } = useNavigation();
 
   const { dataGridProps, search, filters } = useDataGrid<
     IUser,
@@ -52,7 +46,7 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
     initialPageSize: 10,
     onSearch: (params) => {
       const filters: CrudFilters = [];
-      const { q, gender, isActive } = params;
+      const { q } = params;
 
       filters.push({
         field: "q",
@@ -84,23 +78,23 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         renderCell: function render({ row }) {
           return <Avatar src={row.avatar} />;
         },
-        maxWidth: 60,
+        width: 40,
       },
       {
         field: "phone",
         headerName: t("users.fields.phone"),
-        maxWidth: 170,
+        minWidth: 140,
       },
 
       {
         field: "name",
         headerName: t("users.fields.name"),
-        maxWidth: 240,
+        minWidth: 140,
       },
       {
         field: "email",
         headerName: t("users.fields.email"),
-        maxWidth: 200,
+        minWidth: 140,
       },
 
       {
@@ -109,14 +103,13 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         renderCell: function render({ row }) {
           return <DateField value={row.createdAt} format="LLL" />;
         },
-        maxWidth: 160,
+        minWidth: 140,
       },
       {
         field: "actions",
         type: "actions",
         headerName: "#",
-        flex: 1,
-        maxWidth: 40,
+        minWidth: 10,
         sortable: false,
         getActions: ({ row }) => [
           <GridActionsCellItem
@@ -126,19 +119,6 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
             label={t("buttons.edit")}
             showInMenu
             onClick={() => edit("users", row.id)}
-
-            // onClick={() => {
-            //   mutate({
-            //     resource: "orders",
-            //     id,
-            //     values: {
-            //       status: {
-            //         id: 2,
-            //         text: "Ready",
-            //       },
-            //     },
-            //   });
-            // }}
           />,
           <GridActionsCellItem
             key={2}
@@ -148,7 +128,7 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
             showInMenu
             // onClick={() => {
             //   mutateDelete({
-            //     resource: "orders",
+            //     resource: "users",
             //     id: row.id,
             //     mutationMode: "undoable",
             //   });
@@ -160,15 +140,13 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
     [t]
   );
 
-  const { register, handleSubmit, control } = useForm<
+  const { register, handleSubmit } = useForm<
     IUser,
     HttpError,
     IUserFilterVariables
   >({
     defaultValues: {
       q: getDefaultFilter("q", filters, "eq"),
-      gender: getDefaultFilter("gender", filters, "eq") || "",
-      isActive: getDefaultFilter("isActive", filters, "eq") || "",
     },
   });
 
@@ -200,34 +178,6 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
                   ),
                 }}
               />
-
-              <Controller
-                control={control}
-                name="isActive"
-                render={({ field }) => (
-                  <FormControl margin="normal" size="small">
-                    <InputLabel id="isActive-select">
-                      {t("users.filter.isActive.label")}
-                    </InputLabel>
-                    <Select
-                      {...field}
-                      labelId="isActive-select"
-                      label={t("users.filter.isActive.label")}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value="true">
-                        {t("users.filter.isActive.true")}
-                      </MenuItem>
-                      <MenuItem value="false">
-                        {t("users.filter.isActive.false")}
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                )}
-              />
-
               <br />
               <Button type="submit" variant="contained">
                 {t("orders.filter.submit")}
@@ -243,7 +193,16 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
             columns={columns}
             filterModel={undefined}
             autoHeight
+            onRowClick={({ id }) => {
+              show("users", id);
+            }}
             rowsPerPageOptions={[10, 20, 50, 100]}
+            sx={{
+              ...dataGridProps.sx,
+              "& .MuiDataGrid-row": {
+                cursor: "pointer",
+              },
+            }}
           />
         </List>
       </Grid>

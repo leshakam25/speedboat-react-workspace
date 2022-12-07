@@ -3,626 +3,278 @@ import axios from "axios";
 
 import InputMask from "react-input-mask";
 import {
-    IResourceComponentsProps,
-    useTranslate,
-    useApiUrl,
-    HttpError,
+  IResourceComponentsProps,
+  useTranslate,
+  useApiUrl,
+  HttpError,
 } from "@pankod/refine-core";
 import {
-    Avatar,
-    Button,
-    Create,
-    Box,
-    FormControl,
-    FormHelperText,
-    FormLabel,
-    Grid,
-    SaveButton,
-    Stack,
-    Step,
-    Stepper,
-    StepButton,
-    TextField,
-    Typography,
-    useAutocomplete,
-    Autocomplete,
-    Input,
-    TextFieldProps,
+  Avatar,
+  Button,
+  Create,
+  Box,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Grid,
+  SaveButton,
+  Stack,
+  TextField,
+  Typography,
+  useAutocomplete,
+  Input,
+  TextFieldProps,
 } from "@pankod/refine-mui";
-import { useStepsForm, Controller } from "@pankod/refine-react-hook-form";
-import { ICourier, IStore } from "interfaces";
+import { useStepsForm } from "@pankod/refine-react-hook-form";
+import { IAgent, IUser, IOrder } from "interfacesNew";
 
-export const CourierCreate: React.FC<IResourceComponentsProps> = () => {
-    const t = useTranslate();
-    const stepTitles = [
-        t("couriers.steps.content"),
-        t("couriers.steps.relations"),
-    ];
-    const apiUrl = useApiUrl();
+export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
+  const t = useTranslate();
 
-    const {
-        refineCore: { onFinish, formLoading },
-        control,
-        watch,
-        register,
-        handleSubmit,
-        setValue,
-        formState: { errors },
-        steps: { currentStep, gotoStep },
-    } = useStepsForm<ICourier, HttpError, ICourier>({
-        stepsProps: {
-            isBackValidate: false,
-        },
-        warnWhenUnsavedChanges: true,
-    });
+  const apiUrl = useApiUrl();
 
-    const imageInput = watch("avatar");
+  const {
+    refineCore: { onFinish, formLoading },
+    control,
+    watch,
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useStepsForm<IOrder, HttpError, IAgent, IUser>({
+    warnWhenUnsavedChanges: true,
+  });
 
-    const onChangeHandler = async (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
-        const formData = new FormData();
+  // const imageInput = watch("avatar");
 
-        const target = event.target;
-        const file: File = (target.files as FileList)[0];
+  // const onChangeHandler = async (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const formData = new FormData();
 
-        formData.append("file", file);
+  //   const target = event.target;
+  //   const file: File = (target.files as FileList)[0];
 
-        const res = await axios.post<{ url: string }>(
-            `${apiUrl}/media/upload`,
-            formData,
-            {
-                withCredentials: false,
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                },
-            },
-        );
+  //   formData.append("file", file);
 
-        const { name, size, type, lastModified } = file;
+  //   const res = await axios.post<{ url: string }>(
+  //     `${apiUrl}/media/upload`,
+  //     formData,
+  //     {
+  //       withCredentials: false,
+  //       headers: {
+  //         "Access-Control-Allow-Origin": "*",
+  //       },
+  //     }
+  //   );
 
-        // eslint-disable-next-line
-        const imagePaylod: any = [
-            {
-                name,
-                size,
-                type,
-                lastModified,
-                url: res.data.url,
-            },
-        ];
-        setValue("avatar", imagePaylod, {
-            shouldDirty: true,
-        });
-    };
+  //   const { name, size, type, lastModified } = file;
 
-    const { autocompleteProps } = useAutocomplete<IStore>({
-        resource: "stores",
-    });
+  //   // eslint-disable-next-line
+  //   const imagePaylod: any = [
+  //     {
+  //       name,
+  //       size,
+  //       type,
+  //       lastModified,
+  //       url: res.data.url,
+  //     },
+  //   ];
+  //   setValue("avatar", imagePaylod, {
+  //     shouldDirty: true,
+  //   });
+  // };
 
-    const renderFormByStep = (step: number) => {
-        switch (step) {
-            case 0:
-                return (
-                    <>
-                        <Grid
-                            container
-                            sx={{
-                                marginX: { xs: "0px" },
-                            }}
-                        >
-                            <Grid item xs={12} md={4}>
-                                <Stack
-                                    gap={1}
-                                    justifyContent="center"
-                                    alignItems="center"
-                                >
-                                    <label htmlFor="avatar-input">
-                                        <Input
-                                            id="avatar-input"
-                                            type="file"
-                                            sx={{
-                                                display: "none",
-                                            }}
-                                            onChange={onChangeHandler}
-                                        />
-                                        <input
-                                            id="file"
-                                            {...register("avatar")}
-                                            type="hidden"
-                                        />
-                                        <Avatar
-                                            sx={{
-                                                cursor: "pointer",
-                                                width: {
-                                                    xs: "120px",
-                                                    md: "160px",
-                                                    lg: "200px",
-                                                },
-                                                height: {
-                                                    xs: "120px",
-                                                    md: "160px",
-                                                    lg: "200px",
-                                                },
-                                            }}
-                                            src={
-                                                imageInput && imageInput[0].url
-                                            }
-                                            alt="User Picture"
-                                        />
-                                    </label>
-                                    <Typography
-                                        sx={{
-                                            fontSize: "14px",
-                                            fontWeight: "bold",
-                                        }}
-                                    >
-                                        {t(
-                                            "couriers.fields.images.description",
-                                        )}
-                                    </Typography>
-                                    <Typography sx={{ fontSize: "12px" }}>
-                                        {t("couriers.fields.images.validation")}
-                                    </Typography>
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={12} md={8}>
-                                <Grid container>
-                                    <Grid item paddingX={4} xs={12} md={6}>
-                                        <Stack gap="24px">
-                                            <FormControl>
-                                                <FormLabel
-                                                    required
-                                                    sx={{
-                                                        marginBottom: "8px",
-                                                        fontWeight: "700",
-                                                        fontSize: "14px",
-                                                        color: "text.primary",
-                                                    }}
-                                                >
-                                                    {t("couriers.fields.name")}
-                                                </FormLabel>
-                                                <TextField
-                                                    {...register("name", {
-                                                        required: t(
-                                                            "errors.required.field",
-                                                            {
-                                                                field: "Name",
-                                                            },
-                                                        ),
-                                                    })}
-                                                    size="small"
-                                                    margin="none"
-                                                    variant="outlined"
-                                                />
-                                                {errors.name && (
-                                                    <FormHelperText error>
-                                                        {errors.name.message}
-                                                    </FormHelperText>
-                                                )}
-                                            </FormControl>
-                                            <FormControl>
-                                                <FormLabel
-                                                    required
-                                                    sx={{
-                                                        marginBottom: "8px",
-                                                        fontWeight: "700",
-                                                        fontSize: "14px",
-                                                        color: "text.primary",
-                                                    }}
-                                                >
-                                                    {t(
-                                                        "couriers.fields.surname",
-                                                    )}
-                                                </FormLabel>
-                                                <TextField
-                                                    {...register("surname", {
-                                                        required: t(
-                                                            "errors.required.field",
-                                                            {
-                                                                field: "Surname",
-                                                            },
-                                                        ),
-                                                    })}
-                                                    size="small"
-                                                    margin="none"
-                                                    variant="outlined"
-                                                />
-                                                {errors.surname && (
-                                                    <FormHelperText error>
-                                                        {errors.surname.message}
-                                                    </FormHelperText>
-                                                )}
-                                            </FormControl>
-                                            <FormControl fullWidth>
-                                                <FormLabel
-                                                    required
-                                                    sx={{
-                                                        marginBottom: "8px",
-                                                        fontWeight: "700",
-                                                        fontSize: "14px",
-                                                        color: "text.primary",
-                                                    }}
-                                                >
-                                                    {t(
-                                                        "couriers.fields.gender.label",
-                                                    )}
-                                                </FormLabel>
-                                                <Controller
-                                                    control={control}
-                                                    name="gender"
-                                                    rules={{
-                                                        required: t(
-                                                            "errors.required.field",
-                                                            { field: "Gender" },
-                                                        ),
-                                                    }}
-                                                    render={({ field }) => (
-                                                        <Autocomplete
-                                                            size="small"
-                                                            {...field}
-                                                            onChange={(
-                                                                _,
-                                                                value,
-                                                            ) => {
-                                                                field.onChange(
-                                                                    value,
-                                                                );
-                                                            }}
-                                                            options={[
-                                                                "Male",
-                                                                "Female",
-                                                            ]}
-                                                            renderInput={(
-                                                                params,
-                                                            ) => (
-                                                                <TextField
-                                                                    {...params}
-                                                                    variant="outlined"
-                                                                    error={
-                                                                        !!errors.gender
-                                                                    }
-                                                                    required
-                                                                />
-                                                            )}
-                                                        />
-                                                    )}
-                                                />
-                                                {errors.gender && (
-                                                    <FormHelperText error>
-                                                        {errors.gender.message}
-                                                    </FormHelperText>
-                                                )}
-                                            </FormControl>
-                                        </Stack>
-                                    </Grid>
-                                    <Grid item paddingX={4} xs={12} md={6}>
-                                        <Stack gap="24px">
-                                            <FormControl>
-                                                <FormLabel
-                                                    required
-                                                    sx={{
-                                                        marginBottom: "8px",
-                                                        fontWeight: "700",
-                                                        fontSize: "14px",
-                                                        color: "text.primary",
-                                                    }}
-                                                >
-                                                    {t("stores.fields.gsm")}
-                                                </FormLabel>
-                                                <InputMask
-                                                    mask="(999) 999 99 99"
-                                                    disabled={false}
-                                                    {...register("gsm", {
-                                                        required: t(
-                                                            "errors.required.field",
-                                                            { field: "Phone" },
-                                                        ),
-                                                    })}
-                                                >
-                                                    {/* // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                                    // @ts-expect-error */}
-                                                    {(
-                                                        props: TextFieldProps,
-                                                    ) => (
-                                                        <TextField
-                                                            {...props}
-                                                            size="small"
-                                                            margin="none"
-                                                            variant="outlined"
-                                                        />
-                                                    )}
-                                                </InputMask>
-                                                {errors.gsm && (
-                                                    <FormHelperText error>
-                                                        {errors.gsm.message}
-                                                    </FormHelperText>
-                                                )}
-                                            </FormControl>
-                                            <FormControl>
-                                                <FormLabel
-                                                    required
-                                                    sx={{
-                                                        marginBottom: "8px",
-                                                        fontWeight: "700",
-                                                        fontSize: "14px",
-                                                        color: "text.primary",
-                                                    }}
-                                                >
-                                                    {t("couriers.fields.email")}
-                                                </FormLabel>
-                                                <TextField
-                                                    {...register("email", {
-                                                        required: t(
-                                                            "errors.required.field",
-                                                            { field: "Email" },
-                                                        ),
-                                                        pattern: {
-                                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                                            message: t(
-                                                                "errors.required.invalidMail",
-                                                            ),
-                                                        },
-                                                    })}
-                                                    size="small"
-                                                    margin="none"
-                                                    variant="outlined"
-                                                />
-                                                {errors.email && (
-                                                    <FormHelperText error>
-                                                        {errors.email.message}
-                                                    </FormHelperText>
-                                                )}
-                                            </FormControl>
-                                        </Stack>
-                                    </Grid>
-                                </Grid>
-                                <Grid
-                                    item
-                                    paddingX={4}
-                                    paddingY={4}
-                                    xs={12}
-                                    md={12}
-                                    justifyContent="flex-end"
-                                >
-                                    <FormControl fullWidth>
-                                        <FormLabel
-                                            required
-                                            sx={{
-                                                marginBottom: "8px",
-                                                fontWeight: "700",
-                                                fontSize: "14px",
-                                                color: "text.primary",
-                                            }}
-                                        >
-                                            {t("stores.fields.address")}
-                                        </FormLabel>
-                                        <TextField
-                                            {...register("address", {
-                                                required: t(
-                                                    "errors.required.field",
-                                                    { field: "Address" },
-                                                ),
-                                            })}
-                                            margin="none"
-                                            variant="outlined"
-                                            multiline
-                                            minRows={5}
-                                            required
-                                            fullWidth
-                                        />
-                                        {errors.address && (
-                                            <FormHelperText error>
-                                                {errors.address.message}
-                                            </FormHelperText>
-                                        )}
-                                    </FormControl>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </>
-                );
-            case 1:
-                return (
-                    <>
-                        <Grid container spacing={2}>
-                            <Grid container item xs={12} md={12} gap={5}>
-                                <Grid item xs={8} md={6}>
-                                    <FormControl fullWidth>
-                                        <FormLabel
-                                            required
-                                            sx={{
-                                                marginBottom: "8px",
-                                                fontWeight: "700",
-                                                fontSize: "14px",
-                                                color: "text.primary",
-                                            }}
-                                        >
-                                            {t("couriers.fields.store")}
-                                        </FormLabel>
-                                        <Controller
-                                            control={control}
-                                            name="store"
-                                            rules={{
-                                                required: "Store required",
-                                            }}
-                                            render={({ field }) => (
-                                                <Autocomplete
-                                                    size="small"
-                                                    {...autocompleteProps}
-                                                    {...field}
-                                                    onChange={(_, value) => {
-                                                        field.onChange(value);
-                                                    }}
-                                                    getOptionLabel={(item) => {
-                                                        return item.title
-                                                            ? item.title
-                                                            : "";
-                                                    }}
-                                                    isOptionEqualToValue={(
-                                                        option,
-                                                        value,
-                                                    ) =>
-                                                        value === undefined ||
-                                                        option.id === value.id
-                                                    }
-                                                    renderInput={(params) => (
-                                                        <TextField
-                                                            {...params}
-                                                            variant="outlined"
-                                                            error={
-                                                                !!errors.store
-                                                                    ?.message
-                                                            }
-                                                            required
-                                                        />
-                                                    )}
-                                                />
-                                            )}
-                                        />
-                                        {errors.store && (
-                                            <FormHelperText error>
-                                                {errors.store.message}
-                                            </FormHelperText>
-                                        )}
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={4} md={5}>
-                                    <FormControl fullWidth>
-                                        <FormLabel
-                                            required
-                                            sx={{
-                                                marginBottom: "8px",
-                                                fontWeight: "700",
-                                                fontSize: "14px",
-                                                color: "text.primary",
-                                            }}
-                                        >
-                                            {t("couriers.fields.vehicle")}
-                                        </FormLabel>
-                                        <TextField
-                                            {...register("licensePlate", {
-                                                required: t(
-                                                    "errors.required.field",
-                                                    { field: "Vehicle Number" },
-                                                ),
-                                            })}
-                                            size="small"
-                                            margin="none"
-                                            variant="outlined"
-                                        />
-                                        {errors.licensePlate && (
-                                            <FormHelperText error>
-                                                {errors.licensePlate.message}
-                                            </FormHelperText>
-                                        )}
-                                    </FormControl>
-                                </Grid>
-                            </Grid>
-                            <Grid item xs={4} md={6}>
-                                <FormControl fullWidth>
-                                    <FormLabel
-                                        required
-                                        sx={{
-                                            marginBottom: "8px",
-                                            fontWeight: "700",
-                                            fontSize: "14px",
-                                            color: "text.primary",
-                                        }}
-                                    >
-                                        {t("couriers.fields.accountNumber")}
-                                    </FormLabel>
-                                    <TextField
-                                        {...register("accountNumber", {
-                                            required: t(
-                                                "errors.required.field",
-                                                { field: "Account Number" },
-                                            ),
-                                            maxLength: {
-                                                value: 10,
-                                                message: t(
-                                                    "errors.required.max",
-                                                    { max: 10 },
-                                                ),
-                                            },
-                                            minLength: {
-                                                value: 10,
-                                                message: t(
-                                                    "errors.required.min",
-                                                    { min: 10 },
-                                                ),
-                                            },
-                                        })}
-                                        size="small"
-                                        margin="none"
-                                        variant="outlined"
-                                    />
-                                    {errors.accountNumber && (
-                                        <FormHelperText error>
-                                            {errors.accountNumber.message}
-                                        </FormHelperText>
-                                    )}
-                                </FormControl>
-                            </Grid>
-                        </Grid>
-                    </>
-                );
-        }
-    };
+  const [alignment, setAlignment] = React.useState("users");
 
-    return (
-        <Create
-            isLoading={formLoading}
-            actionButtons={
-                <>
-                    {currentStep > 0 && (
-                        <Button
-                            onClick={() => {
-                                gotoStep(currentStep - 1);
-                            }}
-                        >
-                            {t("buttons.previousStep")}
-                        </Button>
-                    )}
-                    {currentStep < stepTitles.length - 1 && (
-                        <Button onClick={() => gotoStep(currentStep + 1)}>
-                            {t("buttons.nextStep")}
-                        </Button>
-                    )}
-                    {currentStep === stepTitles.length - 1 && (
-                        <SaveButton onClick={handleSubmit(onFinish)} />
-                    )}
-                </>
-            }
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setAlignment(newAlignment);
+  };
+
+  return (
+    <Create
+      isLoading={formLoading}
+      actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
+    >
+      <Box
+        component="form"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+        autoComplete="off"
+      >
+        <Grid
+          container
+          sx={{
+            marginX: { xs: "0px" },
+          }}
         >
-            <Box
-                component="form"
+          {/* avatar */}
+          <Grid item xs={12} md={4}>
+            <Stack gap={1} justifyContent="center" alignItems="center">
+              <label htmlFor="avatar-input">
+                <Input
+                  id="avatar-input"
+                  type="file"
+                  sx={{
+                    display: "none",
+                  }}
+                  // onChange={onChangeHandler}
+                />
+                <input
+                  id="file"
+                  // {...register("avatar")}
+                  type="hidden"
+                />
+                <Avatar
+                  sx={{
+                    cursor: "pointer",
+                    width: {
+                      xs: "120px",
+                      md: "160px",
+                      lg: "200px",
+                    },
+                    height: {
+                      xs: "120px",
+                      md: "160px",
+                      lg: "200px",
+                    },
+                  }}
+                  // src={imageInput && imageInput[0].url}
+                  alt="User Picture"
+                />
+              </label>
+              <Typography
                 sx={{
-                    display: "flex",
-                    flexDirection: "column",
+                  fontSize: "14px",
+                  fontWeight: "bold",
                 }}
-                autoComplete="off"
-            >
-                <Stepper nonLinear activeStep={currentStep}>
-                    {stepTitles.map((label, index) => (
-                        <Step
-                            key={label}
-                            sx={{
-                                "& .MuiStepLabel-label": {
-                                    fontSize: "18px",
-                                    lineHeight: "32px",
-                                },
-                            }}
-                        >
-                            <StepButton onClick={() => gotoStep(index)}>
-                                {label}
-                            </StepButton>
-                        </Step>
-                    ))}
-                </Stepper>
-                <br />
-                {renderFormByStep(currentStep)}
-            </Box>
-        </Create>
-    );
+              >
+                {t("orders.fields.avatar.label")}
+              </Typography>
+              <Typography sx={{ fontSize: "12px" }}>
+                {t("orders.fields.avatar.description")}
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <Grid container>
+              {/* left block */}
+              <Grid item paddingX={4} xs={12} md={6}>
+                <Stack gap="24px">
+                  <FormControl>
+                    <FormLabel
+                      sx={{
+                        marginBottom: "8px",
+                        fontWeight: "700",
+                        fontSize: "14px",
+                        color: "text.primary",
+                      }}
+                    >
+                      {t("orders.fields.name")}
+                    </FormLabel>
+                    <TextField
+                      // {...register("orders", {
+                      //   field: "name",
+                      // })}
+                      size="small"
+                      margin="none"
+                      variant="outlined"
+                    />
+                    {errors.name && (
+                      <FormHelperText error>
+                        {errors.name.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel
+                      sx={{
+                        marginBottom: "8px",
+                        fontWeight: "700",
+                        fontSize: "14px",
+                        color: "text.primary",
+                      }}
+                    >
+                      {t("orders.fields.phone")}
+                    </FormLabel>
+                    <InputMask
+                      mask="(999) 999 99 99"
+                      disabled={false}
+                      // {...register(
+                      //   "phone"
+                      //   {
+                      //     required: t("errors.required.field", {
+                      //       field: "phone",
+                      //     }),
+                      //   }
+                      // )}
+                    >
+                      {/* // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                    // @ts-expect-error */}
+                      {(props: TextFieldProps) => (
+                        <TextField
+                          {...props}
+                          size="small"
+                          margin="none"
+                          variant="outlined"
+                        />
+                      )}
+                    </InputMask>
+                    {errors.phone && (
+                      <FormHelperText error>
+                        {errors.phone.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel
+                      sx={{
+                        marginBottom: "8px",
+                        fontWeight: "700",
+                        fontSize: "14px",
+                        color: "text.primary",
+                      }}
+                    >
+                      {t("orders.fields.email")}
+                    </FormLabel>
+                    <TextField
+                      // {...register(
+                      //   "email"
+                      //   // {
+                      //   //   required: t("errors.required.field", {
+                      //   //     field: "Email",
+                      //   //   }),
+                      //   //   pattern: {
+                      //   //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      //   //     message: t("errors.required.invalidMail"),
+                      //   //   },
+                      //   // }
+                      // )}
+                      size="small"
+                      margin="none"
+                      variant="outlined"
+                    />
+                    {errors.email && (
+                      <FormHelperText error>
+                        {errors.email.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                </Stack>
+              </Grid>
+              {/* right block */}
+              <Grid item paddingX={4} xs={12} md={6}>
+                <Stack gap="24px"></Stack>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+    </Create>
+  );
 };

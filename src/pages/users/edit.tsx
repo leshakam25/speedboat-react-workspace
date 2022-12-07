@@ -9,28 +9,19 @@ import {
 } from "@pankod/refine-core";
 import {
   Avatar,
-  Button,
   Edit,
   Box,
   FormControl,
-  FormHelperText,
   FormLabel,
   Grid,
-  SaveButton,
   Stack,
-  Step,
-  Stepper,
-  StepButton,
   TextField,
   Typography,
   useAutocomplete,
-  Autocomplete,
   Input,
   TextFieldProps,
-  ToggleButtonGroup,
-  ToggleButton,
 } from "@pankod/refine-mui";
-import { useStepsForm, Controller } from "@pankod/refine-react-hook-form";
+import { useStepsForm } from "@pankod/refine-react-hook-form";
 import { IUser } from "interfacesNew";
 
 export const UserEdit: React.FC<IResourceComponentsProps> = () => {
@@ -40,7 +31,6 @@ export const UserEdit: React.FC<IResourceComponentsProps> = () => {
 
   const {
     refineCore: { onFinish, formLoading },
-    control,
     watch,
     register,
     handleSubmit,
