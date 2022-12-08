@@ -1,7 +1,5 @@
 import React from "react";
-import axios from "axios";
 
-import InputMask from "react-input-mask";
 import {
   IResourceComponentsProps,
   useTranslate,
@@ -20,11 +18,27 @@ import {
   Input,
   ToggleButtonGroup,
   ToggleButton,
+  SaveButton,
+  Box,
 } from "@pankod/refine-mui";
+import { useForm } from "@pankod/refine-react-hook-form";
+import { IOrder } from "interfaces";
 
 export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
   const apiUrl = useApiUrl();
+
+  const {
+    refineCore: { onFinish, formLoading },
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<
+    IOrder,
+    HttpError & {
+      avatar: any; // eslint-disable-line
+    }
+  >();
 
   const [alignment, setAlignment] = React.useState("orders");
 
@@ -35,48 +49,70 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
     setAlignment(newAlignment);
   };
 
+  const dateNow = new Date();
+  const secondNow = dateNow.getSeconds();
+  const hourNow = dateNow.getHours();
+  const minuteNow = dateNow.getMinutes();
+  const dayNow = dateNow.getDate();
+  const monthNow = dateNow.getMonth();
+  const yearNow = dateNow.getFullYear();
+  const currentDate = `${hourNow}:${minuteNow}:${secondNow}, ${dayNow}.${monthNow}.${yearNow}`;
+
   return (
-    <Create>
+    <Create
+      isLoading={formLoading}
+      actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
+    >
       <Grid container spacing={2}>
         {/* choose route */}
         <Grid item xs={12} lg={12} spacing={2}>
           {" "}
-          <Typography
+          <Box
+            onSubmit={handleSubmit(onFinish)}
+            component="form"
             sx={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              textAlign: "center",
-              mb: 4,
+              display: "flex",
+              flexDirection: "column",
             }}
+            autoComplete="off"
           >
-            {t("orders.fields.chooseRoute")}
-          </Typography>
-          <ToggleButtonGroup
-            color="primary"
-            value={alignment}
-            exclusive
-            onChange={handleChange}
-            aria-label="Platform"
-            sx={{ mb: 4, boxShadow: "2" }}
-            fullWidth
-            aria-required
-            orientation="horizontal"
-          >
-            <ToggleButton value="valaam">
-              {t("enum.routes.valaam")}
-            </ToggleButton>
-            <ToggleButton value="schery">
-              {" "}
-              {t("enum.routes.shchery")}
-            </ToggleButton>
-            <ToggleButton value="valaam and schery">
-              {t("enum.routes.valaam and shchery")}
-            </ToggleButton>
-          </ToggleButtonGroup>
+            <Typography
+              sx={{
+                fontSize: "24px",
+                fontWeight: "bold",
+                textAlign: "center",
+                mb: 4,
+              }}
+            >
+              {t("orders.fields.chooseRoute")}
+            </Typography>
+            <ToggleButtonGroup
+              color="primary"
+              value={alignment}
+              exclusive
+              onChange={handleChange}
+              aria-label="Platform"
+              sx={{ mb: 4, boxShadow: "2" }}
+              fullWidth
+              aria-required
+              orientation="horizontal"
+            >
+              <ToggleButton value="valaam">
+                {t("enum.routes.valaam")}
+              </ToggleButton>
+              <ToggleButton value="schery">
+                {" "}
+                {t("enum.routes.shchery")}
+              </ToggleButton>
+              <ToggleButton value="valaam and schery">
+                {t("enum.routes.valaam and shchery")}
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
         </Grid>
 
         {/* choose agent */}
-        <Grid item xs={12} lg={5} spacing={2}>
+        {/* <Grid item xs={12} lg={5} spacing={2}>
           <Typography
             sx={{
               fontSize: "24px",
@@ -166,7 +202,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
               variant="outlined"
             ></TextField>
           </FormControl>
-        </Grid>
+        </Grid> */}
 
         {/* choose user */}
         <Grid item xs={12} lg={5} spacing={2}>
