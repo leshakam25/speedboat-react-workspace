@@ -1,13 +1,11 @@
 import { GridEnrichedColDef } from "@pankod/refine-mui";
 
 export interface IRouteName {
-    id: number;
-    route: "valaam" | "shchery" | "valaam and shchery";
+    route:  "valaam" | "shchery" | "valaam and shchery";
 }
 
 export interface IOrderStatus {
-    id: number;
-    text: | "paid" | "done" | "cancelled";
+    text:  "payment is expected" | "paid" | "done" | "cancelled";
 }
 
 export interface IUser {
@@ -35,16 +33,13 @@ export interface IAgent {
 
 export interface IOrder {
     id: number;
-    orderNumber: number;
     user: IUser;
     route: IRouteName;
     status: IOrderStatus;
     agent: IAgent;
     date: string;
     createdAt: string;
-    headerName?: GridEnrichedColDef;
-    
-}
+    }
 
 export interface IOrderFilterVariables {
     q?: string;

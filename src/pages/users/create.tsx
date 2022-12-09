@@ -48,14 +48,17 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
   //   resource: "users",
   // });
 
-  const dateNow = new Date();
-  const secondNow = dateNow.getSeconds();
-  const hourNow = dateNow.getHours();
-  const minuteNow = dateNow.getMinutes();
-  const dayNow = dateNow.getDate();
-  const monthNow = dateNow.getMonth();
-  const yearNow = dateNow.getFullYear();
-  const currentDate = `${hourNow}:${minuteNow}:${secondNow}, ${dayNow}.${monthNow}.${yearNow}`;
+  const currentDate = () => {
+    const dateNow = new Date();
+    const secondNow = dateNow.getSeconds();
+    const hourNow = dateNow.getHours();
+    const minuteNow = dateNow.getMinutes();
+    const dayNow = dateNow.getDate();
+    const monthNow = dateNow.getMonth();
+    const yearNow = dateNow.getFullYear();
+    const date = `${hourNow}:${minuteNow}:${secondNow}, ${dayNow}.${monthNow}.${yearNow}`;
+    return date;
+  };
 
   return (
     <Create
@@ -127,7 +130,6 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
           </Grid>
           <Grid item xs={12} md={8}>
             <Grid container>
-              {/* left block */}
               <Grid item paddingX={4} xs={12} md={6}>
                 <Stack gap="24px">
                   <FormControl>
@@ -163,7 +165,7 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                       {t("orders.fields.phone")}
                     </FormLabel>
                     <InputMask
-                      mask="(999) 999 99 99"
+                      mask="9 (999) 999 99 99"
                       disabled={false}
                       {...register(
                         "phone"
@@ -216,7 +218,7 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                     />
                   </FormControl>
                   <Box sx={{ display: "none" }}>
-                    <input value={currentDate} {...register("createdAt")} />
+                    <input value={currentDate()} {...register("createdAt")} />
                   </Box>
                 </Stack>
               </Grid>

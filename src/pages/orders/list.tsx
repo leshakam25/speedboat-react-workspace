@@ -85,7 +85,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
   const columns = React.useMemo<GridColumns<IOrder>>(
     () => [
       {
-        field: "orderNumber",
+        field: "id",
         headerName: t("orders.fields.orderNumber"),
         description: t("orders.fields.orderNumber"),
         headerAlign: "center",
@@ -120,7 +120,6 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         headerName: t("orders.fields.date"),
         headerAlign: "center",
         align: "center",
-        valueGetter: ({ row }) => row.date,
         flex: 1,
         maxWidth: 150,
       },
@@ -133,11 +132,11 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         sortable: false,
       },
       {
-        field: "agent.phone",
+        field: "user.phone",
         headerName: t("orders.fields.phone"),
         headerAlign: "center",
         align: "center",
-        valueGetter: ({ row }) => row.agent.phone,
+        valueGetter: ({ row }) => row.user.phone,
         flex: 1,
         maxWidth: 150,
       },
@@ -147,15 +146,6 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         headerName: t("orders.fields.createdAt"),
         flex: 1,
         maxWidth: 180,
-        renderCell: function render({ row }) {
-          return (
-            <DateField
-              value={row.createdAt}
-              format="LL"
-              sx={{ fontSize: "14px" }}
-            />
-          );
-        },
       },
       {
         field: "actions",
@@ -227,9 +217,8 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     maxItemCount: 50,
     mapData: (item) => {
       return {
-        id: item.id,
+        orderNumber: item.id,
         user: item.user,
-        orderNumber: item.orderNumber,
         route: item.route.route,
         status: item.status.text,
         agent: item.agent,

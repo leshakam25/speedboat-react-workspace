@@ -21,6 +21,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 import { IUser, IUserFilterVariables } from "interfaces";
+import { CourierInfoBox } from "components";
 
 const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -99,7 +100,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
   return (
     <Show>
       <Grid container spacing={2}>
-        <Grid item xs={12} lg={4}>
+        <Grid item xs={12} lg={3}>
           <Stack alignItems="center">
             <Avatar
               variant="rounded"
@@ -111,25 +112,25 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
           <br />
           <Stack spacing={1}>
             <UserInfoText>
-              <LocalPhoneOutlinedIcon />
-              <Typography variant="body1">
-                {t("orders.fields.phone")} <br /> {user?.phone}
-              </Typography>
+              <CourierInfoBox
+                icon={<LocalPhoneOutlinedIcon />}
+                text={t("orders.fields.phone")}
+                value={user?.phone}
+              />
             </UserInfoText>
             <UserInfoText>
-              <EmailIcon />
-              <Typography variant="body1">
-                {t("orders.fields.email")}
-                <br /> {user?.email}
-              </Typography>
+              <CourierInfoBox
+                icon={<EmailIcon />}
+                text={t("orders.fields.email")}
+                value={user?.email}
+              />
             </UserInfoText>
             <UserInfoText>
-              <DateRangeOutlinedIcon />
-              <Typography variant="body1">
-                {t("orders.fields.createdAt")}
-                <br />
-                {user?.createdAt}
-              </Typography>
+              <CourierInfoBox
+                icon={<DateRangeOutlinedIcon />}
+                text={t("orders.fields.createdAt")}
+                value={user?.createdAt}
+              />
             </UserInfoText>
           </Stack>
         </Grid>

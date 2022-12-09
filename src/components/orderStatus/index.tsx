@@ -1,5 +1,5 @@
 import { useTranslate } from "@pankod/refine-core";
-import { Chip, ChipProps, useTheme } from "@pankod/refine-mui";
+import { Chip, ChipProps } from "@pankod/refine-mui";
 
 type OrderStatusProps = {
   status?: "payment is expected" | "paid" | "done" | "cancelled";
@@ -7,7 +7,6 @@ type OrderStatusProps = {
 
 export const OrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
   const t = useTranslate();
-  const { palette } = useTheme();
 
   let color: ChipProps["color"];
 

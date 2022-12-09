@@ -1,5 +1,5 @@
 import { useTranslate } from "@pankod/refine-core";
-import { Chip, ChipProps, useTheme } from "@pankod/refine-mui";
+import { Chip, ChipProps } from "@pankod/refine-mui";
 
 type RouteNameProps = {
   status?: "valaam" | "shchery" | "valaam and shchery";
@@ -7,7 +7,6 @@ type RouteNameProps = {
 
 export const RouteName: React.FC<RouteNameProps> = ({ status }) => {
   const t = useTranslate();
-  const { palette } = useTheme();
 
   let color: ChipProps["color"];
 

@@ -1,265 +1,188 @@
 import React from "react";
-import axios from "axios";
-import InputMask from "react-input-mask";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import dayjs, { Dayjs } from "dayjs";
 import {
   IResourceComponentsProps,
   useTranslate,
-  useApiUrl,
+  HttpError,
 } from "@pankod/refine-core";
 import {
-  Avatar,
-  Edit,
+  Create,
   FormControl,
-  FormLabel,
   Grid,
-  Stack,
   TextField,
-  Typography,
-  Input,
-  ToggleButton,
-  ToggleButtonGroup,
+  SaveButton,
+  Box,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  Autocomplete,
+  useAutocomplete,
+  Edit,
 } from "@pankod/refine-mui";
+import { Controller, useForm } from "@pankod/refine-react-hook-form";
+import { IOrder, IUser } from "interfaces";
 
 export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
 
-  const apiUrl = useApiUrl();
+  const {
+    refineCore: { onFinish, formLoading },
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<
+    IOrder,
+    HttpError & {
+      avatar: any; // eslint-disable-line
+    }
+  >();
 
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
-  ) => {
-    setAlignment(newAlignment);
+  const [route, setRoute] = React.useState("");
+  const [status, setStatus] = React.useState("");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setRoute(event.target.value);
+  };
+  const handleChangeStatus = (event: SelectChangeEvent) => {
+    setStatus(event.target.value);
   };
 
-  const [alignment, setAlignment] = React.useState("orders");
+  const currentDate = () => {
+    const dateNow = new Date();
+    const secondNow = dateNow.getSeconds();
+    const hourNow = dateNow.getHours();
+    const minuteNow = dateNow.getMinutes();
+    const dayNow = dateNow.getDate();
+    const monthNow = dateNow.getMonth();
+    const yearNow = dateNow.getFullYear();
+    const date = `${hourNow}:${minuteNow}:${secondNow}, ${dayNow}.${monthNow}.${yearNow}`;
+    return date;
+  };
 
+  const { autocompleteProps } = useAutocomplete<IUser>({
+    resource: "users",
+  });
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs("2022-04-07"));
   return (
-    <Edit>
-      <Grid container spacing={2}>
-        {/* choose route */}
-        <Grid item xs={12} lg={12} spacing={2}>
-          {" "}
-          <Typography
-            sx={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              textAlign: "center",
-              mb: 4,
-            }}
-          >
-            {t("orders.fields.chooseRoute")}
-          </Typography>
-          <ToggleButtonGroup
-            color="primary"
-            value={alignment}
-            exclusive
-            onChange={handleChange}
-            aria-label="Platform"
-            sx={{ mb: 4, boxShadow: "2" }}
-            fullWidth
-            aria-required
-            orientation="horizontal"
-          >
-            <ToggleButton value="valaam">
-              {t("enum.routes.valaam")}
-            </ToggleButton>
-            <ToggleButton value="schery">
-              {" "}
-              {t("enum.routes.shchery")}
-            </ToggleButton>
-            <ToggleButton value="valaam and schery">
-              {t("enum.routes.valaam and shchery")}
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Grid>
+    <Edit
+      isLoading={formLoading}
+      actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
+    >
+      {" "}
+      <Box
+        onSubmit={handleSubmit(onFinish)}
+        component="form"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+        autoComplete="on"
+      >
+        <Grid container spacing={2}>
+          {/* choose route */}
+          <Grid item xs={12} lg={3} spacing={2}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-select-small">
+                {t("orders.fields.chooseRoute")}
+              </InputLabel>
+              <Select
+                {...register("route.route")}
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={route}
+                label={t("orders.steps.route")}
+                onChange={handleChange}
+              >
+                <MenuItem value="valaam">Валаам</MenuItem>
+                <MenuItem value="shchery">Шхеры</MenuItem>
+                <MenuItem value="valaam and shchery">Валаам и Шхеры</MenuItem>
+              </Select>
+              <Controller
+                control={control}
+                name="user"
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <Autocomplete
+                    {...autocompleteProps}
+                    {...field}
+                    onChange={(_, value) => {
+                      field.onChange(value);
+                    }}
+                    getOptionLabel={(item) => {
+                      return (
+                        autocompleteProps?.options?.find(
+                          (p) => p?.id?.toString() === item?.id?.toString()
+                        )?.name ?? ""
+                      );
+                    }}
+                    isOptionEqualToValue={(option, value) =>
+                      value === undefined ||
+                      option.id.toString() === value.toString()
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={t("orders.steps.user")}
+                        margin="normal"
+                        variant="outlined"
+                        error={!!errors.users}
+                        // helperText={errors.users?.message}
+                        required
+                      />
+                    )}
+                  />
+                )}
+              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  {...register("date")}
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                  renderInput={(props) => (
+                    <TextField sx={{ my: 1 }} {...props} />
+                  )}
+                  label="Выберите дату и время"
+                  ampm={false}
+                />
+              </LocalizationProvider>
+              <InputLabel id="demo-select-small"></InputLabel>
 
-        {/* choose agent */}
-        <Grid item xs={12} lg={5} spacing={2}>
-          <Typography
-            sx={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              textAlign: "center",
-              mb: 4,
-            }}
-          >
-            {t("orders.fields.chooseAgent")}
-          </Typography>
-          <Stack gap={1} justifyContent="center" alignItems="center">
-            <label htmlFor="avatar-input">
-              <Input
-                id="avatar-input"
-                type="file"
-                sx={{
-                  display: "none",
-                }}
-                // onChange={onChangeHandler}
-              />
-              <input
-                id="file"
-                // {...register("avatar")}
-                type="hidden"
-              />
-              <Avatar
-                sx={{
-                  cursor: "pointer",
-                  width: {
-                    xs: "120px",
-                    md: "160px",
-                    lg: "200px",
-                  },
-                  height: {
-                    xs: "120px",
-                    md: "160px",
-                    lg: "200px",
-                  },
-                }}
-                // src={imageInput && imageInput[0].url}
-                alt="User Picture"
-              />
-            </label>
-            <Typography
-              sx={{
-                fontSize: "14px",
-                fontWeight: "bold",
-              }}
-            >
-              {t("orders.fields.avatar.label")}
-            </Typography>
-            <Typography sx={{ fontSize: "12px" }}>
-              {t("orders.fields.avatar.description")}
-            </Typography>
-          </Stack>
-        </Grid>
-        <Grid item xs={12} lg={7} spacing={2} marginBottom={12}>
-          <FormControl fullWidth>
-            <FormLabel>{t("orders.fields.choose")}</FormLabel>
-            <TextField
-              size="small"
-              margin="none"
-              variant="outlined"
-            ></TextField>
-          </FormControl>
-          <FormControl fullWidth>
-            <FormLabel>{t("orders.fields.name")}</FormLabel>
-            <TextField
-              size="small"
-              margin="none"
-              variant="outlined"
-            ></TextField>
-          </FormControl>
-          <FormControl fullWidth>
-            <FormLabel>{t("orders.fields.phone")}</FormLabel>
-            <TextField
-              size="small"
-              margin="none"
-              variant="outlined"
-            ></TextField>
-          </FormControl>
-          <FormControl fullWidth>
-            <FormLabel>{t("orders.fields.email")}</FormLabel>
-            <TextField
-              size="small"
-              margin="none"
-              variant="outlined"
-            ></TextField>
-          </FormControl>
-        </Grid>
-
-        {/* choose user */}
-        <Grid item xs={12} lg={5} spacing={2}>
-          <Typography
-            sx={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              textAlign: "center",
-              mb: 4,
-            }}
-          >
-            {t("orders.fields.chooseUser")}
-          </Typography>
-          <Stack gap={1} justifyContent="center" alignItems="center">
-            <label htmlFor="avatar-input">
-              <Input
-                id="avatar-input"
-                type="file"
-                sx={{
-                  display: "none",
-                }}
-                // onChange={onChangeHandler}
-              />
-              <input
-                id="file"
-                // {...register("avatar")}
-                type="hidden"
-              />
-              <Avatar
-                sx={{
-                  cursor: "pointer",
-                  width: {
-                    xs: "120px",
-                    md: "160px",
-                    lg: "200px",
-                  },
-                  height: {
-                    xs: "120px",
-                    md: "160px",
-                    lg: "200px",
-                  },
-                }}
-                // src={imageInput && imageInput[0].url}
-                alt="User Picture"
-              />
-            </label>
-            <Typography
-              sx={{
-                fontSize: "14px",
-                fontWeight: "bold",
-              }}
-            >
-              {t("orders.fields.avatar.label")}
-            </Typography>
-            <Typography sx={{ fontSize: "12px" }}>
-              {t("orders.fields.avatar.description")}
-            </Typography>
-          </Stack>
-        </Grid>
-        <Grid item xs={12} lg={7} spacing={2}>
-          <FormControl fullWidth>
-            <FormLabel>{t("orders.fields.choose")}</FormLabel>
-            <TextField
-              size="small"
-              margin="none"
-              variant="outlined"
-            ></TextField>
-          </FormControl>
-          <FormControl fullWidth>
-            <FormLabel>{t("orders.fields.name")}</FormLabel>
-            <TextField
-              size="small"
-              margin="none"
-              variant="outlined"
-            ></TextField>
-          </FormControl>
-          <FormControl fullWidth>
-            <FormLabel>{t("orders.fields.phone")}</FormLabel>
-            <TextField
-              size="small"
-              margin="none"
-              variant="outlined"
-            ></TextField>
-          </FormControl>
-          <FormControl fullWidth>
-            <FormLabel>{t("orders.fields.email")}</FormLabel>
-            <TextField
-              size="small"
-              margin="none"
-              variant="outlined"
-            ></TextField>
-          </FormControl>
-        </Grid>
-      </Grid>
+              <Select
+                {...register("status.text")}
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={status}
+                label={t("orders.fields.status")}
+                onChange={handleChangeStatus}
+              >
+                <MenuItem value="payment is expected">
+                  {t("enum.orderStatuses.payment is expected")}
+                </MenuItem>
+                <MenuItem value="paid">{t("enum.orderStatuses.paid")}</MenuItem>
+                <MenuItem value="done">
+                  {t("enum.orderStatuses.done")}
+                </MenuItem>{" "}
+                <MenuItem value="cancelled">
+                  {t("enum.orderStatuses.cancelled")}
+                </MenuItem>
+              </Select>
+            </FormControl>{" "}
+          </Grid>
+          <Box sx={{ display: "none" }}>
+            <input value={currentDate()} {...register("createdAt")} />
+          </Box>
+          <Box sx={{ display: "none" }}>
+            <input value="payment is expected" {...register("status.text")} />
+          </Box>
+        </Grid>{" "}
+      </Box>
     </Edit>
   );
 };

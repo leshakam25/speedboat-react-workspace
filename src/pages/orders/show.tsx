@@ -12,10 +12,8 @@ import {
   Card,
   CardContent,
   CardHeader,
-  IconButton,
   Stack,
   Typography,
-  Paper,
   useMediaQuery,
   useTheme,
   Grid,
@@ -24,7 +22,6 @@ import {
 // import dayjs from "dayjs";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 // import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
@@ -39,11 +36,6 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
 
   const { queryResult } = useShow<IOrder>();
   const record = queryResult.data?.data;
-  // const canAcceptOrder = record?.status.text === "Pending";
-  // const canRejectOrder =
-  //   record?.status.text === "Pending" ||
-  //   record?.status.text === "Ready" ||
-  //   record?.status.text === "On The Way";
 
   const { goBack } = useNavigation();
   const { mutate } = useUpdate();
@@ -51,51 +43,6 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
   const theme = useTheme();
 
   const isSmallOrLess = useMediaQuery(theme.breakpoints.down("sm"));
-
-  // const columns = React.useMemo<GridColumns<IOrder>>(
-  //   () => [
-  //     {
-  //       field: "orderNumber",
-  //       headerName: t("orders.titles.list"),
-  //       width: 300,
-  //       renderCell: function render({ row }) {
-  //         return (
-  //           <Stack direction="row" spacing={4} alignItems="center">
-  //             <Box>
-  //               <Typography variant="body1" whiteSpace="break-spaces">
-  //                 {row.orderNumber}
-  //               </Typography>
-  //             </Box>
-  //           </Stack>
-  //         );
-  //       },
-  //     },
-  //   ],
-  //   [t]
-  // );
-
-  // const CustomFooter = () => (
-  //   <Stack direction="row" spacing={4} justifyContent="flex-end" p={1}>
-  //     <Typography sx={{ color: "primary.main" }} fontWeight={700}>
-  //       {t("orders.deliverables.mainTotal")}
-  //     </Typography>asd
-  //     <Typography>{record?.date}$</Typography>
-  //   </Stack>
-  // );
-
-  // const handleMutate = (status: { id: number; text: string }) => {
-  //   if (record) {
-  //     mutate({
-  //       resource: "orders",
-  //       id: record.id.toString(),
-  //       values: {
-  //         status,
-  //       },
-  //     });
-  //   }
-  // };
-
-  // useOrderCustomKbarActions(record);
 
   return (
     <Show>
@@ -118,49 +65,9 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                   <Typography variant="h6">
                     {t("orders.fields.orderNumber")}
                   </Typography>
-                  <Typography variant="h5">
-                    {`${record?.orderNumber ?? ""}`}
-                  </Typography>
+                  <Typography variant="h5">{`${record?.id ?? ""}`}</Typography>
                 </Stack>
               }
-              // avatar={
-              //   <IconButton onClick={goBack}>
-              //     <ArrowBackIcon />
-              //   </IconButton>
-              // }
-              // action={
-              //   <Stack direction="row" spacing={2}>
-              //     <Button
-              //       disabled={!canAcceptOrder}
-              //       variant="outlined"
-              //       size="small"
-              //       startIcon={<CheckOutlinedIcon />}
-              //       onClick={() =>
-              //         handleMutate({
-              //           id: 2,
-              //           text: "Ready",
-              //         })
-              //       }
-              //     >
-              //       {t("buttons.accept")}
-              //     </Button>
-              //     <Button
-              //       disabled={!canRejectOrder}
-              //       variant="outlined"
-              //       size="small"
-              //       color="error"
-              //       startIcon={<CloseOutlinedIcon sx={{ bg: "red" }} />}
-              //       onClick={() =>
-              //         handleMutate({
-              //           id: 5,
-              //           text: "Cancelled",
-              //         })
-              //       }
-              //     >
-              //       {t("buttons.reject")}
-              //     </Button>
-              //   </Stack>
-              // }
             />
 
             <CardContent>

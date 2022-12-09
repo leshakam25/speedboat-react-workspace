@@ -278,7 +278,10 @@ export const Header: React.FC = () => {
               justifyContent="center"
             >
               <Typography variant="subtitle2">{user?.name}</Typography>
-              <Avatar src={user?.avatar} alt={user?.name} />
+              <Avatar
+                src="https://triviaboss.com/static/5e1c43ad54ce5fb6389ee84e27cb5a49/52f06/qfffb216d-531d-409d-a619-079834000f47_Robert-De-Niro.jpg"
+                alt={user?.name}
+              />
             </Stack>
           </Stack>
         </Stack>
