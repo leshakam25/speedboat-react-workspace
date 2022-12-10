@@ -39,7 +39,7 @@ import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import EmailIcon from "@mui/icons-material/Email";
-import { CustomTooltip, OrderStatus } from "components";
+import { OrderStatus } from "components";
 import { IOrder, IOrderFilterVariables } from "interfaces";
 import { RouteName } from "components/routeName";
 import { OrderCreate } from "./create";
@@ -162,19 +162,6 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
             label={t("buttons.edit")}
             showInMenu
             onClick={() => edit("orders", row.id)}
-
-            // onClick={() => {
-            //   mutate({
-            //     resource: "orders",
-            //     id,
-            //     values: {
-            //       status: {
-            //         id: 2,
-            //         text: "Ready",
-            //       },
-            //     },
-            //   });
-            // }}
           />,
           <GridActionsCellItem
             key={2}
@@ -189,18 +176,6 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                 mutationMode: "undoable",
               });
             }}
-            // onClick={() =>
-            //   mutate({
-            //     resource: "orders",
-            //     id,
-            //     values: {
-            //       status: {
-            //         id: 5,
-            //         text: "Cancelled",
-            //       },
-            //     },
-            //   })
-            // }
           />,
         ],
       },
@@ -218,10 +193,10 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     mapData: (item) => {
       return {
         orderNumber: item.id,
-        user: item.user,
+        user: item.user.name,
         route: item.route.route,
         status: item.status.text,
-        agent: item.agent,
+        agent: item.agent.name,
         createdAt: item.createdAt,
       };
     },
@@ -352,6 +327,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
             columns={columns}
             filterModel={undefined}
             autoHeight
+            rowHeight={80}
             onRowClick={({ id }) => {
               show("orders", id);
             }}

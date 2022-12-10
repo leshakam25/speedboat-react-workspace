@@ -64,9 +64,9 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
         field: "avatar",
         headerName: t("users.fields.avatar.label"),
         renderCell: function render({ row }) {
-          return <Avatar src={row.avatar} />;
+          return <Avatar sx={{ width: 70, height: 70 }} src={row.avatar} />;
         },
-        width: 40,
+        width: 100,
       },
       {
         field: "phone",
@@ -82,7 +82,7 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "email",
         headerName: t("users.fields.email"),
-        minWidth: 140,
+        minWidth: 180,
       },
 
       {
@@ -178,6 +178,7 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
             columns={columns}
             filterModel={undefined}
             autoHeight
+            rowHeight={80}
             onRowClick={({ id }) => {
               show("agents", id);
             }}

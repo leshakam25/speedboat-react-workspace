@@ -28,7 +28,7 @@ import {
 } from "@mui/icons-material";
 import i18n from "i18n";
 
-import { IOrder, IStore, ICourier } from "interfacesOld";
+import { IAgent, IOrder, IUser } from "interfaces";
 import { ColorModeContext } from "contexts";
 
 interface IOptions {
@@ -61,10 +61,10 @@ export const Header: React.FC = () => {
       onSuccess: (data) => {
         const orderOptionGroup = data.data.map((item) => {
           return {
-            label: `${item.store.title} / #${item.orderNumber}`,
+            label: `${item.id} / #${item.route.route}`,
             url: "/images/default-order-img.png",
             link: `/orders/show/${item.id}`,
-            category: t("orders.orders"),
+            category: t("orders"),
           };
         });
         if (orderOptionGroup.length > 0) {
@@ -74,8 +74,8 @@ export const Header: React.FC = () => {
     },
   });
 
-  const { refetch: refetchStores } = useList<IStore>({
-    resource: "stores",
+  const { refetch: refetchUsers } = useList<IUser>({
+    resource: "users",
     config: {
       filters: [{ field: "q", operator: "contains", value }],
     },
@@ -84,10 +84,10 @@ export const Header: React.FC = () => {
       onSuccess: (data) => {
         const storeOptionGroup = data.data.map((item) => {
           return {
-            label: item.title,
+            label: `${item.name} ${item.phone}`,
             url: "images/default-store-img.png",
-            link: `/stores/edit/${item.id}`,
-            category: t("stores.stores"),
+            link: `/users/edit/${item.id}`,
+            category: t("users"),
           };
         });
         setOptions((prevOptions) => [...prevOptions, ...storeOptionGroup]);
@@ -95,8 +95,8 @@ export const Header: React.FC = () => {
     },
   });
 
-  const { refetch: refetchCouriers } = useList<ICourier>({
-    resource: "couriers",
+  const { refetch: refetchAgents } = useList<IAgent>({
+    resource: "agents",
     config: {
       filters: [{ field: "q", operator: "contains", value }],
     },
@@ -105,10 +105,10 @@ export const Header: React.FC = () => {
       onSuccess: (data) => {
         const courierOptionGroup = data.data.map((item) => {
           return {
-            label: `${item.name} ${item.surname}`,
-            url: item.avatar[0].url,
-            link: `/couriers/edit/${item.id}`,
-            category: t("couriers.couriers"),
+            label: `${item.name} ${item.phone}`,
+            url: item.avatar,
+            link: `/agents/edit/${item.id}`,
+            category: t("agents"),
           };
         });
         setOptions((prevOptions) => [...prevOptions, ...courierOptionGroup]);
@@ -119,8 +119,8 @@ export const Header: React.FC = () => {
   useEffect(() => {
     setOptions([]);
     refetchOrders();
-    refetchCouriers();
-    refetchStores();
+    refetchAgents();
+    refetchUsers();
   }, [value]);
 
   return (

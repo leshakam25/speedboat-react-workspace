@@ -12,13 +12,13 @@ export const RouteName: React.FC<RouteNameProps> = ({ status }) => {
 
   switch (status) {
     case "valaam":
-      color = "info";
+      color = "default";
       break;
     case "shchery":
-      color = "warning";
+      color = "default";
       break;
     case "valaam and shchery":
-      color = "success";
+      color = "default";
       break;
   }
 

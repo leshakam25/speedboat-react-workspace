@@ -52,18 +52,6 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
     setStatus(event.target.value);
   };
 
-  const currentDate = () => {
-    const dateNow = new Date();
-    const secondNow = dateNow.getSeconds();
-    const hourNow = dateNow.getHours();
-    const minuteNow = dateNow.getMinutes();
-    const dayNow = dateNow.getDate();
-    const monthNow = dateNow.getMonth();
-    const yearNow = dateNow.getFullYear();
-    const date = `${hourNow}:${minuteNow}:${secondNow}, ${dayNow}.${monthNow}.${yearNow}`;
-    return date;
-  };
-
   const { autocompleteProps } = useAutocomplete<IUser>({
     resource: "users",
   });
@@ -152,12 +140,8 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                   ampm={false}
                 />
               </LocalizationProvider>
-              <InputLabel id="demo-select-small"></InputLabel>
-
               <Select
                 {...register("status.text")}
-                labelId="demo-select-small"
-                id="demo-select-small"
                 value={status}
                 label={t("orders.fields.status")}
                 onChange={handleChangeStatus}
@@ -175,12 +159,6 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
               </Select>
             </FormControl>{" "}
           </Grid>
-          <Box sx={{ display: "none" }}>
-            <input value={currentDate()} {...register("createdAt")} />
-          </Box>
-          <Box sx={{ display: "none" }}>
-            <input value="payment is expected" {...register("status.text")} />
-          </Box>
         </Grid>{" "}
       </Box>
     </Edit>

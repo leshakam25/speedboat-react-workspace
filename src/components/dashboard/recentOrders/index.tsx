@@ -1,26 +1,21 @@
 import React from "react";
-import { useNavigation, useTranslate, useUpdate } from "@pankod/refine-core";
+import { useDelete, useNavigation, useTranslate } from "@pankod/refine-core";
 import {
-  Avatar,
-  Button,
   DataGrid,
   GridActionsCellItem,
   GridColumns,
-  NumberField,
-  Stack,
-  Typography,
   useDataGrid,
 } from "@pankod/refine-mui";
-import { CheckOutlined, CloseOutlined } from "@mui/icons-material";
-
+import EditIcon from "@mui/icons-material/Edit";
+import { IOrder } from "interfaces";
+import { RouteName } from "components/routeName";
 import { OrderStatus } from "components/orderStatus";
-import { IOrder } from "interfacesOld";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 export const RecentOrders: React.FC = () => {
   const t = useTranslate();
-  const { show } = useNavigation();
-  const { mutate } = useUpdate();
-
+  const { show, edit } = useNavigation();
+  const { mutate: mutateDelete } = useDelete();
   const { dataGridProps } = useDataGrid<IOrder>({
     resource: "orders",
     initialSorter: [
@@ -30,101 +25,103 @@ export const RecentOrders: React.FC = () => {
       },
     ],
     initialPageSize: 4,
-    permanentFilter: [
-      {
-        field: "status.text",
-        operator: "eq",
-        value: "Pending",
-      },
-    ],
     syncWithLocation: true,
   });
 
   const columns = React.useMemo<GridColumns<IOrder>>(
     () => [
       {
-        field: "orderNumber",
+        field: "id",
+        headerName: t("orders.fields.orderNumber"),
+        description: t("orders.fields.orderNumber"),
+        headerAlign: "center",
+        align: "center",
+        flex: 1,
+        maxWidth: 100,
+      },
+      {
+        field: "status.text",
+        headerName: t("orders.fields.status"),
+        headerAlign: "center",
+        align: "center",
         renderCell: function render({ row }) {
-          return (
-            <Stack
-              spacing={1}
-              sx={{
-                whiteSpace: "pre-wrap",
-                height: "100%",
-                mt: 2,
-              }}
-            >
-              <Typography sx={{ fontWeight: 800 }}>
-                ${row.orderNumber}
-              </Typography>
-            </Stack>
-          );
+          return <OrderStatus status={row.status.text} />;
         },
         flex: 1,
-        minWidth: 100,
+        maxWidth: 180,
       },
-      // {
-      //   field: "amount",
-      //   renderCell: function render({ row }) {
-      //     return (
-      //       <NumberField
-      //         options={{
-      //           currency: "USD",
-      //           style: "currency",
-      //           notation: "standard",
-      //         }}
-      //         sx={{ fontWeight: 800 }}
-      //         value={row.amount / 100}
-      //       />
-      //     );
-      //   },
-      //   align: "center",
-      //   flex: 1,
-      //   width: 80,
-      // },
+      {
+        field: "route.route",
+        headerName: t("orders.fields.route"),
+        headerAlign: "center",
+        align: "center",
+        renderCell: function render({ row }) {
+          return <RouteName status={row.route.route} />;
+        },
+        flex: 1,
+        maxWidth: 180,
+      },
+      {
+        field: "date",
+        headerName: t("orders.fields.date"),
+        headerAlign: "center",
+        align: "center",
+        flex: 1,
+        maxWidth: 150,
+      },
+      {
+        field: "user",
+        headerName: t("orders.fields.user"),
+        valueGetter: ({ row }) => row.user.name,
+        flex: 1,
+        maxWidth: 200,
+        sortable: false,
+      },
+      {
+        field: "user.phone",
+        headerName: t("orders.fields.phone"),
+        headerAlign: "center",
+        align: "center",
+        valueGetter: ({ row }) => row.user.phone,
+        flex: 1,
+        maxWidth: 150,
+      },
 
+      {
+        field: "createdAt",
+        headerName: t("orders.fields.createdAt"),
+        flex: 1,
+        maxWidth: 180,
+      },
       {
         field: "actions",
         type: "actions",
-        width: 80,
-        getActions: ({ id }) => [
+        headerName: "#",
+        flex: 1,
+        maxWidth: 40,
+        sortable: false,
+        getActions: ({ row }) => [
           <GridActionsCellItem
             key={1}
-            icon={<CheckOutlined color="success" />}
+            icon={<EditIcon color="success" />}
             sx={{ padding: "2px 6px" }}
-            label={t("buttons.accept")}
+            label={t("buttons.edit")}
             showInMenu
-            onClick={() => {
-              mutate({
-                resource: "orders",
-                id,
-                values: {
-                  status: {
-                    id: 2,
-                    text: "Ready",
-                  },
-                },
-              });
-            }}
+            onClick={() => edit("orders", row.id)}
           />,
           <GridActionsCellItem
             key={2}
-            icon={<CloseOutlined color="error" />}
+            icon={<CloseOutlinedIcon color="error" />}
             sx={{ padding: "2px 6px" }}
-            label={t("buttons.reject")}
+            label={t("buttons.delete")}
             showInMenu
-            onClick={() =>
-              mutate({
+            onClick={() => {
+              mutateDelete({
                 resource: "orders",
-                id,
-                values: {
-                  status: {
-                    id: 5,
-                    text: "Cancelled",
-                  },
-                },
-              })
-            }
+                id: row.id,
+                mutationMode: "undoable",
+              });
+            }}
           />,
         ],
       },
@@ -138,8 +135,11 @@ export const RecentOrders: React.FC = () => {
       columns={columns}
       autoHeight
       headerHeight={0}
-      rowHeight={200}
-      rowsPerPageOptions={[4, 10, 25, 50, 100]}
+      rowHeight={80}
+      onRowClick={({ id }) => {
+        show("orders", id);
+      }}
+      rowsPerPageOptions={[4]}
       sx={{
         paddingX: { xs: 3 },
         border: "none",
