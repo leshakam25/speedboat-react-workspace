@@ -25,7 +25,7 @@ import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 // import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 // import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
-import { CourierInfoBox, OrderStatus } from "components";
+import { InfoBox, OrderStatus } from "components";
 
 import { IOrder, IOrderStatus } from "interfaces";
 import { RouteName } from "components/routeName";
@@ -156,12 +156,12 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               flexWrap="wrap"
               justifyContent="center"
             >
-              <CourierInfoBox
+              <InfoBox
                 text={t("agents.agent.phone")}
                 icon={<PhoneIphoneIcon sx={{ fontSize: 36 }} />}
                 value={record?.user.phone}
               />
-              <CourierInfoBox
+              <InfoBox
                 text={t("agents.agent.email")}
                 icon={<EmailIcon sx={{ fontSize: 36 }} />}
                 value={record?.user.email}
@@ -201,12 +201,12 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               flexWrap="wrap"
               justifyContent="center"
             >
-              <CourierInfoBox
+              <InfoBox
                 text={t("agents.agent.phone")}
                 icon={<PhoneIphoneIcon sx={{ fontSize: 36 }} />}
                 value={record?.agent.phone}
               />
-              <CourierInfoBox
+              <InfoBox
                 text={t("agents.agent.email")}
                 icon={<EmailIcon sx={{ fontSize: 36 }} />}
                 value={record?.agent.email}

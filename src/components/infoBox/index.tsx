@@ -7,7 +7,7 @@ type CourierInfoBoxProps = {
   value?: string;
 };
 
-export const CourierInfoBox: React.FC<CourierInfoBoxProps> = ({
+export const InfoBox: React.FC<CourierInfoBoxProps> = ({
   text,
   icon,
   value,
@@ -17,7 +17,7 @@ export const CourierInfoBox: React.FC<CourierInfoBoxProps> = ({
       display="flex"
       alignItems="center"
       sx={{
-        minWidth: "200px",
+        minWidth: "260px",
         borderRadius: "8px",
         color: "white",
         padding: "10px 12px",

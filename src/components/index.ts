@@ -1,4 +1,4 @@
 export * from "./orderStatus";
-export * from "./courierInfoBox";
+export * from "./infoBox";
 export * from "./header";
 export * from "./title";

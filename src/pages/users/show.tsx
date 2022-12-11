@@ -21,7 +21,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 import { IUser, IUserFilterVariables } from "interfaces";
-import { CourierInfoBox } from "components";
+import { InfoBox } from "components";
 
 const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -110,23 +110,23 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
             <Typography variant="h5">{user?.name}</Typography>
           </Stack>
           <br />
-          <Stack spacing={1}>
+          <Stack alignItems="center" spacing={1}>
             <UserInfoText>
-              <CourierInfoBox
+              <InfoBox
                 icon={<LocalPhoneOutlinedIcon />}
                 text={t("orders.fields.phone")}
                 value={user?.phone}
               />
             </UserInfoText>
             <UserInfoText>
-              <CourierInfoBox
+              <InfoBox
                 icon={<EmailIcon />}
                 text={t("orders.fields.email")}
                 value={user?.email}
               />
             </UserInfoText>
             <UserInfoText>
-              <CourierInfoBox
+              <InfoBox
                 icon={<DateRangeOutlinedIcon />}
                 text={t("orders.fields.createdAt")}
                 value={user?.createdAt}

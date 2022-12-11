@@ -37,7 +37,7 @@ export const RecentOrders: React.FC = () => {
         headerAlign: "center",
         align: "center",
         flex: 1,
-        maxWidth: 100,
+        minWidth: 40,
       },
       {
         field: "status.text",
@@ -48,7 +48,7 @@ export const RecentOrders: React.FC = () => {
           return <OrderStatus status={row.status.text} />;
         },
         flex: 1,
-        maxWidth: 180,
+        minWidth: 160,
       },
       {
         field: "route.route",
@@ -59,7 +59,7 @@ export const RecentOrders: React.FC = () => {
           return <RouteName status={row.route.route} />;
         },
         flex: 1,
-        maxWidth: 180,
+        minWidth: 160,
       },
       {
         field: "date",
@@ -67,38 +67,23 @@ export const RecentOrders: React.FC = () => {
         headerAlign: "center",
         align: "center",
         flex: 1,
-        maxWidth: 150,
+        minWidth: 150,
       },
       {
         field: "user",
         headerName: t("orders.fields.user"),
         valueGetter: ({ row }) => row.user.name,
         flex: 1,
-        maxWidth: 200,
+        minWidth: 200,
         sortable: false,
       },
-      {
-        field: "user.phone",
-        headerName: t("orders.fields.phone"),
-        headerAlign: "center",
-        align: "center",
-        valueGetter: ({ row }) => row.user.phone,
-        flex: 1,
-        maxWidth: 150,
-      },
 
-      {
-        field: "createdAt",
-        headerName: t("orders.fields.createdAt"),
-        flex: 1,
-        maxWidth: 180,
-      },
       {
         field: "actions",
         type: "actions",
         headerName: "#",
         flex: 1,
-        maxWidth: 40,
+        minWidth: 20,
         sortable: false,
         getActions: ({ row }) => [
           <GridActionsCellItem
