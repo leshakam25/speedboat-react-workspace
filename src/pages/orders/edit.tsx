@@ -9,19 +9,18 @@ import {
   HttpError,
 } from "@pankod/refine-core";
 import {
-  Create,
   FormControl,
   Grid,
   TextField,
   SaveButton,
   Box,
-  InputLabel,
   Select,
   MenuItem,
   SelectChangeEvent,
   Autocomplete,
   useAutocomplete,
   Edit,
+  FormLabel,
 } from "@pankod/refine-mui";
 import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import { IOrder, IUser } from "interfaces";
@@ -72,12 +71,10 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
         autoComplete="on"
       >
         <Grid container spacing={2}>
-          {/* choose route */}
-          <Grid item xs={12} lg={3} spacing={2}>
+          <Grid item xs={12} lg={3} spacing={0}>
+            {/* choose route */}
             <FormControl fullWidth>
-              <InputLabel id="demo-select-small">
-                {t("orders.fields.chooseRoute")}
-              </InputLabel>
+              <FormLabel> {t("orders.fields.chooseRoute")}</FormLabel>
               <Select
                 {...register("route.route")}
                 labelId="demo-select-small"
@@ -90,6 +87,9 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                 <MenuItem value="shchery">Шхеры</MenuItem>
                 <MenuItem value="valaam and shchery">Валаам и Шхеры</MenuItem>
               </Select>
+            </FormControl>
+            <FormControl fullWidth>
+              <FormLabel> {t("orders.steps.user")}</FormLabel>
               <Controller
                 control={control}
                 name="user"
@@ -115,8 +115,6 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label={t("orders.steps.user")}
-                        margin="normal"
                         variant="outlined"
                         error={!!errors.users}
                         // helperText={errors.users?.message}
@@ -126,6 +124,9 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                   />
                 )}
               />
+            </FormControl>
+            <FormControl fullWidth>
+              <FormLabel> Выберите дату и время</FormLabel>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                   {...register("date")}
@@ -133,17 +134,16 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                   onChange={(newValue) => {
                     setValue(newValue);
                   }}
-                  renderInput={(props) => (
-                    <TextField sx={{ my: 1 }} {...props} />
-                  )}
-                  label="Выберите дату и время"
+                  renderInput={(props) => <TextField {...props} />}
                   ampm={false}
                 />
               </LocalizationProvider>
+            </FormControl>
+            <FormControl fullWidth>
+              <FormLabel> {t("orders.fields.status")}</FormLabel>
               <Select
                 {...register("status.text")}
                 value={status}
-                label={t("orders.fields.status")}
                 onChange={handleChangeStatus}
               >
                 <MenuItem value="payment is expected">
@@ -157,9 +157,9 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                   {t("enum.orderStatuses.cancelled")}
                 </MenuItem>
               </Select>
-            </FormControl>{" "}
+            </FormControl>
           </Grid>
-        </Grid>{" "}
+        </Grid>
       </Box>
     </Edit>
   );

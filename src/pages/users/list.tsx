@@ -61,7 +61,13 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         field: "avatar",
         headerName: t("users.fields.avatar.label"),
         renderCell: function render({ row }) {
-          return <Avatar sx={{ width: 70, height: 70 }} src={row.avatar} />;
+          return (
+            <Avatar
+              variant="rounded"
+              sx={{ width: 70, height: 70 }}
+              src={row.avatar}
+            />
+          );
         },
         width: 100,
       },

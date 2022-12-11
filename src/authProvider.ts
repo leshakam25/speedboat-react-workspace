@@ -42,9 +42,11 @@ export const authProvider: AuthProvider = {
         }
 
         return Promise.resolve({
-            id: 1,
+            id: 777,
             name: "Алексей Колесников",
             avatar: "https://cs6.pikabu.ru/avatars/1724/v1724973-2109843858.jpg",
+            phone:'+7 999 921 92 92',
+            email:"baseagent@ya.ru"
         });
     },
 };

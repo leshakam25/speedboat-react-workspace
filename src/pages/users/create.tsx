@@ -7,14 +7,12 @@ import {
   useTranslate,
   useApiUrl,
   HttpError,
-  useSelect,
 } from "@pankod/refine-core";
 import {
   Avatar,
   Create,
   Box,
   FormControl,
-  FormHelperText,
   FormLabel,
   Grid,
   SaveButton,

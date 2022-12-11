@@ -3,7 +3,6 @@ import {
   AuthPage as MUIAuthPage,
   AuthProps,
   Box,
-  display,
   Typography,
 } from "@pankod/refine-mui";
 import SailingIcon from "@mui/icons-material/Sailing";

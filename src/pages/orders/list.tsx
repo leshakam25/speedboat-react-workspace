@@ -91,7 +91,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         headerAlign: "center",
         align: "center",
         flex: 1,
-        maxWidth: 100,
+        minWidth: 100,
       },
       {
         field: "status.text",
@@ -102,7 +102,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
           return <OrderStatus status={row.status.text} />;
         },
         flex: 1,
-        maxWidth: 180,
+        minWidth: 180,
       },
       {
         field: "route.route",
@@ -113,7 +113,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
           return <RouteName status={row.route.route} />;
         },
         flex: 1,
-        maxWidth: 180,
+        minWidth: 180,
       },
       {
         field: "date",
@@ -121,14 +121,14 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         headerAlign: "center",
         align: "center",
         flex: 1,
-        maxWidth: 150,
+        minWidth: 150,
       },
       {
         field: "user",
         headerName: t("orders.fields.user"),
         valueGetter: ({ row }) => row.user.name,
         flex: 1,
-        maxWidth: 200,
+        minWidth: 200,
         sortable: false,
       },
       {
@@ -138,21 +138,21 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         align: "center",
         valueGetter: ({ row }) => row.user.phone,
         flex: 1,
-        maxWidth: 150,
+        minWidth: 150,
       },
 
       {
         field: "createdAt",
         headerName: t("orders.fields.createdAt"),
         flex: 1,
-        maxWidth: 180,
+        minWidth: 180,
       },
       {
         field: "actions",
         type: "actions",
         headerName: "#",
         flex: 1,
-        maxWidth: 40,
+        minWidth: 40,
         sortable: false,
         getActions: ({ row }) => [
           <GridActionsCellItem

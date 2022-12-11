@@ -26,7 +26,7 @@ export const ProfitList: React.FC<IResourceComponentsProps> = () => {
   return (
     <List>
       <Grid container spacing={2}>
-        <Grid item xs={12} lg={3}>
+        <Grid item xs={12} lg={12}>
           <ToggleButtonGroup
             color="primary"
             value={alignment}
@@ -36,6 +36,7 @@ export const ProfitList: React.FC<IResourceComponentsProps> = () => {
             sx={{ mb: 4, boxShadow: "2" }}
             aria-required
             orientation="horizontal"
+            fullWidth
           >
             <ToggleButton value="createInvoice">
               {t("profit.fields.createInvoice")}

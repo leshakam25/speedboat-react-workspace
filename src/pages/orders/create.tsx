@@ -7,6 +7,7 @@ import {
   IResourceComponentsProps,
   useTranslate,
   HttpError,
+  useGetIdentity,
 } from "@pankod/refine-core";
 import {
   Create,
@@ -15,7 +16,6 @@ import {
   TextField,
   SaveButton,
   Box,
-  InputLabel,
   Select,
   MenuItem,
   SelectChangeEvent,
@@ -28,6 +28,7 @@ import { IOrder, IUser } from "interfaces";
 
 export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
+  const { data: user } = useGetIdentity();
 
   const {
     refineCore: { onFinish, formLoading },
@@ -63,6 +64,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   const { autocompleteProps } = useAutocomplete<IUser>({
     resource: "users",
   });
+
   const [value, setValue] = React.useState<Dayjs | null>(dayjs());
   return (
     <Create
@@ -81,8 +83,8 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
         autoComplete="on"
       >
         <Grid container spacing={2}>
-          {/* choose route */}
           <Grid item xs={12} lg={3} spacing={2}>
+            {/* route */}
             <FormControl fullWidth>
               <FormLabel>{t("orders.steps.route")}</FormLabel>{" "}
               <Select
@@ -135,13 +137,15 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                 )}
               />
             </FormControl>
+
+            {/* date picker */}
             <FormControl fullWidth>
               <FormLabel>{t("orders.steps.date")}</FormLabel>{" "}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                   {...register("date")}
                   value={value}
-                  onChange={(newValue, register) => {
+                  onChange={(newValue) => {
                     setValue(newValue);
                   }}
                   renderInput={(props) => <TextField {...props} />}
@@ -150,19 +154,18 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
               </LocalizationProvider>
             </FormControl>
           </Grid>
+
+          {/* meta data */}
           <Box sx={{ display: "none" }}>
             <input value={currentDate()} {...register("createdAt")} />
             <input value="payment is expected" {...register("status.text")} />
 
             {/* agent */}
-            <input value="1" {...register("agent.id")} />
-            <input value="Иван Семеныч" {...register("agent.name")} />
-            <input value="+7 981 822 12 12" {...register("agent.phone")} />
-            <input value="semen@vanya.kim" {...register("agent.email")} />
-            <input
-              value="https://triviaboss.com/static/5e1c43ad54ce5fb6389ee84e27cb5a49/52f06/qfffb216d-531d-409d-a619-079834000f47_Robert-De-Niro.jpg"
-              {...register("agent.avatar")}
-            />
+            <input value={user?.id} {...register("agent.id")} />
+            <input value={user?.name} {...register("agent.name")} />
+            <input value={user?.phone} {...register("agent.phone")} />
+            <input value={user?.email} {...register("agent.email")} />
+            <input value={user?.avatar} {...register("agent.avatar")} />
           </Box>
         </Grid>{" "}
       </Box>
