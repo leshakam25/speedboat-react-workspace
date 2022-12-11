@@ -176,14 +176,7 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                     >
                       {/* // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                                     // @ts-expect-error */}
-                      {(props: TextFieldProps) => (
-                        <TextField
-                          {...props}
-                          size="small"
-                          margin="none"
-                          variant="outlined"
-                        />
-                      )}
+                      {(props: TextFieldProps) => <TextField {...props} />}
                     </InputMask>
                   </FormControl>
                   <FormControl>
