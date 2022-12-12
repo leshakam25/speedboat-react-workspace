@@ -1,11 +1,10 @@
 import React from "react";
-import axios from "axios";
+import { createdAt } from "../../components/createdAt/index.tsx";
 
 import InputMask from "react-input-mask";
 import {
   IResourceComponentsProps,
   useTranslate,
-  useApiUrl,
   HttpError,
 } from "@pankod/refine-core";
 import {
@@ -28,8 +27,6 @@ import { IUser } from "interfaces";
 export const UserCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
 
-  const apiUrl = useApiUrl();
-
   const {
     refineCore: { onFinish, formLoading },
     register,
@@ -41,22 +38,6 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
       avatar: any; // eslint-disable-line
     }
   >();
-
-  // const { options } = useSelect({
-  //   resource: "users",
-  // });
-
-  const currentDate = () => {
-    const dateNow = new Date();
-    const secondNow = dateNow.getSeconds();
-    const hourNow = dateNow.getHours();
-    const minuteNow = dateNow.getMinutes();
-    const dayNow = dateNow.getDate();
-    const monthNow = dateNow.getMonth();
-    const yearNow = dateNow.getFullYear();
-    const date = `${hourNow}:${minuteNow}:${secondNow}, ${dayNow}.${monthNow}.${yearNow}`;
-    return date;
-  };
 
   return (
     <Create
@@ -88,13 +69,8 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                   sx={{
                     display: "none",
                   }}
-                  // onChange={onChangeHandler}
                 />
-                <input
-                  id="file"
-                  // {...register("avatar")}
-                  type="hidden"
-                />
+                <input id="file" type="hidden" />
                 <Avatar
                   sx={{
                     cursor: "pointer",
@@ -209,7 +185,7 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                     />
                   </FormControl>
                   <Box sx={{ display: "none" }}>
-                    <input value={currentDate()} {...register("createdAt")} />
+                    <input value={createdAt()} {...register("createdAt")} />
                   </Box>
                 </Stack>
               </Grid>

@@ -3,6 +3,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs, { Dayjs } from "dayjs";
+import { createdAt } from "../../components/createdAt/index.tsx";
+
 import {
   IResourceComponentsProps,
   useTranslate,
@@ -47,18 +49,6 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
 
   const handleChange = (event: SelectChangeEvent) => {
     setRoute(event.target.value);
-  };
-
-  const currentDate = () => {
-    const dateNow = new Date();
-    const secondNow = dateNow.getSeconds();
-    const hourNow = dateNow.getHours();
-    const minuteNow = dateNow.getMinutes();
-    const dayNow = dateNow.getDate();
-    const monthNow = dateNow.getMonth();
-    const yearNow = dateNow.getFullYear();
-    const date = `${hourNow}:${minuteNow}:${secondNow}, ${dayNow}.${monthNow}.${yearNow}`;
-    return date;
   };
 
   const { autocompleteProps } = useAutocomplete<IUser>({
@@ -157,7 +147,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
 
           {/* meta data */}
           <Box sx={{ display: "none" }}>
-            <input value={currentDate()} {...register("createdAt")} />
+            <input value={createdAt()} {...register("createdAt")} />
             <input value="payment is expected" {...register("status.text")} />
 
             {/* agent */}

@@ -1,20 +1,17 @@
 import React from "react";
-import axios from "axios";
-
+import { createdAt } from "../../components/createdAt/index.tsx";
 import InputMask from "react-input-mask";
 import {
   IResourceComponentsProps,
   useTranslate,
   useApiUrl,
   HttpError,
-  useSelect,
 } from "@pankod/refine-core";
 import {
   Avatar,
   Create,
   Box,
   FormControl,
-  FormHelperText,
   FormLabel,
   Grid,
   SaveButton,
@@ -47,15 +44,6 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
   // const { options } = useSelect({
   //   resource: "users",
   // });
-
-  const dateNow = new Date();
-  const secondNow = dateNow.getSeconds();
-  const hourNow = dateNow.getHours();
-  const minuteNow = dateNow.getMinutes();
-  const dayNow = dateNow.getDate();
-  const monthNow = dateNow.getMonth();
-  const yearNow = dateNow.getFullYear();
-  const currentDate = `${hourNow}:${minuteNow}:${secondNow}, ${dayNow}.${monthNow}.${yearNow}`;
 
   return (
     <Create
@@ -209,7 +197,7 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
                     />
                   </FormControl>
                   <Box sx={{ display: "none" }}>
-                    <input value={currentDate} {...register("createdAt")} />
+                    <input value={createdAt()} {...register("createdAt")} />
                   </Box>
                 </Stack>
               </Grid>
