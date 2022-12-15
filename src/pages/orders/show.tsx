@@ -150,7 +150,7 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               </Box>
             </Stack>
             <Stack
-              direction="row"
+              direction="column"
               gap={2}
               padding={1}
               flexWrap="wrap"
@@ -184,9 +184,9 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               variant="rounded"
             />
             <Stack
-              direction={isSmallOrLess ? "column" : "row"}
-              alignItems={isSmallOrLess ? "center" : "flex-start"}
-              textAlign={isSmallOrLess ? "center" : "left"}
+              direction="column"
+              alignItems="center"
+              textAlign="center"
               gap={2}
             >
               <Box>
@@ -195,7 +195,7 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               </Box>
             </Stack>
             <Stack
-              direction="row"
+              direction="column"
               gap={2}
               padding={1}
               flexWrap="wrap"

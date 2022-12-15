@@ -17,7 +17,7 @@ export const InfoBox: React.FC<CourierInfoBoxProps> = ({
       display="flex"
       alignItems="center"
       sx={{
-        minWidth: "260px",
+        minWidth: "240px",
         borderRadius: "8px",
         color: "white",
         padding: "10px 12px",
