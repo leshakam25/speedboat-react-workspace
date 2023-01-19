@@ -61,6 +61,7 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
         field: "queue",
         headerName: "Очередь",
         minWidth: 40,
+        align: "center",
       },
       {
         field: "name",

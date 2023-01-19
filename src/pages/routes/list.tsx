@@ -58,46 +58,46 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
   const columns = React.useMemo<GridColumns<IUser>>(
     () => [
       {
-        field: "avatar",
-        headerName: t("users.fields.avatar.label"),
-        renderCell: function render({ row }) {
-          return (
-            <Avatar
-              variant="rounded"
-              sx={{ width: 70, height: 70 }}
-              src={row.avatar}
-            />
-          );
-        },
+        field: "id",
+        headerName: "Номер ",
+        width: 80,
+      },
+      {
+        field: "name",
+        headerName: "Имя ",
+        width: 80,
+      },
+      {
+        field: "length",
+        headerName: "Длина",
+        width: 80,
+      },
+      {
+        field: "cost",
+        headerName: "Стоимость",
         width: 100,
       },
       {
-        field: "phone",
-        headerName: t("users.fields.phone"),
-        minWidth: 140,
-      },
-
-      {
-        field: "name",
-        headerName: t("users.fields.name"),
-        minWidth: 140,
+        field: "desc",
+        headerName: "Описание",
+        width: 92,
       },
       {
-        field: "email",
-        headerName: t("users.fields.email"),
-        minWidth: 180,
+        field: "isActive",
+        headerName: "Активность",
+        width: 110,
       },
-
       {
-        field: "createdAt",
-        headerName: t("users.fields.createdAt"),
-        minWidth: 140,
+        field: "images",
+        headerName: "Изображения",
+        width: 120,
       },
       {
         field: "actions",
         type: "actions",
         headerName: "#",
-        minWidth: 10,
+        width: 40,
+
         sortable: false,
         getActions: ({ row }) => [
           <GridActionsCellItem
