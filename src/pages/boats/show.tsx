@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Avatar,
-  Grid,
-  GridColumns,
-  Show,
-  Stack,
-  Typography,
-  useDataGrid,
-} from "@pankod/refine-mui";
+import { Grid, Show, Stack, useDataGrid } from "@pankod/refine-mui";
 import {
   HttpError,
   IResourceComponentsProps,
@@ -17,8 +9,9 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import { IUser, IUserFilterVariables } from "interfaces";
+import { IBoat, IUserFilterVariables } from "interfaces";
 import { InfoBox } from "components";
+import { IsActive } from "components/isActive";
 
 const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -39,94 +32,68 @@ const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
 export const BoatShow: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
 
-  const { queryResult } = useShow<IUser>();
-  const user = queryResult.data?.data;
-
-  const { dataGridProps } = useDataGrid<IUser, HttpError, IUserFilterVariables>(
-    {
-      resource: "users",
-      initialSorter: [
-        {
-          field: "createdAt",
-          order: "desc",
-        },
-      ],
-      permanentFilter: [
-        {
-          field: "user.id",
-          operator: "eq",
-          value: user?.id,
-        },
-      ],
-      initialPageSize: 4,
-      queryOptions: {
-        enabled: user !== undefined,
-      },
-      syncWithLocation: false,
-    }
-  );
-
-  const columns = React.useMemo<GridColumns<IUser>>(
-    () => [
-      {
-        field: "orderNumber",
-        headerName: t("orders.fields.orderNumber"),
-        width: 100,
-      },
-
-      {
-        field: "route",
-        headerName: t("orders.fields.route"),
-        sortable: false,
-        width: 150,
-      },
-      {
-        field: "status",
-        headerName: t("orders.fields.status"),
-        sortable: false,
-        width: 150,
-      },
-      {
-        field: "createdAt",
-        headerName: t("orders.fields.createdAt"),
-      },
-    ],
-    [t]
-  );
+  const { queryResult } = useShow<IBoat>();
+  const boat = queryResult.data?.data;
 
   return (
-    <Show>
-      <Grid container spacing={2}>
+    <Show resource="boats">
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <Grid item xs={12} lg={3}>
-          <Stack alignItems="center">
-            <Avatar
-              variant="rounded"
-              src={user?.avatar}
-              sx={{ width: 240, height: 240 }}
-            />
-            <Typography variant="h5">{user?.name}</Typography>
-          </Stack>
-          <br />
           <Stack alignItems="center" spacing={1}>
             <UserInfoText>
               <InfoBox
-                icon={<LocalPhoneOutlinedIcon />}
-                text={t("orders.fields.phone")}
-                value={user?.phone}
+                // icon={<LocalPhoneOutlinedIcon />}
+                text="Имя лодки"
+                value={boat?.name}
               />
             </UserInfoText>
             <UserInfoText>
               <InfoBox
-                icon={<EmailIcon />}
-                text={t("orders.fields.email")}
-                value={user?.email}
+                // icon={<EmailIcon />}
+                text="Вместимость"
+                value={boat?.capacity}
               />
             </UserInfoText>
             <UserInfoText>
               <InfoBox
-                icon={<DateRangeOutlinedIcon />}
-                text={t("orders.fields.createdAt")}
-                value={user?.createdAt}
+                // icon={<DateRangeOutlinedIcon />}
+                text="Очередь"
+                value={boat?.queue}
+              />
+            </UserInfoText>
+          </Stack>
+        </Grid>{" "}
+        <Grid item xs={12} lg={3}>
+          <Stack alignItems="center" spacing={1}>
+            <UserInfoText>
+              <InfoBox
+                // icon={<LocalPhoneOutlinedIcon />}
+                text="Статус "
+                value={boat?.status}
+              />
+            </UserInfoText>
+            <UserInfoText>
+              {/* <IsActive status={boat?.isActive} /> */}
+            </UserInfoText>
+            <UserInfoText>
+              <InfoBox
+                // icon={<LocalPhoneOutlinedIcon />}
+                text="Создана "
+                value={boat?.createdAt}
+              />
+            </UserInfoText>
+            <UserInfoText>
+              <IsActive
+                // icon={<LocalPhoneOutlinedIcon />}
+                text="Активна"
+                value={boat?.isActive}
               />
             </UserInfoText>
           </Stack>

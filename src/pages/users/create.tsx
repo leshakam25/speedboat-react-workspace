@@ -159,18 +159,7 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
                       {t("orders.fields.email")}
                     </FormLabel>
                     <TextField
-                      {...register(
-                        "email"
-                        // , {
-                        //   required: t("errors.required.field", {
-                        //     field: "Email",
-                        //   }),
-                        //   pattern: {
-                        //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        //     message: t("errors.required.invalidMail"),
-                        //   },
-                        // }
-                      )}
+                      {...register("email")}
                       size="small"
                       margin="none"
                       variant="outlined"

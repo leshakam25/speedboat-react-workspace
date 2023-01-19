@@ -5,9 +5,19 @@ import {
   useApiUrl,
   HttpError,
 } from "@pankod/refine-core";
-import { Edit, Box, Grid, SaveButton } from "@pankod/refine-mui";
+import {
+  Edit,
+  Box,
+  Grid,
+  SaveButton,
+  FormControl,
+  FormLabel,
+  Stack,
+  TextField,
+} from "@pankod/refine-mui";
 import { useForm } from "@pankod/refine-react-hook-form";
-import { IUser } from "interfaces";
+import { IBoat } from "interfaces";
+import createdAt from "components/createdAt/index.tsx";
 
 export const BoatEdit: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
@@ -20,7 +30,7 @@ export const BoatEdit: React.FC<IResourceComponentsProps> = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<
-    IUser,
+    IBoat,
     HttpError & {
       avatar: any; // eslint-disable-line
     }
@@ -47,7 +57,113 @@ export const BoatEdit: React.FC<IResourceComponentsProps> = () => {
             marginX: { xs: "0px" },
           }}
         >
-          <Grid item xs={12} md={8}></Grid>
+          <Grid item paddingX={4} xs={12} md={6}>
+            <Stack gap="24px">
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    marginBottom: "8px",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                    color: "text.primary",
+                  }}
+                >
+                  Имя лодки
+                </FormLabel>
+                <TextField
+                  {...register(
+                    "name"
+                    // , { required: true }
+                  )}
+                  size="small"
+                  margin="none"
+                  variant="outlined"
+                />
+              </FormControl>{" "}
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    marginBottom: "8px",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                    color: "text.primary",
+                  }}
+                >
+                  Вместимость лодки{" "}
+                </FormLabel>
+                <TextField
+                  {...register("capacity")}
+                  size="small"
+                  margin="none"
+                  variant="outlined"
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    marginBottom: "8px",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                    color: "text.primary",
+                  }}
+                >
+                  Очередность лодки
+                </FormLabel>
+                <TextField
+                  {...register("queue")}
+                  size="small"
+                  margin="none"
+                  variant="outlined"
+                />
+              </FormControl>
+              <Box sx={{ display: "none" }}>
+                <input value={createdAt()} {...register("createdAt")} />
+              </Box>
+            </Stack>
+          </Grid>{" "}
+          <Grid item paddingX={4} xs={12} md={6}>
+            <Stack gap="24px">
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    marginBottom: "8px",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                    color: "text.primary",
+                  }}
+                >
+                  Статус лодки
+                </FormLabel>
+                <TextField
+                  {...register("status")}
+                  size="small"
+                  margin="none"
+                  variant="outlined"
+                />
+              </FormControl>{" "}
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    marginBottom: "8px",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                    color: "text.primary",
+                  }}
+                >
+                  Активность{" "}
+                </FormLabel>
+                <TextField
+                  {...register("isActive")}
+                  size="small"
+                  margin="none"
+                  variant="outlined"
+                />
+              </FormControl>
+              <Box sx={{ display: "none" }}>
+                <input value={createdAt()} {...register("createdAt")} />
+              </Box>
+            </Stack>
+          </Grid>
         </Grid>
       </Box>
     </Edit>

@@ -16,7 +16,16 @@ export interface IUser {
     createdAt: string;
     orders: IOrder;
     avatar:string;
+}
 
+export interface IBoat {  
+    id: number,
+    name: string,
+    capacity: string,
+    queue: string,
+    status: string,
+    isActive: boolean,
+    createdAt:string
 }
 
 export interface IAgent {

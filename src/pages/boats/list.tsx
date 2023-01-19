@@ -28,7 +28,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "@pankod/refine-react-hook-form";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { IUser, IUserFilterVariables } from "interfaces";
+import { IBoat, IUserFilterVariables } from "interfaces";
 
 export const BoatList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
@@ -36,7 +36,7 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
   const { edit, show } = useNavigation();
 
   const { dataGridProps, search, filters } = useDataGrid<
-    IUser,
+    IBoat,
     HttpError,
     IUserFilterVariables
   >({
@@ -55,48 +55,44 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
     },
   });
 
-  const columns = React.useMemo<GridColumns<IUser>>(
+  const columns = React.useMemo<GridColumns<IBoat>>(
     () => [
       {
-        field: "avatar",
-        headerName: t("users.fields.avatar.label"),
-        renderCell: function render({ row }) {
-          return (
-            <Avatar
-              variant="rounded"
-              sx={{ width: 70, height: 70 }}
-              src={row.avatar}
-            />
-          );
-        },
-        width: 100,
+        field: "queue",
+        headerName: "Очередь",
+        minWidth: 40,
       },
-      {
-        field: "phone",
-        headerName: t("users.fields.phone"),
-        minWidth: 140,
-      },
-
       {
         field: "name",
-        headerName: t("users.fields.name"),
+        headerName: "Имя лодки",
         minWidth: 140,
-      },
-      {
-        field: "email",
-        headerName: t("users.fields.email"),
-        minWidth: 180,
       },
 
       {
+        field: "capacity",
+        headerName: "Вместимость",
+        minWidth: 120,
+      },
+
+      {
+        field: "status",
+        headerName: "Статус",
+        minWidth: 80,
+      },
+      {
+        field: "isActive",
+        headerName: "Активность",
+        minWidth: 40,
+      },
+      {
         field: "createdAt",
-        headerName: t("users.fields.createdAt"),
+        headerName: "Создан",
         minWidth: 140,
       },
       {
         field: "actions",
         type: "actions",
-        headerName: "#",
+        headerName: "Действия",
         minWidth: 10,
         sortable: false,
         getActions: ({ row }) => [
@@ -106,7 +102,7 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
             sx={{ padding: "2px 6px" }}
             label={t("buttons.edit")}
             showInMenu
-            onClick={() => edit("users", row.id)}
+            onClick={() => edit("boats", row.id)}
           />,
           <GridActionsCellItem
             key={2}
@@ -116,7 +112,7 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
             showInMenu
             onClick={() => {
               mutateDelete({
-                resource: "users",
+                resource: "boats",
                 id: row.id,
                 mutationMode: "undoable",
               });
@@ -129,7 +125,7 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
   );
 
   const { register, handleSubmit } = useForm<
-    IUser,
+    IBoat,
     HttpError,
     IUserFilterVariables
   >({
@@ -153,7 +149,7 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
               <TextField
                 {...register("q")}
                 label={t("users.filter.search.label")}
-                placeholder={t("users.filter.search.placeholder")}
+                placeholder="Поиск по лодкам"
                 margin="normal"
                 fullWidth
                 autoFocus
@@ -168,7 +164,7 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
               />
               <br />
               <Button type="submit" variant="contained">
-                {t("orders.filter.submit")}
+                Поиск
               </Button>
             </Box>
           </CardContent>
@@ -183,7 +179,7 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
             autoHeight
             rowHeight={80}
             onRowClick={({ id }) => {
-              show("users", id);
+              show("boats", id);
             }}
             rowsPerPageOptions={[10, 20, 50, 100]}
             sx={{

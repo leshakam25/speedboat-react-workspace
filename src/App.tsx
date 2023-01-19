@@ -29,7 +29,6 @@ import { AgentList, AgentShow, AgentCreate, AgentEdit } from "pages/agents";
 import { BoatList, BoatShow, BoatCreate, BoatEdit } from "pages/boats";
 import { NewsList, NewsShow, NewsCreate, NewsEdit } from "pages/news";
 import { RouteList, RouteShow, RouteCreate, RouteEdit } from "pages/routes";
-
 import { AuthPage } from "pages/auth";
 import { ColorModeContextProvider } from "contexts";
 import { Header, Title } from "components";
