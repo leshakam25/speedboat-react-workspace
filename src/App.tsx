@@ -85,7 +85,7 @@ const App: React.FC = () => {
                 },
               ],
             }}
-            dataProvider={dataProvider("http://localhost:3100")}
+            dataProvider={dataProvider("http://62.217.182.92/")}
             authProvider={authProvider}
             i18nProvider={i18nProvider}
             DashboardPage={DashboardPage}
