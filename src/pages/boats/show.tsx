@@ -1,5 +1,13 @@
 import React from "react";
-import { Grid, Show, Stack, useDataGrid } from "@pankod/refine-mui";
+import {
+  Button,
+  CardMedia,
+  Grid,
+  Show,
+  Stack,
+  Typography,
+  useDataGrid,
+} from "@pankod/refine-mui";
 import {
   HttpError,
   IResourceComponentsProps,
@@ -45,58 +53,29 @@ export const BoatShow: React.FC<IResourceComponentsProps> = () => {
           justifyContent: "center",
         }}
       >
-        <Grid item xs={12} lg={3}>
+        <Grid item xs={12} lg={6}>
           <Stack alignItems="center" spacing={1}>
-            <UserInfoText>
-              <InfoBox
-                // icon={<LocalPhoneOutlinedIcon />}
-                text="Имя лодки"
-                value={boat?.name}
-              />
-            </UserInfoText>
-            <UserInfoText>
-              <InfoBox
-                // icon={<EmailIcon />}
-                text="Вместимость"
-                value={boat?.capacity}
-              />
-            </UserInfoText>
-            <UserInfoText>
-              <InfoBox
-                // icon={<DateRangeOutlinedIcon />}
-                text="Очередь"
-                value={boat?.queue}
-              />
-            </UserInfoText>
+            <CardMedia
+              sx={{ maxHeight: "400px", width: "auto" }}
+              component="img"
+              src={boat?.image}
+            />
           </Stack>
-        </Grid>{" "}
-        <Grid item xs={12} lg={3}>
-          <Stack alignItems="center" spacing={1}>
-            <UserInfoText>
-              <InfoBox
-                // icon={<LocalPhoneOutlinedIcon />}
-                text="Статус "
-                value={boat?.status}
-              />
-            </UserInfoText>
-            <UserInfoText>
-              {/* <IsActive status={boat?.isActive} /> */}
-            </UserInfoText>
-            <UserInfoText>
-              <InfoBox
-                // icon={<LocalPhoneOutlinedIcon />}
-                text="Создана "
-                value={boat?.createdAt}
-              />
-            </UserInfoText>
-            <UserInfoText>
-              <IsActive
-                // icon={<LocalPhoneOutlinedIcon />}
-                text="Активна"
-                value={boat?.isActive}
-              />
-            </UserInfoText>
-          </Stack>
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <Typography variant="h4" textAlign="left" lineHeight="200%">
+            Название лодки: "{boat?.name}"
+          </Typography>
+          <Typography variant="h6" textAlign="left" lineHeight="200%">
+            Вместимость лодки: {boat?.capacity}
+          </Typography>
+          <Typography variant="h6" textAlign="left" lineHeight="200%">
+            Активность лодки: {boat?.isActive}
+          </Typography>
+          <Typography variant="h6" textAlign="left" lineHeight="200%">
+            Создана: {boat?.createdAt}
+          </Typography>
+          <Button variant="outlined">Заказы</Button>
         </Grid>
       </Grid>
     </Show>

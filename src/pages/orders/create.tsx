@@ -26,7 +26,7 @@ import {
   FormLabel,
 } from "@pankod/refine-mui";
 import { Controller, useForm } from "@pankod/refine-react-hook-form";
-import { IOrder, IUser } from "interfaces";
+import { IBoat, IOrder, IUser } from "interfaces";
 
 export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
@@ -92,7 +92,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
               </Select>
             </FormControl>
             <FormControl fullWidth>
-              <FormLabel> {t("orders.steps.user")}</FormLabel>{" "}
+              <FormLabel> Выберите пользователя</FormLabel>
               <Controller
                 control={control}
                 name="user"
@@ -127,8 +127,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                   />
                 )}
               />
-            </FormControl>
-
+            </FormControl>{" "}
             {/* date picker */}
             <FormControl fullWidth>
               <FormLabel>{t("orders.steps.date")}</FormLabel>{" "}
@@ -143,6 +142,43 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                   ampm={false}
                 />
               </LocalizationProvider>
+            </FormControl>{" "}
+            <FormControl fullWidth>
+              <FormLabel> Выберите лодку</FormLabel>
+              <Controller
+                control={control}
+                name="boat"
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <Autocomplete
+                    {...autocompleteProps}
+                    {...field}
+                    onChange={(_, value) => {
+                      field.onChange(value);
+                    }}
+                    getOptionLabel={(item) => {
+                      return (
+                        autocompleteProps?.options?.find(
+                          (p) => p?.id?.toString() === item?.id?.toString()
+                        )?.name ?? ""
+                      );
+                    }}
+                    isOptionEqualToValue={(option, value) =>
+                      value === undefined ||
+                      option.id.toString() === value.toString()
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        error={!!errors.users}
+                        // helperText={errors.users?.message}
+                        required
+                      />
+                    )}
+                  />
+                )}
+              />
             </FormControl>
           </Grid>
 
@@ -154,9 +190,6 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
             {/* agent */}
             <input value={user?.id} {...register("agent.id")} />
             <input value={user?.name} {...register("agent.name")} />
-            <input value={user?.phone} {...register("agent.phone")} />
-            <input value={user?.email} {...register("agent.email")} />
-            <input value={user?.avatar} {...register("agent.avatar")} />
           </Box>
         </Grid>{" "}
       </Box>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   IResourceComponentsProps,
   useNavigation,
@@ -39,6 +39,9 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
   const theme = useTheme();
 
   const isSmallOrLess = useMediaQuery(theme.breakpoints.down("sm"));
+  useEffect(() => {
+    console.log(record);
+  }, [record]);
 
   return (
     <Show>
@@ -115,6 +118,18 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
               >
                 <Typography variant="body1">Создан: </Typography>
                 {record?.createdAt}
+              </Box>{" "}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  my: 1,
+                }}
+              >
+                <Typography variant="body1">Лодка: </Typography>
+                {record?.boat.name}
               </Box>
             </CardContent>
           </Card>

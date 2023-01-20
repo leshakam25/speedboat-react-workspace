@@ -14,7 +14,6 @@ export interface IUser {
     phone: string;
     email?: string;
     createdAt: string;
-    orders: IOrder;
     avatar:string;
 }
 
@@ -22,10 +21,9 @@ export interface IBoat {
     id: number,
     name: string,
     capacity: string,
-    queue: string,
-    status: string,
     isActive: boolean,
     createdAt:string
+    image?:string
 }
 
 export interface IAgent {
@@ -34,16 +32,24 @@ export interface IAgent {
     phone: string;
     email?: string;
     createdAt: string;
-    orders: IOrder;
     avatar:string;
 }
 
+export interface INews {
+    id:number;
+    image?:string;
+    title:string;
+    text:string;
+    createdAt: string;
+    author:number;
+}
 
 
 export interface IOrder {
     id: number;
     user: IUser;
     route: IRouteName;
+    boat: IBoat;
     status: IOrderStatus;
     agent: IAgent;
     date: string;

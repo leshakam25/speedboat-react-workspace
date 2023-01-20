@@ -28,7 +28,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "@pankod/refine-react-hook-form";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { IUser, IUserFilterVariables } from "interfaces";
+import { INews, IUserFilterVariables } from "interfaces";
 
 export const NewsList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
@@ -36,7 +36,7 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
   const { edit, show } = useNavigation();
 
   const { dataGridProps, search, filters } = useDataGrid<
-    IUser,
+    INews,
     HttpError,
     IUserFilterVariables
   >({
@@ -55,49 +55,49 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
     },
   });
 
-  const columns = React.useMemo<GridColumns<IUser>>(
+  const columns = React.useMemo<GridColumns<INews>>(
     () => [
       {
-        field: "avatar",
-        headerName: t("users.fields.avatar.label"),
+        field: "image",
+        headerName: "Изображение",
         renderCell: function render({ row }) {
           return (
             <Avatar
               variant="rounded"
-              sx={{ width: 70, height: 70 }}
-              src={row.avatar}
+              sx={{ width: 120, height: 120 }}
+              src={row.image}
             />
           );
         },
-        width: 100,
+        minWidth: 130,
       },
       {
-        field: "phone",
-        headerName: t("users.fields.phone"),
-        minWidth: 140,
+        field: "title",
+        headerName: "Заголовок",
+        minWidth: 200,
       },
+      {
+        field: "text",
+        headerName: "Текст",
 
-      {
-        field: "name",
-        headerName: t("users.fields.name"),
-        minWidth: 140,
+        minWidth: 300,
       },
       {
-        field: "email",
-        headerName: t("users.fields.email"),
+        field: "createdAt",
+        headerName: "Создано",
+        minWidth: 160,
+      },
+      {
+        field: "author",
+        headerName: "Автор",
         minWidth: 180,
       },
 
       {
-        field: "createdAt",
-        headerName: t("users.fields.createdAt"),
-        minWidth: 140,
-      },
-      {
         field: "actions",
         type: "actions",
         headerName: "#",
-        minWidth: 10,
+        width: 40,
         sortable: false,
         getActions: ({ row }) => [
           <GridActionsCellItem
@@ -106,7 +106,7 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
             sx={{ padding: "2px 6px" }}
             label={t("buttons.edit")}
             showInMenu
-            onClick={() => edit("users", row.id)}
+            onClick={() => edit("news", row.id)}
           />,
           <GridActionsCellItem
             key={2}
@@ -116,7 +116,7 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
             showInMenu
             onClick={() => {
               mutateDelete({
-                resource: "users",
+                resource: "news",
                 id: row.id,
                 mutationMode: "undoable",
               });
@@ -129,7 +129,7 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
   );
 
   const { register, handleSubmit } = useForm<
-    IUser,
+    INews,
     HttpError,
     IUserFilterVariables
   >({
@@ -140,6 +140,41 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Grid container spacing={2}>
+      {" "}
+      <Grid item xs={12} lg={3}>
+        <Card sx={{ paddingX: { xs: 2, md: 0 } }}>
+          <CardHeader title="Поиск" />
+          <CardContent sx={{ pt: 0 }}>
+            <Box
+              component="form"
+              sx={{ display: "flex", flexDirection: "column" }}
+              autoComplete="off"
+              onSubmit={handleSubmit(search)}
+            >
+              <TextField
+                {...register("q")}
+                label={t("users.filter.search.label")}
+                placeholder="Поиск новостей"
+                margin="normal"
+                fullWidth
+                autoFocus
+                size="small"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchOutlinedIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <br />
+              <Button type="submit" variant="contained">
+                Поиск
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
       <Grid item xs={12} lg={9}>
         <List cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}>
           <DataGrid
@@ -147,9 +182,9 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
             columns={columns}
             filterModel={undefined}
             autoHeight
-            rowHeight={80}
+            rowHeight={130}
             onRowClick={({ id }) => {
-              show("users", id);
+              show("news", id);
             }}
             rowsPerPageOptions={[10, 20, 50, 100]}
             sx={{

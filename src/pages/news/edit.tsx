@@ -5,7 +5,16 @@ import {
   useApiUrl,
   HttpError,
 } from "@pankod/refine-core";
-import { Edit, Box, Grid, SaveButton } from "@pankod/refine-mui";
+import {
+  Edit,
+  Box,
+  Grid,
+  SaveButton,
+  Stack,
+  FormControl,
+  FormLabel,
+  TextField,
+} from "@pankod/refine-mui";
 import { useForm } from "@pankod/refine-react-hook-form";
 import { IUser } from "interfaces";
 
@@ -31,7 +40,7 @@ export const NewsEdit: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Edit
-      resource="users"
+      resource="news"
       isLoading={formLoading}
       actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
     >
@@ -48,10 +57,88 @@ export const NewsEdit: React.FC<IResourceComponentsProps> = () => {
           container
           sx={{
             marginX: { xs: "0px" },
+            display: "flex",
+            flexFlow: "row wrap",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          {/* avatar */}
-          <Grid item xs={12} md={4}></Grid>
+          <Grid item xs={12} md={5.9}>
+            <Stack gap="24px">
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    marginBottom: "8px",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                    color: "text.primary",
+                  }}
+                >
+                  Заголовок{" "}
+                </FormLabel>
+                <TextField
+                  {...register(
+                    "title"
+                    // , { required: true }
+                  )}
+                  size="small"
+                  margin="none"
+                  variant="outlined"
+                />
+              </FormControl>{" "}
+            </Stack>
+          </Grid>{" "}
+          <Grid item xs={12} md={5.9}>
+            <Stack gap="24px">
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    marginBottom: "8px",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                    color: "text.primary",
+                  }}
+                >
+                  Добавьте изображение
+                </FormLabel>
+                <TextField
+                  {...register(
+                    "image"
+                    // , { required: true }
+                  )}
+                  size="small"
+                  margin="none"
+                  variant="outlined"
+                />
+              </FormControl>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <FormControl sx={{ width: "100%" }}>
+              <FormLabel
+                sx={{
+                  marginBottom: "8px",
+                  fontWeight: "700",
+                  fontSize: "14px",
+                  color: "text.primary",
+                }}
+              >
+                Введите текст
+              </FormLabel>
+              <TextField
+                {...register(
+                  "text"
+                  // , { required: true }
+                )}
+                fullWidth
+                multiline
+                rows={4}
+                size="small"
+                margin="none"
+                variant="outlined"
+              />
+            </FormControl>
+          </Grid>
         </Grid>
       </Box>
     </Edit>

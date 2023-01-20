@@ -1,9 +1,12 @@
 import React from "react";
 import {
+  Box,
+  CardMedia,
   Grid,
   GridColumns,
   Show,
   Stack,
+  Typography,
   useDataGrid,
 } from "@pankod/refine-mui";
 import {
@@ -12,7 +15,8 @@ import {
   useShow,
   useTranslate,
 } from "@pankod/refine-core";
-import { IUser, IUserFilterVariables } from "interfaces";
+import { INews, IUser, IUserFilterVariables } from "interfaces";
+import { InfoBox } from "components";
 
 const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -33,80 +37,57 @@ const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
 export const NewsShow: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
 
-  const { queryResult } = useShow<IUser>();
-  const user = queryResult.data?.data;
-
-  const { dataGridProps } = useDataGrid<IUser, HttpError, IUserFilterVariables>(
-    {
-      resource: "users",
-      initialSorter: [
-        {
-          field: "createdAt",
-          order: "desc",
-        },
-      ],
-      permanentFilter: [
-        {
-          field: "user.id",
-          operator: "eq",
-          value: user?.id,
-        },
-      ],
-      initialPageSize: 4,
-      queryOptions: {
-        enabled: user !== undefined,
-      },
-      syncWithLocation: false,
-    }
-  );
-
-  const columns = React.useMemo<GridColumns<IUser>>(
-    () => [
-      {
-        field: "orderNumber",
-        headerName: t("orders.fields.orderNumber"),
-        width: 100,
-      },
-
-      {
-        field: "route",
-        headerName: t("orders.fields.route"),
-        sortable: false,
-        width: 150,
-      },
-      {
-        field: "status",
-        headerName: t("orders.fields.status"),
-        sortable: false,
-        width: 150,
-      },
-      {
-        field: "createdAt",
-        headerName: t("orders.fields.createdAt"),
-      },
-    ],
-    [t]
-  );
+  const { queryResult } = useShow<INews>();
+  const news = queryResult.data?.data;
 
   return (
-    <Show>
+    <Show resource="news">
       <Grid container spacing={2}>
-        <Grid item xs={12} lg={3}></Grid>
-        {/* <Grid item xs={12} lg={4}>
-          <Stack direction="column" spacing={2}>
-            <List
-              cardHeaderProps={{ title: t("orders.orders") }}
-              cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
-            >
-              <DataGrid
-                {...dataGridProps}
-                columns={columns}
-                autoHeight
-                rowsPerPageOptions={[4, 10, 20, 100]}
-              />
-            </List>
-          </Stack>
-        </Grid> */}
+        <Grid
+          item
+          xs={12}
+          lg={7}
+          sx={{
+            maxHeight: 400,
+            width: "auto",
+            m: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography variant="h3" textAlign="left" lineHeight="140%">
+            {news?.title}
+          </Typography>
+          <Box>
+            <Typography variant="body1" textAlign="right" lineHeight="200%">
+              {news?.createdAt}
+            </Typography>
+            <Typography variant="body2" textAlign="right" lineHeight="200%">
+              {news?.author}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} lg={5}>
+          <CardMedia
+            component="img"
+            src={news?.image}
+            sx={{ maxHeight: 400, width: "auto", m: "0 auto" }}
+          />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          lg={12}
+          sx={{
+            m: "0 auto",
+          }}
+        >
+          {" "}
+          <Typography variant="body2" textAlign="justify" lineHeight="200%">
+            {news?.text}
+          </Typography>
+        </Grid>
       </Grid>
     </Show>
   );

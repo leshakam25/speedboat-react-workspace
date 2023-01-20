@@ -76,12 +76,12 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     () => [
       {
         field: "id",
-        headerName: t("orders.fields.orderNumber"),
+        headerName: "№",
         description: t("orders.fields.orderNumber"),
         headerAlign: "center",
         align: "center",
         flex: 1,
-        minWidth: 100,
+        width: 16,
       },
       {
         field: "status.text",
@@ -106,6 +106,15 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         minWidth: 180,
       },
       {
+        field: "boat",
+        headerName: "Лодка",
+        valueGetter: ({ row }) => row.boat.name,
+        headerAlign: "center",
+        align: "center",
+        flex: 1,
+        minWidth: 150,
+      },
+      {
         field: "date",
         headerName: t("orders.fields.date"),
         headerAlign: "center",
@@ -115,20 +124,19 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
       },
       {
         field: "user",
-        headerName: t("orders.fields.user"),
+        headerName: "Пользователь",
         valueGetter: ({ row }) => row.user.name,
         flex: 1,
         minWidth: 200,
         sortable: false,
       },
       {
-        field: "user.phone",
-        headerName: t("orders.fields.phone"),
-        headerAlign: "center",
-        align: "center",
-        valueGetter: ({ row }) => row.user.phone,
+        field: "agent",
+        headerName: "Агент",
+        valueGetter: ({ row }) => row.agent.name,
         flex: 1,
-        minWidth: 150,
+        minWidth: 200,
+        sortable: false,
       },
 
       {
@@ -205,14 +213,20 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
   return (
     <Grid container spacing={2}>
       {/* FILTER */}
-      <Grid item xs={12} lg={3}>
+      <Grid item xs={12} lg={12}>
         {" "}
         <Card sx={{ paddingX: { xs: 2, md: 0 } }}>
           <CardHeader title={t("orders.filter.title")} />
           <CardContent sx={{ pt: 0 }}>
             <Box
               component="form"
-              sx={{ display: "flex", flexDirection: "column" }}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                wrap: "wrap",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
               autoComplete="off"
               onSubmit={handleSubmit(search)}
             >
@@ -221,15 +235,19 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                 label={t("orders.filter.search.label")}
                 placeholder={t("orders.filter.search.placeholder")}
                 margin="normal"
-                fullWidth
                 autoFocus
                 size="small"
+                fullWidth
               />
               <Controller
                 control={control}
                 name="status"
                 render={({ field }) => (
-                  <FormControl margin="normal" size="small">
+                  <FormControl
+                    margin="normal"
+                    size="small"
+                    sx={{ width: "100%" }}
+                  >
                     <InputLabel id="status-select">
                       {t("orders.fields.status")}
                     </InputLabel>
@@ -261,7 +279,11 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                 control={control}
                 name="route"
                 render={({ field }) => (
-                  <FormControl margin="normal" size="small">
+                  <FormControl
+                    margin="normal"
+                    size="small"
+                    sx={{ width: "100%" }}
+                  >
                     <InputLabel id="route-select">
                       {t("orders.fields.route")}
                     </InputLabel>
@@ -288,14 +310,14 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
               />
               <br />
               <Button type="submit" variant="contained">
-                {t("orders.filter.submit")}
+                Поиск
               </Button>
             </Box>
           </CardContent>
         </Card>
       </Grid>
       {/* TABLE */}
-      <Grid item xs={12} lg={9}>
+      <Grid item xs={12} lg={12}>
         <List
           wrapperProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
           headerProps={{

@@ -58,12 +58,6 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
   const columns = React.useMemo<GridColumns<IBoat>>(
     () => [
       {
-        field: "queue",
-        headerName: "Очередь",
-        minWidth: 40,
-        align: "center",
-      },
-      {
         field: "name",
         headerName: "Имя лодки",
         minWidth: 140,
@@ -73,12 +67,6 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
         field: "capacity",
         headerName: "Вместимость",
         minWidth: 120,
-      },
-
-      {
-        field: "status",
-        headerName: "Статус",
-        minWidth: 80,
       },
       {
         field: "isActive",

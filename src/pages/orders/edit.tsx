@@ -57,10 +57,10 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs("2022-04-07"));
   return (
     <Edit
+      resource="orders"
       isLoading={formLoading}
       actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
     >
-      {" "}
       <Box
         onSubmit={handleSubmit(onFinish)}
         component="form"
@@ -71,16 +71,16 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
         autoComplete="on"
       >
         <Grid container spacing={2}>
-          <Grid item xs={12} lg={3} spacing={0}>
-            {/* choose route */}
+          <Grid item xs={12} lg={3} spacing={2}>
+            {/* route */}
             <FormControl fullWidth>
-              <FormLabel> {t("orders.fields.chooseRoute")}</FormLabel>
+              <FormLabel>{t("orders.steps.route")}</FormLabel>{" "}
               <Select
+                fullWidth
                 {...register("route.route")}
                 labelId="demo-select-small"
                 id="demo-select-small"
                 value={route}
-                label={t("orders.steps.route")}
                 onChange={handleChange}
               >
                 <MenuItem value="valaam">Валаам</MenuItem>
@@ -89,7 +89,7 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
               </Select>
             </FormControl>
             <FormControl fullWidth>
-              <FormLabel> {t("orders.steps.user")}</FormLabel>
+              <FormLabel> Выберите пользователя</FormLabel>
               <Controller
                 control={control}
                 name="user"
@@ -124,9 +124,10 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                   />
                 )}
               />
-            </FormControl>
+            </FormControl>{" "}
+            {/* date picker */}
             <FormControl fullWidth>
-              <FormLabel> Выберите дату и время</FormLabel>
+              <FormLabel>{t("orders.steps.date")}</FormLabel>{" "}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                   {...register("date")}
@@ -138,25 +139,43 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                   ampm={false}
                 />
               </LocalizationProvider>
-            </FormControl>
+            </FormControl>{" "}
             <FormControl fullWidth>
-              <FormLabel> {t("orders.fields.status")}</FormLabel>
-              <Select
-                {...register("status.text")}
-                value={status}
-                onChange={handleChangeStatus}
-              >
-                <MenuItem value="payment is expected">
-                  {t("enum.orderStatuses.payment is expected")}
-                </MenuItem>
-                <MenuItem value="paid">{t("enum.orderStatuses.paid")}</MenuItem>
-                <MenuItem value="done">
-                  {t("enum.orderStatuses.done")}
-                </MenuItem>{" "}
-                <MenuItem value="cancelled">
-                  {t("enum.orderStatuses.cancelled")}
-                </MenuItem>
-              </Select>
+              <FormLabel> Выберите лодку</FormLabel>
+              <Controller
+                control={control}
+                name="boat"
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <Autocomplete
+                    {...autocompleteProps}
+                    {...field}
+                    onChange={(_, value) => {
+                      field.onChange(value);
+                    }}
+                    getOptionLabel={(item) => {
+                      return (
+                        autocompleteProps?.options?.find(
+                          (p) => p?.id?.toString() === item?.id?.toString()
+                        )?.name ?? ""
+                      );
+                    }}
+                    isOptionEqualToValue={(option, value) =>
+                      value === undefined ||
+                      option.id.toString() === value.toString()
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        error={!!errors.users}
+                        // helperText={errors.users?.message}
+                        required
+                      />
+                    )}
+                  />
+                )}
+              />
             </FormControl>
           </Grid>
         </Grid>
