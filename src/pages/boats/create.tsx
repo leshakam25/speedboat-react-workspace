@@ -20,7 +20,7 @@ import { createdAt } from "../../components/createdAt/index.tsx";
 
 export const BoatCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
-
+  const active = true;
   const {
     refineCore: { onFinish, formLoading },
     register,
@@ -94,7 +94,7 @@ export const BoatCreate: React.FC<IResourceComponentsProps> = () => {
                   margin="none"
                   variant="outlined"
                 />
-              </FormControl>
+              </FormControl>{" "}
               <FormControl>
                 <FormLabel
                   sx={{
@@ -104,35 +104,10 @@ export const BoatCreate: React.FC<IResourceComponentsProps> = () => {
                     color: "text.primary",
                   }}
                 >
-                  Очередность лодки
+                  Изображение{" "}
                 </FormLabel>
                 <TextField
-                  {...register("queue")}
-                  size="small"
-                  margin="none"
-                  variant="outlined"
-                />
-              </FormControl>
-              <Box sx={{ display: "none" }}>
-                <input value={createdAt()} {...register("createdAt")} />
-              </Box>
-            </Stack>
-          </Grid>{" "}
-          <Grid item paddingX={4} xs={12} md={6}>
-            <Stack gap="24px">
-              <FormControl>
-                <FormLabel
-                  sx={{
-                    marginBottom: "8px",
-                    fontWeight: "700",
-                    fontSize: "14px",
-                    color: "text.primary",
-                  }}
-                >
-                  Статус лодки
-                </FormLabel>
-                <TextField
-                  {...register("status")}
+                  {...register("image")}
                   size="small"
                   margin="none"
                   variant="outlined"
@@ -147,19 +122,25 @@ export const BoatCreate: React.FC<IResourceComponentsProps> = () => {
                     color: "text.primary",
                   }}
                 >
-                  Активность{" "}
+                  Описание{" "}
                 </FormLabel>
                 <TextField
-                  {...register("isActive")}
+                  {...register("capacity")}
                   size="small"
                   margin="none"
                   variant="outlined"
+                  multiline
+                  rows={4}
                 />
               </FormControl>
-              <Box sx={{ display: "none" }}>
-                <input value={createdAt()} {...register("createdAt")} />
-              </Box>
             </Stack>
+          </Grid>{" "}
+          <Grid item paddingX={4} xs={12} md={6}>
+            <Stack gap="24px"></Stack>{" "}
+            <Box sx={{ display: "none" }}>
+              <input value={createdAt()} {...register("createdAt")} />{" "}
+              <input {...register("isActive")} />{" "}
+            </Box>
           </Grid>
         </Grid>
       </Box>

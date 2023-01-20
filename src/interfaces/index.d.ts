@@ -20,10 +20,11 @@ export interface IUser {
 export interface IBoat {  
     id: number,
     name: string,
-    capacity: string,
+    capacity: string, image?:string
+    desc?:string
     isActive: boolean,
     createdAt:string
-    image?:string
+   
 }
 
 export interface IAgent {

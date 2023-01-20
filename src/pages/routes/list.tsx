@@ -140,13 +140,18 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} lg={3}>
+      <Grid item xs={12} lg={12}>
         <Card sx={{ paddingX: { xs: 2, md: 0 } }}>
-          <CardHeader title={t("users.filter.title")} />
+          <CardHeader title="Поиск" />
           <CardContent sx={{ pt: 0 }}>
             <Box
               component="form"
-              sx={{ display: "flex", flexDirection: "column" }}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
               autoComplete="off"
               onSubmit={handleSubmit(search)}
             >
@@ -167,14 +172,14 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
                 }}
               />
               <br />
-              <Button type="submit" variant="contained">
+              <Button size="small" type="submit" variant="contained">
                 {t("orders.filter.submit")}
               </Button>
             </Box>
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} lg={9}>
+      <Grid item xs={12} lg={12}>
         <List cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}>
           <DataGrid
             {...dataGridProps}

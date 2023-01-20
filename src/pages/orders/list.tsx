@@ -191,7 +191,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     mapData: (item) => {
       return {
         orderNumber: item.id,
-        user: item.user.name,
+        user: item.user.id,
         route: item.route.route,
         status: item.status.text,
         agent: item.agent.name,
@@ -216,7 +216,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
       <Grid item xs={12} lg={12}>
         {" "}
         <Card sx={{ paddingX: { xs: 2, md: 0 } }}>
-          <CardHeader title={t("orders.filter.title")} />
+          <CardHeader title="Поиск" />
           <CardContent sx={{ pt: 0 }}>
             <Box
               component="form"
@@ -309,7 +309,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                 )}
               />
               <br />
-              <Button type="submit" variant="contained">
+              <Button size="small" type="submit" variant="contained">
                 Поиск
               </Button>
             </Box>

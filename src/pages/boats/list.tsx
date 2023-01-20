@@ -58,6 +58,20 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
   const columns = React.useMemo<GridColumns<IBoat>>(
     () => [
       {
+        field: "image",
+        headerName: "Изображение",
+        renderCell: function render({ row }) {
+          return (
+            <Avatar
+              variant="rounded"
+              sx={{ width: 120, height: 120 }}
+              src={row.image}
+            />
+          );
+        },
+        minWidth: 140,
+      },
+      {
         field: "name",
         headerName: "Имя лодки",
         minWidth: 140,
@@ -125,13 +139,18 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} lg={3}>
+      <Grid item xs={12} lg={12}>
         <Card sx={{ paddingX: { xs: 2, md: 0 } }}>
-          <CardHeader title={t("users.filter.title")} />
+          <CardHeader title="Поиск" />
           <CardContent sx={{ pt: 0 }}>
             <Box
               component="form"
-              sx={{ display: "flex", flexDirection: "column" }}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
               autoComplete="off"
               onSubmit={handleSubmit(search)}
             >
@@ -151,22 +170,21 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
                   ),
                 }}
               />
-              <br />
-              <Button type="submit" variant="contained">
+              <Button size="small" type="submit" variant="contained">
                 Поиск
               </Button>
             </Box>
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} lg={9}>
+      <Grid item xs={12} lg={12}>
         <List cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}>
           <DataGrid
             {...dataGridProps}
             columns={columns}
             filterModel={undefined}
             autoHeight
-            rowHeight={80}
+            rowHeight={130}
             onRowClick={({ id }) => {
               show("boats", id);
             }}

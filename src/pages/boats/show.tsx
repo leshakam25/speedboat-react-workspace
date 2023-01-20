@@ -75,7 +75,7 @@ export const BoatShow: React.FC<IResourceComponentsProps> = () => {
           <Typography variant="h6" textAlign="left" lineHeight="200%">
             Создана: {boat?.createdAt}
           </Typography>
-          <Button variant="outlined">Заказы</Button>
+          <Button variant="outlined">Активность</Button>
         </Grid>
       </Grid>
     </Show>
