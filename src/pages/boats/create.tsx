@@ -20,7 +20,7 @@ import { createdAt } from "../../components/createdAt/index.tsx";
 
 export const BoatCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
-  const active = true;
+  const activeValue = true;
   const {
     refineCore: { onFinish, formLoading },
     register,
@@ -104,10 +104,10 @@ export const BoatCreate: React.FC<IResourceComponentsProps> = () => {
                     color: "text.primary",
                   }}
                 >
-                  Изображение{" "}
+                  Приоритет{" "}
                 </FormLabel>
                 <TextField
-                  {...register("image")}
+                  {...register("priority")}
                   size="small"
                   margin="none"
                   variant="outlined"
@@ -122,24 +122,41 @@ export const BoatCreate: React.FC<IResourceComponentsProps> = () => {
                     color: "text.primary",
                   }}
                 >
-                  Описание{" "}
+                  Изображение{" "}
                 </FormLabel>
                 <TextField
-                  {...register("capacity")}
+                  {...register("image")}
                   size="small"
                   margin="none"
                   variant="outlined"
-                  multiline
-                  rows={4}
                 />
-              </FormControl>
+              </FormControl>{" "}
             </Stack>
           </Grid>{" "}
           <Grid item paddingX={4} xs={12} md={6}>
-            <Stack gap="24px"></Stack>{" "}
+            <FormControl fullWidth>
+              <FormLabel
+                sx={{
+                  marginBottom: "8px",
+                  fontWeight: "700",
+                  fontSize: "14px",
+                  color: "text.primary",
+                }}
+              >
+                Описание{" "}
+              </FormLabel>
+              <TextField
+                {...register("capacity")}
+                size="small"
+                margin="none"
+                variant="outlined"
+                multiline
+                rows={4}
+              />
+            </FormControl>{" "}
             <Box sx={{ display: "none" }}>
               <input value={createdAt()} {...register("createdAt")} />{" "}
-              <input {...register("isActive")} />{" "}
+              <input value={`${true}`} {...register("isActive")} />{" "}
             </Box>
           </Grid>
         </Grid>

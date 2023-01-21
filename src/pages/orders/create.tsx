@@ -74,7 +74,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
         autoComplete="on"
       >
         <Grid container spacing={2}>
-          <Grid item xs={12} lg={3} spacing={2}>
+          <Grid item xs={12} lg={5} spacing={2}>
             {/* route */}
             <FormControl fullWidth>
               <FormLabel>{t("orders.steps.route")}</FormLabel>{" "}
@@ -86,9 +86,10 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                 value={route}
                 onChange={handleChange}
               >
-                <MenuItem value="valaam">Валаам</MenuItem>
-                <MenuItem value="shchery">Шхеры</MenuItem>
-                <MenuItem value="valaam and shchery">Валаам и Шхеры</MenuItem>
+                <MenuItem value={0}>Валаам</MenuItem>
+                <MenuItem value={1}>Шхеры</MenuItem>
+                <MenuItem value={2}>Валаам и Шхеры</MenuItem>{" "}
+                <MenuItem value={3}>Зимняя</MenuItem>
               </Select>
             </FormControl>
             <FormControl fullWidth>
@@ -181,7 +182,28 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
               />
             </FormControl>
           </Grid>
-
+          <Grid item xs={12} lg={7} spacing={2}>
+            <FormControl fullWidth>
+              <FormLabel
+                sx={{
+                  marginBottom: "8px",
+                  fontWeight: "700",
+                  fontSize: "14px",
+                  color: "text.primary",
+                }}
+              >
+                Описание{" "}
+              </FormLabel>
+              <TextField
+                multiline
+                rows={5}
+                {...register("desc")}
+                size="small"
+                margin="none"
+                variant="outlined"
+              />
+            </FormControl>
+          </Grid>
           {/* meta data */}
           <Box sx={{ display: "none" }}>
             <input value={createdAt()} {...register("createdAt")} />
@@ -189,7 +211,6 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
 
             {/* agent */}
             <input value={user?.id} {...register("agent.id")} />
-            <input value={user?.name} {...register("agent.name")} />
           </Box>
         </Grid>{" "}
       </Box>

@@ -8,8 +8,8 @@ import {
 } from "@pankod/refine-mui";
 import EditIcon from "@mui/icons-material/Edit";
 import { IOrder } from "interfaces";
-import { RouteName } from "components/routeName";
-import { OrderStatus } from "components/orderStatus";
+// import { RouteName } from "components/routeName";
+// import { OrderStatus } from "components/orderStatus";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 export const RecentOrders: React.FC = () => {
@@ -44,20 +44,20 @@ export const RecentOrders: React.FC = () => {
         headerName: t("orders.fields.status"),
         headerAlign: "center",
         align: "center",
-        renderCell: function render({ row }) {
-          return <OrderStatus status={row.status.text} />;
-        },
+        // renderCell: function render({ row }) {
+        //   return <OrderStatus status={row.status.text} />;
+        // },
         flex: 1,
         minWidth: 160,
       },
       {
         field: "route.route",
-        headerName: t("orders.fields.route"),
+        headerName: "Маршрут",
         headerAlign: "center",
         align: "center",
-        renderCell: function render({ row }) {
-          return <RouteName status={row.route.route} />;
-        },
+        // renderCell: function render({ row }) {
+        //   return <RouteName status={row.route} />;
+        // },
         flex: 1,
         minWidth: 160,
       },
@@ -72,7 +72,7 @@ export const RecentOrders: React.FC = () => {
       {
         field: "user",
         headerName: t("orders.fields.user"),
-        valueGetter: ({ row }) => row.user.name,
+        // valueGetter: ({ row }) => row.user,
         flex: 1,
         minWidth: 200,
         sortable: false,

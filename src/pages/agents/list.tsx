@@ -73,6 +73,10 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
           );
         },
         width: 100,
+      },{
+        field: "name",
+        headerName: t("users.fields.name"),
+        minWidth: 140,
       },
       {
         field: "phone",
@@ -80,11 +84,7 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
         minWidth: 140,
       },
 
-      {
-        field: "name",
-        headerName: t("users.fields.name"),
-        minWidth: 140,
-      },
+      
       {
         field: "email",
         headerName: t("users.fields.email"),

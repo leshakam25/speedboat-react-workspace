@@ -84,31 +84,29 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         width: 16,
       },
       {
-        field: "status.text",
-        headerName: t("orders.fields.status"),
+        field: "status",
+        headerName: "Статус",
         headerAlign: "center",
         align: "center",
-        renderCell: function render({ row }) {
-          return <OrderStatus status={row.status.text} />;
-        },
+        // renderCell: function render({ row }) {
+        //   return <OrderStatus status={row.status.text} />;
+        // },
         flex: 1,
         minWidth: 180,
       },
       {
-        field: "route.route",
-        headerName: t("orders.fields.route"),
+        field: "route",
+        headerName: "Маршрут",
+        // valueGetter: ({ row }) => row.boat.name,
         headerAlign: "center",
         align: "center",
-        renderCell: function render({ row }) {
-          return <RouteName status={row.route.route} />;
-        },
         flex: 1,
-        minWidth: 180,
+        minWidth: 150,
       },
       {
         field: "boat",
         headerName: "Лодка",
-        valueGetter: ({ row }) => row.boat.name,
+        // valueGetter: ({ row }) => row.boat.name,
         headerAlign: "center",
         align: "center",
         flex: 1,
@@ -125,20 +123,25 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "user",
         headerName: "Пользователь",
-        valueGetter: ({ row }) => row.user.name,
+        // valueGetter: ({ row }) => row.user.name,
         flex: 1,
         minWidth: 200,
-        sortable: false,
       },
       {
         field: "agent",
         headerName: "Агент",
-        valueGetter: ({ row }) => row.agent.name,
+        // valueGetter: ({ row }) => row.agent.name,
+        flex: 1,
+        minWidth: 200,
+      },
+      {
+        field: "desc",
+        headerName: "Комментарий",
+        // valueGetter: ({ row }) => row.agent.name,
         flex: 1,
         minWidth: 200,
         sortable: false,
       },
-
       {
         field: "createdAt",
         headerName: t("orders.fields.createdAt"),
@@ -191,10 +194,10 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     mapData: (item) => {
       return {
         orderNumber: item.id,
-        user: item.user.id,
-        route: item.route.route,
-        status: item.status.text,
-        agent: item.agent.name,
+        user: item.user,
+        route: item.route,
+        status: item.status,
+        agent: item.agent,
         createdAt: item.createdAt,
       };
     },

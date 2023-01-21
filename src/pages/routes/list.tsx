@@ -28,7 +28,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "@pankod/refine-react-hook-form";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { IUser, IUserFilterVariables } from "interfaces";
+import { IRoute, IUser, IUserFilterVariables } from "interfaces";
 
 export const RouteList: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
@@ -36,7 +36,7 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
   const { edit, show } = useNavigation();
 
   const { dataGridProps, search, filters } = useDataGrid<
-    IUser,
+    IRoute,
     HttpError,
     IUserFilterVariables
   >({
@@ -55,17 +55,17 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
     },
   });
 
-  const columns = React.useMemo<GridColumns<IUser>>(
+  const columns = React.useMemo<GridColumns<IRoute>>(
     () => [
       {
         field: "id",
         headerName: "Номер ",
-        width: 80,
+        width: 40,
       },
       {
         field: "name",
         headerName: "Имя ",
-        width: 80,
+        width: 180,
       },
       {
         field: "length",
@@ -73,14 +73,19 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
         width: 80,
       },
       {
-        field: "cost",
+        field: "price",
         headerName: "Стоимость",
         width: 100,
       },
       {
+        field: "time",
+        headerName: "Время",
+        width: 80,
+      },
+      {
         field: "desc",
         headerName: "Описание",
-        width: 92,
+        minWidth: 180,
       },
       {
         field: "isActive",
@@ -91,6 +96,11 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
         field: "images",
         headerName: "Изображения",
         width: 120,
+      },
+      {
+        field: "createdAt",
+        headerName: "Создан",
+        width: 150,
       },
       {
         field: "actions",
@@ -106,7 +116,7 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
             sx={{ padding: "2px 6px" }}
             label={t("buttons.edit")}
             showInMenu
-            onClick={() => edit("users", row.id)}
+            onClick={() => edit("routes", row.id)}
           />,
           <GridActionsCellItem
             key={2}
@@ -116,7 +126,7 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
             showInMenu
             onClick={() => {
               mutateDelete({
-                resource: "users",
+                resource: "routes",
                 id: row.id,
                 mutationMode: "undoable",
               });
@@ -129,7 +139,7 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
   );
 
   const { register, handleSubmit } = useForm<
-    IUser,
+    IRoute,
     HttpError,
     IUserFilterVariables
   >({
@@ -188,7 +198,7 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
             autoHeight
             rowHeight={80}
             onRowClick={({ id }) => {
-              show("users", id);
+              show("routes", id);
             }}
             rowsPerPageOptions={[10, 20, 50, 100]}
             sx={{

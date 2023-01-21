@@ -61,7 +61,7 @@ export const Header: React.FC = () => {
       onSuccess: (data) => {
         const orderOptionGroup = data.data.map((item) => {
           return {
-            label: `${item.id} / #${item.route.route}`,
+            label: `${item.id} / #${item.route}`,
             url: "/images/default-order-img.png",
             link: `/orders/show/${item.id}`,
             category: t("orders"),
@@ -235,7 +235,8 @@ export const Header: React.FC = () => {
             >
               {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
             </IconButton>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            {/* change language */}
+            {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
               <Select
                 disableUnderline
                 defaultValue={currentLocale}
@@ -270,7 +271,7 @@ export const Header: React.FC = () => {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
+            </FormControl> */}
             <Stack
               direction="row"
               gap="4px"

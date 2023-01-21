@@ -42,6 +42,7 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Create
+      resource="agents"
       isLoading={formLoading}
       actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
     >
@@ -121,7 +122,7 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
                         color: "text.primary",
                       }}
                     >
-                      {t("orders.fields.name")}
+                      Имя{" "}
                     </FormLabel>
                     <TextField
                       {...register(
@@ -142,7 +143,7 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
                         color: "text.primary",
                       }}
                     >
-                      {t("orders.fields.phone")}
+                      Номер телефона{" "}
                     </FormLabel>
                     <TextField
                       {...register(
@@ -163,7 +164,7 @@ export const AgentCreate: React.FC<IResourceComponentsProps> = () => {
                         color: "text.primary",
                       }}
                     >
-                      {t("orders.fields.email")}
+                      Электронная почта{" "}
                     </FormLabel>
                     <TextField
                       {...register(

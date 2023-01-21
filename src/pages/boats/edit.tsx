@@ -108,6 +108,24 @@ export const BoatEdit: React.FC<IResourceComponentsProps> = () => {
                     color: "text.primary",
                   }}
                 >
+                  Приоритет{" "}
+                </FormLabel>
+                <TextField
+                  {...register("priority")}
+                  size="small"
+                  margin="none"
+                  variant="outlined"
+                />
+              </FormControl>{" "}
+              <FormControl>
+                <FormLabel
+                  sx={{
+                    marginBottom: "8px",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                    color: "text.primary",
+                  }}
+                >
                   Изображение{" "}
                 </FormLabel>
                 <TextField
@@ -129,7 +147,7 @@ export const BoatEdit: React.FC<IResourceComponentsProps> = () => {
                   Описание{" "}
                 </FormLabel>
                 <TextField
-                  {...register("capacity")}
+                  {...register("desc")}
                   size="small"
                   margin="none"
                   variant="outlined"
@@ -159,6 +177,9 @@ export const BoatEdit: React.FC<IResourceComponentsProps> = () => {
           </Grid>{" "}
           <Grid item paddingX={4} xs={12} md={6} width="100%" height="auto">
             <CardMedia
+              sx={{
+                borderRadius: "8px",
+              }}
               component="img"
               alt="нет изображения"
               src="https://f.vividscreen.info/soft/b100abd41f4d21bbb996035c73c9660e/Fishing-boat-on-British-Virgin-Islands-800x600.jpg"

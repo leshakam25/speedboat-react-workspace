@@ -64,13 +64,22 @@ export const BoatShow: React.FC<IResourceComponentsProps> = () => {
         </Grid>
         <Grid item xs={12} lg={6}>
           <Typography variant="h4" textAlign="left" lineHeight="200%">
-            Название лодки: "{boat?.name}"
+            Имя лодки: {boat?.name}
+          </Typography>{" "}
+          <Typography variant="h6" textAlign="left" lineHeight="200%">
+            Номер: {boat?.id}
           </Typography>
           <Typography variant="h6" textAlign="left" lineHeight="200%">
-            Вместимость лодки: {boat?.capacity}
+            Приоритет: {boat?.priority}
           </Typography>
           <Typography variant="h6" textAlign="left" lineHeight="200%">
-            Активность лодки: {boat?.isActive}
+            Вместимость: {boat?.capacity}
+          </Typography>
+          <Typography variant="h6" textAlign="left" lineHeight="200%">
+            Описание: {boat?.desc}
+          </Typography>
+          <Typography variant="h6" textAlign="left" lineHeight="200%">
+            Активность: {boat?.isActive.toString()}
           </Typography>
           <Typography variant="h6" textAlign="left" lineHeight="200%">
             Создана: {boat?.createdAt}

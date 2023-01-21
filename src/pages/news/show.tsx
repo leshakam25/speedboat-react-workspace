@@ -46,9 +46,9 @@ export const NewsShow: React.FC<IResourceComponentsProps> = () => {
         <Grid
           item
           xs={12}
-          lg={7}
+          lg={4}
           sx={{
-            maxHeight: 400,
+            maxHeight: 540,
             width: "auto",
             m: "0 auto",
             display: "flex",
@@ -56,23 +56,24 @@ export const NewsShow: React.FC<IResourceComponentsProps> = () => {
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="h3" textAlign="left" lineHeight="140%">
+          <Typography variant="h3" textAlign="center" lineHeight="140%">
             {news?.title}
           </Typography>
           <Box>
-            <Typography variant="body1" textAlign="right" lineHeight="200%">
-              {news?.createdAt}
-            </Typography>
+            {" "}
             <Typography variant="body2" textAlign="right" lineHeight="200%">
               {news?.author}
             </Typography>
+            <Typography variant="body1" textAlign="right" lineHeight="200%">
+              {news?.createdAt}
+            </Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} lg={5}>
+        <Grid item xs={12} lg={8}>
           <CardMedia
             component="img"
             src={news?.image}
-            sx={{ maxHeight: 400, width: "auto", m: "0 auto" }}
+            sx={{ maxHeight: 540, width: "auto", m: "0 auto" }}
           />
         </Grid>
         <Grid

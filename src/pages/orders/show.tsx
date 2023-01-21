@@ -18,11 +18,17 @@ import {
   useTheme,
   Grid,
   Show,
+  FormControl,
+  FormLabel,
+  TextField,
 } from "@pankod/refine-mui";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 
-import { InfoBox, OrderStatus } from "components";
+import {
+  InfoBox,
+  // , OrderStatus
+} from "components";
 
 import { IOrder, IOrderStatus } from "interfaces";
 import { RouteName } from "components/routeName";
@@ -39,9 +45,6 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
   const theme = useTheme();
 
   const isSmallOrLess = useMediaQuery(theme.breakpoints.down("sm"));
-  useEffect(() => {
-    console.log(record);
-  }, [record]);
 
   return (
     <Show>
@@ -77,11 +80,12 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                   alignItems: "center",
                   justifyContent: "space-between",
                   my: 1,
-                  minWidth: "280px",
+                  width: "100%",
                 }}
               >
                 <Typography variant="body1">Маршрут: </Typography>
-                <RouteName status={record?.route.route} />
+                {/* <RouteName status={record?.route.route} /> */}
+                {record?.route}
               </Box>
               <Box
                 sx={{
@@ -104,8 +108,10 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                   my: 1,
                 }}
               >
-                <Typography variant="body1">Статус: </Typography>{" "}
-                <OrderStatus status={record?.status.text} />
+                <Typography variant="body1">Статус: </Typography>
+                {/* {record?.status} */}
+                {/* <OrderStatus status={record?.status.text} /> */}
+                {record?.status}
               </Box>
               <Box
                 sx={{
@@ -129,101 +135,24 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                 }}
               >
                 <Typography variant="body1">Лодка: </Typography>
-                {record?.boat.name}
+                {record?.boat}
               </Box>
             </CardContent>
           </Card>
         </Grid>
         {/* user */}
-        <Grid item xs={12} lg={4.5}>
-          <Stack
-            direction="column"
-            flexWrap="wrap"
-            justifyContent={isSmallOrLess ? "center" : "space-between"}
-            alignItems="center"
-          >
-            {" "}
-            <Avatar
-              alt={record?.user.name}
-              src={record?.user.avatar}
-              sx={{ width: 240, height: 240 }}
-              variant="rounded"
-            />
-            <Stack
-              direction={isSmallOrLess ? "column" : "row"}
-              alignItems={isSmallOrLess ? "center" : "flex-start"}
-              textAlign={isSmallOrLess ? "center" : "left"}
-              gap={2}
-            >
-              <Box>
-                <Typography variant="h4">ГОСТЬ</Typography>
-                <Typography variant="h5">{record?.user.name}</Typography>
-              </Box>
-            </Stack>
-            <Stack
-              direction="column"
-              gap={2}
-              padding={1}
-              flexWrap="wrap"
-              justifyContent="center"
-            >
-              <InfoBox
-                text={t("agents.agent.phone")}
-                icon={<PhoneIphoneIcon sx={{ fontSize: 36 }} />}
-                value={record?.user.phone}
-              />
-              <InfoBox
-                text={t("agents.agent.email")}
-                icon={<EmailIcon sx={{ fontSize: 36 }} />}
-                value={record?.user.email}
-              />
-            </Stack>
-          </Stack>
+        <Grid item xs={12} lg={2}>
+          <Typography variant="h5">Гость: {record?.user}</Typography>
         </Grid>
         {/* agent */}
-        <Grid item xs={12} lg={4.5}>
-          <Stack
-            direction="column"
-            flexWrap="wrap"
-            justifyContent={isSmallOrLess ? "center" : "space-between"}
-            alignItems="center"
-          >
-            <Avatar
-              alt={record?.agent.name}
-              src={record?.agent.avatar}
-              sx={{ width: 240, height: 240 }}
-              variant="rounded"
-            />
-            <Stack
-              direction="column"
-              alignItems="center"
-              textAlign="center"
-              gap={2}
-            >
-              <Box>
-                <Typography variant="h4">АГЕНТ</Typography>
-                <Typography variant="h5">{record?.agent.name}</Typography>
-              </Box>
-            </Stack>
-            <Stack
-              direction="column"
-              gap={2}
-              padding={1}
-              flexWrap="wrap"
-              justifyContent="center"
-            >
-              <InfoBox
-                text={t("agents.agent.phone")}
-                icon={<PhoneIphoneIcon sx={{ fontSize: 36 }} />}
-                value={record?.agent.phone}
-              />
-              <InfoBox
-                text={t("agents.agent.email")}
-                icon={<EmailIcon sx={{ fontSize: 36 }} />}
-                value={record?.agent.email}
-              />
-            </Stack>
-          </Stack>
+        <Grid item xs={12} lg={2}>
+          <Typography variant="h5">Агент: {record?.agent}</Typography>
+        </Grid>{" "}
+        <Grid item xs={12} lg={5} spacing={2}>
+          <Box>
+            <Typography variant="h5">Описание: </Typography>
+            <Typography variant="h6">{record?.desc} </Typography>
+          </Box>
         </Grid>
       </Grid>
     </Show>

@@ -71,7 +71,7 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
         autoComplete="on"
       >
         <Grid container spacing={2}>
-          <Grid item xs={12} lg={3} spacing={2}>
+          <Grid item xs={12} lg={5} spacing={2}>
             {/* route */}
             <FormControl fullWidth>
               <FormLabel>{t("orders.steps.route")}</FormLabel>{" "}
@@ -175,6 +175,28 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
                     )}
                   />
                 )}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} lg={7} spacing={2}>
+            <FormControl fullWidth>
+              <FormLabel
+                sx={{
+                  marginBottom: "8px",
+                  fontWeight: "700",
+                  fontSize: "14px",
+                  color: "text.primary",
+                }}
+              >
+                Описание{" "}
+              </FormLabel>
+              <TextField
+                multiline
+                rows={5}
+                {...register("desc")}
+                size="small"
+                margin="none"
+                variant="outlined"
               />
             </FormControl>
           </Grid>

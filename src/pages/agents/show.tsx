@@ -9,7 +9,6 @@ import {
   Show,
   Stack,
   Typography,
-  useDataGrid,
 } from "@pankod/refine-mui";
 import {
   HttpError,
@@ -44,68 +43,6 @@ export const AgentShow: React.FC<IResourceComponentsProps> = () => {
 
   const { queryResult } = useShow<IUser>();
   const user = queryResult.data?.data;
-
-  const { dataGridProps } = useDataGrid<IUser, HttpError, IUserFilterVariables>(
-    {
-      resource: "users",
-      initialSorter: [
-        {
-          field: "createdAt",
-          order: "desc",
-        },
-      ],
-      permanentFilter: [
-        {
-          field: "user.id",
-          operator: "eq",
-          value: user?.id,
-        },
-      ],
-      initialPageSize: 4,
-      queryOptions: {
-        enabled: user !== undefined,
-      },
-      syncWithLocation: false,
-    }
-  );
-
-  const columns = React.useMemo<GridColumns<IUser>>(
-    () => [
-      {
-        field: "orderNumber",
-        headerName: t("orders.fields.orderNumber"),
-        width: 100,
-        // valueGetter: ({ row }) => row.orders.orderNumber,
-      },
-
-      {
-        field: "route",
-        headerName: t("orders.fields.route"),
-        sortable: false,
-        width: 150,
-      },
-      {
-        field: "status",
-        headerName: t("orders.fields.status"),
-        sortable: false,
-        width: 150,
-      },
-      {
-        field: "createdAt",
-        headerName: t("orders.fields.createdAt"),
-        // renderCell: function render({ row }) {
-        //   return (
-        //     <DateField
-        //       value={row.createdAt}
-        //       format="LLL"
-        //       sx={{ whiteSpace: "pre-wrap", fontSize: "14px" }}
-        //     />
-        //   );
-        // },
-      },
-    ],
-    [t]
-  );
 
   return (
     <Show>

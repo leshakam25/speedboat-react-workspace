@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Avatar,
+  Box,
   Grid,
   GridColumns,
   Show,
@@ -17,7 +18,7 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import { IUser, IUserFilterVariables } from "interfaces";
+import { IRoute, IUser, IUserFilterVariables } from "interfaces";
 import { InfoBox } from "components";
 
 const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
@@ -39,96 +40,114 @@ const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
 export const RouteShow: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
 
-  const { queryResult } = useShow<IUser>();
-  const user = queryResult.data?.data;
-
-  const { dataGridProps } = useDataGrid<IUser, HttpError, IUserFilterVariables>(
-    {
-      resource: "users",
-      initialSorter: [
-        {
-          field: "createdAt",
-          order: "desc",
-        },
-      ],
-      permanentFilter: [
-        {
-          field: "user.id",
-          operator: "eq",
-          value: user?.id,
-        },
-      ],
-      initialPageSize: 4,
-      queryOptions: {
-        enabled: user !== undefined,
-      },
-      syncWithLocation: false,
-    }
-  );
-
-  const columns = React.useMemo<GridColumns<IUser>>(
-    () => [
-      {
-        field: "orderNumber",
-        headerName: t("orders.fields.orderNumber"),
-        width: 100,
-      },
-
-      {
-        field: "route",
-        headerName: t("orders.fields.route"),
-        sortable: false,
-        width: 150,
-      },
-      {
-        field: "status",
-        headerName: t("orders.fields.status"),
-        sortable: false,
-        width: 150,
-      },
-      {
-        field: "createdAt",
-        headerName: t("orders.fields.createdAt"),
-      },
-    ],
-    [t]
-  );
+  const { queryResult } = useShow<IRoute>();
+  const route = queryResult.data?.data;
 
   return (
     <Show>
       <Grid container spacing={2}>
-        <Grid item xs={12} lg={3}>
-          <Stack alignItems="center">
-            <Avatar
-              variant="rounded"
-              src={user?.avatar}
-              sx={{ width: 240, height: 240 }}
-            />
-            <Typography variant="h5">{user?.name}</Typography>
-          </Stack>
-          <br />
-          <Stack alignItems="center" spacing={1}>
-            <UserInfoText>
-              <InfoBox
-                icon={<LocalPhoneOutlinedIcon />}
-                text={t("orders.fields.phone")}
-                value={user?.phone}
-              />
-            </UserInfoText>
-            <UserInfoText>
-              <InfoBox
-                icon={<EmailIcon />}
-                text={t("orders.fields.email")}
-                value={user?.email}
-              />
-            </UserInfoText>
-            <UserInfoText>
-              <InfoBox
-                icon={<DateRangeOutlinedIcon />}
-                text={t("orders.fields.createdAt")}
-                value={user?.createdAt}
-              />
-            </UserInfoText>
+        <Grid item xs={12} lg={5}>
+          <Box
+            sx={{
+              display: "flex",
+              flexFlow: "row nowrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Название</Typography>
+            <Typography variant="h6">{route?.name}</Typography>{" "}
+          </Box>{" "}
+          <Box
+            sx={{
+              display: "flex",
+              flexFlow: "row nowrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Номер маршрута</Typography>
+            <Typography variant="h6">{route?.id}</Typography>
+          </Box>{" "}
+          <Box
+            sx={{
+              display: "flex",
+              flexFlow: "row nowrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Протяженность</Typography>
+            <Typography variant="h6">{route?.length}</Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexFlow: "row nowrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Стоимость</Typography>
+            <Typography variant="h6">{route?.price}</Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexFlow: "row nowrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Активность</Typography>
+            <Typography variant="h6"> {route?.isActive.toString()}</Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexFlow: "row nowrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Время в пути</Typography>
+            <Typography variant="h6">{route?.time}</Typography>{" "}
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexFlow: "row nowrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Создан</Typography>
+            <Typography variant="h6">{route?.createdAt}</Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} lg={7}>
+          <Typography variant="h5">Описание</Typography>
+          <Typography variant="h6" textAlign="justify">
+            {route?.desc}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} lg={12}>
+          <Stack
+            display="flex"
+            flexDirection="row"
+            flexWrap="wrap"
+            alignItems="center"
+            gap={2}
+          >
+            {route?.images &&
+              route?.images.map((el, id) => (
+                <Avatar
+                  key={id}
+                  variant="rounded"
+                  src={el}
+                  sx={{ width: 240, height: 240 }}
+                />
+              ))}
           </Stack>
         </Grid>
       </Grid>

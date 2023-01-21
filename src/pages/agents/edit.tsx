@@ -67,7 +67,7 @@ export const AgentEdit: React.FC<IResourceComponentsProps> = () => {
           {/* avatar */}
           <Grid item xs={12} md={4}>
             <Stack gap={1} justifyContent="center" alignItems="center">
-              <label htmlFor="avatar">
+              <label htmlFor="avatar-input">
                 <Input
                   id="avatar-input"
                   type="file"
@@ -76,23 +76,25 @@ export const AgentEdit: React.FC<IResourceComponentsProps> = () => {
                   }}
                   // onChange={onChangeHandler}
                 />
-                <input id="file" {...register("avatar")} type="hidden" />
+                <input
+                  id="file"
+                  // {...register("avatar")}
+                  type="hidden"
+                />
                 <Avatar
-                  variant="rounded"
                   sx={{
                     cursor: "pointer",
                     width: {
                       xs: "120px",
-                      md: "200px",
-                      lg: "280px",
+                      md: "160px",
+                      lg: "200px",
                     },
                     height: {
                       xs: "120px",
-                      md: "200px",
-                      lg: "280px",
+                      md: "160px",
+                      lg: "200px",
                     },
                   }}
-                  src={watchAvatar}
                   alt="User Picture"
                 />
               </label>
@@ -123,7 +125,7 @@ export const AgentEdit: React.FC<IResourceComponentsProps> = () => {
                         color: "text.primary",
                       }}
                     >
-                      {t("orders.fields.name")}
+                      Имя{" "}
                     </FormLabel>
                     <TextField
                       {...register(
@@ -144,24 +146,17 @@ export const AgentEdit: React.FC<IResourceComponentsProps> = () => {
                         color: "text.primary",
                       }}
                     >
-                      {t("orders.fields.phone")}
+                      Номер телефона{" "}
                     </FormLabel>
-                    <InputMask
-                      mask="9 (999) 999 99 99"
-                      disabled={false}
+                    <TextField
                       {...register(
                         "phone"
-                        // , {
-                        //   required: t("errors.required.field", {
-                        //     field: "phone",
-                        //   }),
-                        // }
+                        // , { required: true }
                       )}
-                    >
-                      {/* // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                                    // @ts-expect-error */}
-                      {(props: TextFieldProps) => <TextField {...props} />}
-                    </InputMask>
+                      size="small"
+                      margin="none"
+                      variant="outlined"
+                    />
                   </FormControl>
                   <FormControl>
                     <FormLabel
@@ -172,7 +167,7 @@ export const AgentEdit: React.FC<IResourceComponentsProps> = () => {
                         color: "text.primary",
                       }}
                     >
-                      {t("orders.fields.email")}
+                      Электронная почта{" "}
                     </FormLabel>
                     <TextField
                       {...register(
@@ -192,9 +187,6 @@ export const AgentEdit: React.FC<IResourceComponentsProps> = () => {
                       variant="outlined"
                     />
                   </FormControl>
-                  <Box sx={{ display: "none" }}>
-                    <input {...register("createdAt")} />
-                  </Box>
                 </Stack>
               </Grid>
             </Grid>

@@ -58,6 +58,13 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
   const columns = React.useMemo<GridColumns<IBoat>>(
     () => [
       {
+        field: "id",
+        headerName: "№",
+        headerAlign: "center",
+        width: 40,
+        align: "center",
+      },
+      {
         field: "image",
         headerName: "Изображение",
         renderCell: function render({ row }) {
@@ -74,9 +81,13 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "name",
         headerName: "Имя лодки",
-        minWidth: 140,
+        minWidth: 100,
       },
-
+      {
+        field: "priority",
+        headerName: "Приоритет",
+        minWidth: 120,
+      },
       {
         field: "capacity",
         headerName: "Вместимость",
@@ -88,9 +99,14 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
         minWidth: 40,
       },
       {
+        field: "desc",
+        headerName: "Описание",
+        minWidth: 220,
+      },
+      {
         field: "createdAt",
         headerName: "Создан",
-        minWidth: 140,
+        minWidth: 160,
       },
       {
         field: "actions",
