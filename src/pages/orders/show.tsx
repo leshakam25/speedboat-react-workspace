@@ -67,7 +67,7 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                   <Typography variant="h6">
                     {t("orders.fields.orderNumber")}
                   </Typography>
-                  <Typography variant="h5">{`${record?.id ?? ""}`}</Typography>
+                  <Typography variant="h5">{`${record?.id}`}</Typography>
                 </Stack>
               }
             />
@@ -111,7 +111,7 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                 <Typography variant="body1">Статус: </Typography>
                 {/* {record?.status} */}
                 {/* <OrderStatus status={record?.status.text} /> */}
-                {record?.status}
+                {/* {record?.status} */}
               </Box>
               <Box
                 sx={{
@@ -142,11 +142,11 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
         </Grid>
         {/* user */}
         <Grid item xs={12} lg={2}>
-          <Typography variant="h5">Гость: {record?.user}</Typography>
+          {/* <Typography variant="h5">Гость: {record?.user}</Typography> */}
         </Grid>
         {/* agent */}
         <Grid item xs={12} lg={2}>
-          <Typography variant="h5">Агент: {record?.agent}</Typography>
+          {/* <Typography variant="h5">Агент: {record?.agent}</Typography> */}
         </Grid>{" "}
         <Grid item xs={12} lg={5} spacing={2}>
           <Box>
