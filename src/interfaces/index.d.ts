@@ -1,11 +1,11 @@
 import { GridEnrichedColDef } from "@pankod/refine-mui";
 
 export interface IRouteName {
-    route:  "valaam" | "shchery" | "valaam and shchery";
+    route: "valaam" | "shchery" | "valaam and shchery";
 }
 
 export interface IOrderStatus {
-    text:  "payment is expected" | "paid" | "done" | "cancelled";
+    text: "payment is expected" | "paid" | "done" | "cancelled";
 }
 
 export interface IOrder {
@@ -13,20 +13,22 @@ export interface IOrder {
     user: number;
     route: number;
     boat: number;
-    status: string;   
+    status: string;
+    persons: number;
+    time: string;
     date: string;
     createdAt: string;
-    desc: string;
+    desc?: string;
     agent: number;
 }
 
 export interface IUser {
-    id: number; 
+    id: number;
     name: string;
     phone: string;
     email?: string;
     createdAt: string;
-    avatar:string;
+    avatar: string;
 }
 
 export interface IAgent {
@@ -35,44 +37,44 @@ export interface IAgent {
     phone: string;
     email?: string;
     createdAt: string;
-    avatar:string;
+    avatar: string;
 }
 
-export interface IBoat {  
+export interface IBoat {
     id: number;
     name: string;
-    capacity: number; 
-    image?:string;
-    desc?:string;
+    capacity: number;
+    image?: string;
+    desc?: string;
     isActive: boolean;
-    createdAt:string;
-    priority:number;
+    createdAt: string;
+    priority: number;
 }
-export interface IRoute {  
+export interface IRoute {
     id: number,
     name: string,
-    length: number, 
+    length: number,
     price: number,
-    time:number,
-    images?:string[],
-    desc?:string,
+    time: number,
+    images?: string[],
+    desc?: string,
     isActive: boolean,
-    createdAt:string
+    createdAt: string
 }
-    
+
 
 export interface INews {
-    id:number;
-    image?:string;
-    title:string;
-    text:string;
+    id: number;
+    image?: string;
+    title: string;
+    text: string;
     createdAt: string;
-    author:number; //ID текущего агента
+    author: number; //ID текущего агента
 }
 
 export interface ITimeSpot {
-    id:number;
-    time:string;
+    id: number;
+    time: string;
 }
 
 export interface IOrderFilterVariables {
@@ -82,10 +84,10 @@ export interface IOrderFilterVariables {
 }
 
 export interface IUserFilterVariables {
-    q: string;   
+    q: string;
 }
 export interface IAgentFilterVariables {
-    q: string;  
+    q: string;
 }
 
 export interface ICategory {
@@ -93,6 +95,5 @@ export interface ICategory {
     title: string;
     isActive: boolean;
 }
-
 
 
