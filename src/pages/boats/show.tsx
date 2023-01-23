@@ -28,7 +28,11 @@ export const BoatShow: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Show
-      title={false}
+      title={
+        <Typography variant="h4" textAlign="left" lineHeight="200%">
+          Имя лодки: {boat?.name}
+        </Typography>
+      }
       resource="boats"
       breadcrumb={false}
       headerButtons={
@@ -53,18 +57,18 @@ export const BoatShow: React.FC<IResourceComponentsProps> = () => {
         }}
       >
         <Grid item xs={12} lg={6}>
-          <Stack alignItems="center" spacing={1}>
-            <CardMedia
-              sx={{ height: "auto", width: "100%" }}
-              component="img"
-              src={boat?.image}
-            />
-          </Stack>
+          <CardMedia
+            sx={{
+              maxHeight: 540,
+              width: "auto",
+              maxWidth: "100%",
+              m: "0 auto",
+            }}
+            component="img"
+            src={boat?.image}
+          />
         </Grid>
         <Grid item xs={12} lg={6}>
-          <Typography variant="h4" textAlign="left" lineHeight="200%">
-            Имя лодки: {boat?.name}
-          </Typography>{" "}
           <Typography variant="h6" textAlign="left" lineHeight="200%">
             Номер: {boat?.id}
           </Typography>

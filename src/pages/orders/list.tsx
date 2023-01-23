@@ -5,7 +5,6 @@ import {
   BaseRecord,
   CrudFilters,
   HttpError,
-  useTranslate,
   useNavigation,
   useExport,
   getDefaultFilter,
@@ -34,13 +33,10 @@ import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { OrderStatus } from "components";
 import { IOrder, IOrderFilterVariables } from "interfaces";
-import { RouteName } from "components/routeName";
 
 export const OrderList: React.FC<IResourceComponentsProps> = () => {
-  const t = useTranslate();
   const { edit } = useNavigation();
   const { mutate: mutateDelete } = useDelete();
-
   const { dataGridProps, search, filters, sorter } = useDataGrid<
     IOrder,
     HttpError,
@@ -58,12 +54,12 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
       });
 
       filters.push({
-        field: "status.text",
+        field: "status",
         operator: "in",
         value: (status ?? []).length > 0 ? status : undefined,
       });
       filters.push({
-        field: "route.route",
+        field: "route",
         operator: "in",
         value: (route ?? []).length > 0 ? route : undefined,
       });
@@ -77,22 +73,20 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "id",
         headerName: "№",
-        description: t("orders.fields.orderNumber"),
+        description: "№",
         headerAlign: "center",
         align: "center",
-        flex: 1,
-        width: 16,
+        width: 40,
       },
       {
         field: "status",
         headerName: "Статус",
         headerAlign: "center",
         align: "center",
-        // renderCell: function render({ row }) {
-        //   return <OrderStatus status={row.status.text} />;
-        // },
-        flex: 1,
-        minWidth: 180,
+        renderCell: function render({ row }) {
+          return <OrderStatus status={row.status} />;
+        },
+        width: 180,
       },
       {
         field: "route",
@@ -100,8 +94,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         // valueGetter: ({ row }) => row.boat.name,
         headerAlign: "center",
         align: "center",
-        flex: 1,
-        minWidth: 150,
+        width: 100,
       },
       {
         field: "boat",
@@ -109,79 +102,80 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         // valueGetter: ({ row }) => row.boat.name,
         headerAlign: "center",
         align: "center",
-        flex: 1,
-        minWidth: 150,
+        width: 100,
       },
       {
         field: "date",
-        headerName: t("orders.fields.date"),
+        headerName: "Дата",
         headerAlign: "center",
         align: "center",
-        flex: 1,
-        minWidth: 150,
+        width: 160,
       },
       {
         field: "user",
         headerName: "Пользователь",
         // valueGetter: ({ row }) => row.user.name,
-        flex: 1,
-        minWidth: 200,
+        headerAlign: "center",
+        align: "center",
+        width: 200,
       },
       {
         field: "agent",
         headerName: "Агент",
         // valueGetter: ({ row }) => row.agent.name,
-        flex: 1,
-        minWidth: 200,
+        headerAlign: "center",
+        align: "center",
+        width: 200,
       },
       {
         field: "desc",
         headerName: "Комментарий",
         // valueGetter: ({ row }) => row.agent.name,
+        headerAlign: "center",
+        align: "center",
+        width: 200,
         flex: 1,
-        minWidth: 200,
-        sortable: false,
       },
       {
         field: "createdAt",
-        headerName: t("orders.fields.createdAt"),
-        flex: 1,
-        minWidth: 180,
+        headerName: "Создан",
+        headerAlign: "center",
+        align: "center",
+        width: 160,
       },
-      // {
-      //   field: "actions",
-      //   type: "actions",
-      //   headerName: "#",
-      //   flex: 1,
-      //   minWidth: 40,
-      //   sortable: false,
-      //   getActions: ({ row }) => [
-      //     <GridActionsCellItem
-      //       key={1}
-      //       icon={<EditIcon color="success" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.edit")}
-      //       showInMenu
-      //       onClick={() => edit("orders", row.id)}
-      //     />,
-      //     <GridActionsCellItem
-      //       key={2}
-      //       icon={<CloseOutlinedIcon color="error" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.delete")}
-      //       showInMenu
-      //       onClick={() => {
-      //         mutateDelete({
-      //           resource: "orders",
-      //           id: row.id,
-      //           mutationMode: "undoable",
-      //         });
-      //       }}
-      //     />,
-      //   ],
-      // },
+      {
+        field: "actions",
+        type: "actions",
+        headerName: "#",
+        width: 30,
+        sortable: false,
+        getActions: ({ row }) => [
+          <GridActionsCellItem
+            key={1}
+            icon={<EditIcon color="success" />}
+            sx={{ padding: "2px 6px" }}
+            label="Редактировать"
+            showInMenu
+            onClick={() => edit("orders", row.id)}
+          />,
+          <GridActionsCellItem
+            key={2}
+            icon={<CloseOutlinedIcon color="error" />}
+            sx={{ padding: "2px 6px" }}
+            label="Удалить"
+            showInMenu
+            onClick={() => {
+              mutateDelete({
+                resource: "orders",
+                id: row.id,
+                mutationMode: "undoable",
+              });
+            }}
+          />,
+        ],
+      },
     ],
-    [t]
+    []
   );
 
   const { show, create } = useNavigation();
@@ -235,8 +229,8 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
             >
               <TextField
                 {...register("q")}
-                label={t("orders.filter.search.label")}
-                placeholder={t("orders.filter.search.placeholder")}
+                label="Поиск"
+                placeholder="Поиск по заказам"
                 margin="normal"
                 autoFocus
                 size="small"
@@ -251,29 +245,21 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                     size="small"
                     sx={{ width: "100%" }}
                   >
-                    <InputLabel id="status-select">
-                      {t("orders.fields.status")}
-                    </InputLabel>
+                    <InputLabel id="status-select">Статус оплаты</InputLabel>
                     <Select
                       {...field}
                       labelId="status-select"
-                      label={t("orders.fields.status")}
+                      label="Статус оплаты"
                     >
                       <MenuItem value="">
                         <br />
                       </MenuItem>
                       <MenuItem value="payment is expected">
-                        {t("enum.orderStatuses.payment is expected")}
+                        Ожидается оплата{" "}
                       </MenuItem>
-                      <MenuItem value="paid">
-                        {t("enum.orderStatuses.paid")}
-                      </MenuItem>
-                      <MenuItem value="done">
-                        {t("enum.orderStatuses.done")}
-                      </MenuItem>
-                      <MenuItem value="cancelled">
-                        {t("enum.orderStatuses.cancelled")}
-                      </MenuItem>
+                      <MenuItem value="paid">Оплачено </MenuItem>
+                      <MenuItem value="done">Выполнено </MenuItem>
+                      <MenuItem value="cancelled">Отмененно </MenuItem>
                     </Select>
                   </FormControl>
                 )}
@@ -287,26 +273,15 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
                     size="small"
                     sx={{ width: "100%" }}
                   >
-                    <InputLabel id="route-select">
-                      {t("orders.fields.route")}
-                    </InputLabel>
-                    <Select
-                      {...field}
-                      labelId="route-select"
-                      label={t("orders.fields.route")}
-                    >
+                    <InputLabel id="route-select">Выберите маршрут </InputLabel>
+                    <Select {...field} labelId="route-select" label="Маршрут">
                       <MenuItem value="">
                         <br />
                       </MenuItem>
-                      <MenuItem value="valaam">
-                        {t("enum.routes.valaam")}
-                      </MenuItem>
-                      <MenuItem value="shchery">
-                        {t("enum.routes.shchery")}
-                      </MenuItem>
-                      <MenuItem value="valaam and shchery">
-                        {t("enum.routes.valaam and shchery")}
-                      </MenuItem>
+                      <MenuItem value="0">Валаам</MenuItem>
+                      <MenuItem value="1">Шхеры</MenuItem>
+                      <MenuItem value="2">Валаам и Шхеры</MenuItem>
+                      <MenuItem value="3">Зимняя</MenuItem>
                     </Select>
                   </FormControl>
                 )}

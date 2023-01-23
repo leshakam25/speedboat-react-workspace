@@ -42,7 +42,7 @@ export const AgentShow: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Show
-      title={false}
+      title={<Typography variant="h5">Агент: {user?.name}</Typography>}
       resource="agents"
       breadcrumb={false}
       headerButtons={
@@ -59,48 +59,33 @@ export const AgentShow: React.FC<IResourceComponentsProps> = () => {
       }
     >
       <Grid container spacing={2}>
-        <Grid item xs={12} lg={3}>
-          <Paper
-            sx={{
-              boxShadow: "none",
-              border: "none",
-              p: 2,
-              paddingX: { xs: 4, md: 2 },
-            }}
-          >
-            <Stack alignItems="center">
-              <Avatar
-                variant="rounded"
-                src={user?.avatar}
-                sx={{ width: 240, height: 240 }}
-              />
-              <Typography variant="h5">{user?.name}</Typography>
-            </Stack>
-            <br />
-            <Stack alignItems="center" spacing={1}>
-              <UserInfoText>
-                <InfoBox
-                  icon={<LocalPhoneOutlinedIcon />}
-                  text="Номер телефона"
-                  value={user?.phone}
-                />
-              </UserInfoText>
-              <UserInfoText>
-                <InfoBox
-                  icon={<EmailIcon />}
-                  text="Электронная почта"
-                  value={user?.email}
-                />
-              </UserInfoText>
-              <UserInfoText>
-                <InfoBox
-                  icon={<DateRangeOutlinedIcon />}
-                  text="Создан"
-                  value={user?.createdAt}
-                />
-              </UserInfoText>
-            </Stack>
-          </Paper>
+        <Grid item xs={12} lg={12}>
+          <Avatar
+            variant="rounded"
+            src={user?.avatar}
+            sx={{ width: 240, height: 240 }}
+          />
+          <UserInfoText>
+            <InfoBox
+              icon={<LocalPhoneOutlinedIcon />}
+              text="Номер телефона"
+              value={user?.phone}
+            />
+          </UserInfoText>
+          <UserInfoText>
+            <InfoBox
+              icon={<EmailIcon />}
+              text="Электронная почта"
+              value={user?.email}
+            />
+          </UserInfoText>
+          <UserInfoText>
+            <InfoBox
+              icon={<DateRangeOutlinedIcon />}
+              text="Создан"
+              value={user?.createdAt}
+            />
+          </UserInfoText>
         </Grid>
       </Grid>
     </Show>

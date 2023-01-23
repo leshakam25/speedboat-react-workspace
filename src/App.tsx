@@ -135,14 +135,14 @@ const App: React.FC = () => {
                 edit: UserEdit,
                 icon: <PeopleOutlineOutlined />,
               },
-              // {
-              //   name: "agents",
-              //   list: AgentList,
-              //   show: AgentShow,
-              //   create: AgentCreate,
-              //   edit: AgentEdit,
-              //   icon: <GroupsIcon />,
-              // },
+              {
+                name: "agents",
+                list: AgentList,
+                show: AgentShow,
+                create: AgentCreate,
+                edit: AgentEdit,
+                icon: <GroupsIcon />,
+              },
 
               {
                 name: "boats",
@@ -160,7 +160,7 @@ const App: React.FC = () => {
                 edit: RouteEdit,
                 icon: <RouteIcon />,
               },
-              // { name: "profit", list: ProfitList, icon: <CurrencyRuble /> },
+              { name: "profit", list: ProfitList, icon: <CurrencyRuble /> },
             ]}
           />
         </RefineSnackbarProvider>

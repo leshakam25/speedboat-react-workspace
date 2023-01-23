@@ -67,7 +67,14 @@ export const ExcursionsList: React.FC<{ startDate: Date }> = ({
     return undefined;
   }
   return (
-    <Card sx={{ height: "100%", paddingX: { xs: 2 } }}>
+    <Card
+      sx={{
+        height: "100%",
+        paddingX: { xs: 2 },
+        boxShadow: "none",
+        border: 0.1,
+      }}
+    >
       <CardHeader title={`${startDate.toDateString()}`}></CardHeader>
       <CardContent>
         <Tabs

@@ -61,84 +61,99 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
         field: "id",
         headerName: "№",
         headerAlign: "center",
-        width: 40,
         align: "center",
+        width: 30,
       },
       {
         field: "image",
-        headerName: "Изображение",
+        headerName: "Фото",
+        headerAlign: "center",
+        align: "center",
         renderCell: function render({ row }) {
           return (
             <Avatar
               variant="rounded"
-              sx={{ width: 120, height: 120 }}
+              sx={{ width: 70, height: 70 }}
               src={row.image}
             />
           );
         },
-        minWidth: 140,
+        width: 80,
       },
       {
         field: "name",
         headerName: "Имя лодки",
-        minWidth: 100,
+        headerAlign: "center",
+        align: "center",
+        width: 100,
       },
       {
         field: "priority",
         headerName: "Приоритет",
-        minWidth: 120,
+        headerAlign: "center",
+        align: "center",
+        width: 120,
       },
       {
         field: "capacity",
         headerName: "Вместимость",
-        minWidth: 120,
+        headerAlign: "center",
+        align: "center",
+        width: 120,
       },
       {
         field: "isActive",
         headerName: "Активность",
-        minWidth: 40,
+        headerAlign: "center",
+        align: "center",
+        width: 110,
       },
       {
         field: "desc",
         headerName: "Описание",
-        minWidth: 220,
+        headerAlign: "center",
+        align: "center",
+        width: 300,
+        flex: 1,
       },
       {
         field: "createdAt",
         headerName: "Создан",
-        minWidth: 160,
+        headerAlign: "center",
+        align: "center",
+        width: 160,
       },
-      // {
-      //   field: "actions",
-      //   type: "actions",
-      //   headerName: "Действия",
-      //   minWidth: 10,
-      //   sortable: false,
-      //   getActions: ({ row }) => [
-      //     <GridActionsCellItem
-      //       key={1}
-      //       icon={<EditIcon color="success" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.edit")}
-      //       showInMenu
-      //       onClick={() => edit("boats", row.id)}
-      //     />,
-      //     <GridActionsCellItem
-      //       key={2}
-      //       icon={<CloseOutlinedIcon color="error" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.delete")}
-      //       showInMenu
-      //       onClick={() => {
-      //         mutateDelete({
-      //           resource: "boats",
-      //           id: row.id,
-      //           mutationMode: "undoable",
-      //         });
-      //       }}
-      //     />,
-      //   ],
-      // },
+      {
+        field: "actions",
+        type: "actions",
+        headerName: "#",
+        width: 30,
+        sortable: false,
+        getActions: ({ row }) => [
+          <GridActionsCellItem
+            key={1}
+            icon={<EditIcon color="success" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.edit")}
+            showInMenu
+            onClick={() => edit("boats", row.id)}
+          />,
+          <GridActionsCellItem
+            key={2}
+            icon={<CloseOutlinedIcon color="error" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.delete")}
+            showInMenu
+            onClick={() => {
+              mutateDelete({
+                resource: "boats",
+                id: row.id,
+                mutationMode: "undoable",
+              });
+            }}
+          />,
+        ],
+      },
     ],
     [t]
   );
@@ -200,7 +215,7 @@ export const BoatList: React.FC<IResourceComponentsProps> = () => {
             columns={columns}
             filterModel={undefined}
             autoHeight
-            rowHeight={130}
+            rowHeight={80}
             onRowClick={({ id }) => {
               show("boats", id);
             }}

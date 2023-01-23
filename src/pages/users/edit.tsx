@@ -19,6 +19,8 @@ import {
   Input,
   TextFieldProps,
   SaveButton,
+  ListButton,
+  RefreshButton,
 } from "@pankod/refine-mui";
 import { useForm } from "@pankod/refine-react-hook-form";
 import { IUser } from "interfaces";
@@ -48,6 +50,13 @@ export const UserEdit: React.FC<IResourceComponentsProps> = () => {
       resource="users"
       isLoading={formLoading}
       actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
+      title={<Typography variant="h5">Гость</Typography>}
+      breadcrumb={false}
+      headerButtons={
+        <>
+          <ListButton hideText={true} /> <RefreshButton hideText={true} />
+        </>
+      }
     >
       <Box
         onSubmit={handleSubmit(onFinish)}

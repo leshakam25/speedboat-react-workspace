@@ -23,7 +23,11 @@ export const NewsShow: React.FC<IResourceComponentsProps> = () => {
   return (
     <Show
       resource="news"
-      title={false}
+      title={
+        <Typography variant="h4" textAlign="center" lineHeight="140%">
+          {news?.title}
+        </Typography>
+      }
       breadcrumb={false}
       headerButtons={
         permissionsData?.includes("admin") ? (
@@ -42,47 +46,36 @@ export const NewsShow: React.FC<IResourceComponentsProps> = () => {
         <Grid
           item
           xs={12}
-          lg={4}
-          sx={{
-            m: "0 auto",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Box>
-            {" "}
-            <Typography variant="h4" textAlign="center" lineHeight="140%">
-              {news?.title}
-            </Typography>
-            <Typography variant="body2" textAlign="right" lineHeight="200%">
-              {news?.author}
-            </Typography>
-            <Typography variant="body1" textAlign="right" lineHeight="200%">
-              {news?.createdAt}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={12} lg={8}>
-          <CardMedia
-            component="img"
-            src={news?.image}
-            sx={{ maxHeight: 540, width: "100%", m: "0 auto" }}
-          />
-        </Grid>
-        <Grid
-          item
-          xs={12}
           lg={12}
           sx={{
             m: "0 auto",
           }}
         >
           {" "}
+          <CardMedia
+            component="img"
+            src={news?.image}
+            sx={{
+              maxHeight: 540,
+              width: "auto",
+              maxWidth: "100%",
+              m: "0 auto",
+            }}
+          />
           <Typography variant="body2" textAlign="justify" lineHeight="200%">
             {news?.text}
           </Typography>
+        </Grid>
+        <Grid item xs={12} lg={12}>
+          <Box>
+            {" "}
+            <Typography variant="body2" textAlign="left" lineHeight="200%">
+              Автор: {news?.author}
+            </Typography>
+            <Typography variant="body1" textAlign="left" lineHeight="200%">
+              Дата: {news?.createdAt}
+            </Typography>
+          </Box>
         </Grid>
       </Grid>
     </Show>

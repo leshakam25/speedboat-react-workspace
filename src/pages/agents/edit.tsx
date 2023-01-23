@@ -19,9 +19,11 @@ import {
   Input,
   TextFieldProps,
   SaveButton,
+  RefreshButton,
 } from "@pankod/refine-mui";
 import { useForm } from "@pankod/refine-react-hook-form";
 import { IAgent } from "interfaces";
+import { ListButton } from "@pankod/refine-mui";
 
 export const AgentEdit: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
@@ -48,6 +50,13 @@ export const AgentEdit: React.FC<IResourceComponentsProps> = () => {
       resource="agents"
       isLoading={formLoading}
       actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
+      title={<Typography variant="h5">Агент</Typography>}
+      breadcrumb={false}
+      headerButtons={
+        <>
+          <ListButton hideText={true} /> <RefreshButton hideText={true} />
+        </>
+      }
     >
       <Box
         onSubmit={handleSubmit(onFinish)}

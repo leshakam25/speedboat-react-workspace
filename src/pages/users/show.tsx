@@ -42,7 +42,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
   return (
     <Show
       resource="users"
-      title={false}
+      title={<Typography variant="h5">Гость: {user?.name}</Typography>}
       breadcrumb={false}
       headerButtons={
         permissionsData?.includes("admin") ? (
@@ -58,39 +58,33 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
       }
     >
       <Grid container spacing={2}>
-        <Grid item xs={3} lg={3}>
-          <Stack alignItems="center">
-            <Avatar
-              variant="rounded"
-              src={user?.avatar}
-              sx={{ width: 240, height: 240 }}
+        <Grid item xs={12} lg={4}>
+          <Avatar
+            variant="rounded"
+            src={user?.avatar}
+            sx={{ width: 240, height: 240 }}
+          />
+          <UserInfoText>
+            <InfoBox
+              icon={<LocalPhoneOutlinedIcon />}
+              text="Номер телефона"
+              value={user?.phone}
             />
-            <Typography variant="h5">{user?.name}</Typography>
-          </Stack>
-          <br />
-          <Stack alignItems="center" spacing={1}>
-            <UserInfoText>
-              <InfoBox
-                icon={<LocalPhoneOutlinedIcon />}
-                text="Номер телефона"
-                value={user?.phone}
-              />
-            </UserInfoText>
-            <UserInfoText>
-              <InfoBox
-                icon={<EmailIcon />}
-                text="Электронная почта"
-                value={user?.email}
-              />
-            </UserInfoText>
-            <UserInfoText>
-              <InfoBox
-                icon={<DateRangeOutlinedIcon />}
-                text="Создан"
-                value={user?.createdAt}
-              />
-            </UserInfoText>
-          </Stack>
+          </UserInfoText>
+          <UserInfoText>
+            <InfoBox
+              icon={<EmailIcon />}
+              text="Электронная почта"
+              value={user?.email}
+            />
+          </UserInfoText>
+          <UserInfoText>
+            <InfoBox
+              icon={<DateRangeOutlinedIcon />}
+              text="Создан"
+              value={user?.createdAt}
+            />
+          </UserInfoText>
         </Grid>
       </Grid>
     </Show>

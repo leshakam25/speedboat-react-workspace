@@ -59,81 +59,111 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
     () => [
       {
         field: "id",
-        headerName: "Номер ",
+        headerName: "№",
+        headerAlign: "center",
+        align: "center",
         width: 40,
       },
       {
         field: "name",
         headerName: "Имя ",
+        headerAlign: "center",
+        align: "center",
         width: 180,
       },
       {
         field: "length",
         headerName: "Длина",
+        headerAlign: "center",
+        align: "center",
+        width: 80,
+      },
+      {
+        field: "time",
+        headerName: "Время",
+        headerAlign: "center",
+        align: "center",
         width: 80,
       },
       {
         field: "price",
         headerName: "Стоимость",
+        headerAlign: "center",
+        align: "center",
         width: 100,
-      },
-      {
-        field: "time",
-        headerName: "Время",
-        width: 80,
-      },
-      {
-        field: "desc",
-        headerName: "Описание",
-        minWidth: 180,
       },
       {
         field: "isActive",
         headerName: "Активность",
+        headerAlign: "center",
+        align: "center",
         width: 110,
+      },
+      {
+        field: "desc",
+        headerName: "Описание",
+        headerAlign: "center",
+        align: "center",
+        width: 180,
+        flex: 1,
       },
       {
         field: "images",
         headerName: "Изображения",
+        headerAlign: "center",
+        align: "center",
         width: 120,
+        // renderCell: function render({ row }) {
+        //   return (
+        //     <Avatar
+        //       variant="rounded"
+        //       sx={{ width: 70, height: 70 }}
+        //       src={row.images[0]}
+        //     />
+        //   );
+        // },
       },
       {
         field: "createdAt",
         headerName: "Создан",
-        width: 150,
+        headerAlign: "center",
+        align: "center",
+        width: 160,
       },
-      // {
-      //   field: "actions",
-      //   type: "actions",
-      //   headerName: "#",
-      //   width: 40,
+      {
+        field: "actions",
+        type: "actions",
+        headerName: "#",
+        headerAlign: "center",
+        align: "center",
+        width: 30,
 
-      //   sortable: false,
-      //   getActions: ({ row }) => [
-      //     <GridActionsCellItem
-      //       key={1}
-      //       icon={<EditIcon color="success" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.edit")}
-      //       showInMenu
-      //       onClick={() => edit("routes", row.id)}
-      //     />,
-      //     <GridActionsCellItem
-      //       key={2}
-      //       icon={<CloseOutlinedIcon color="error" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.delete")}
-      //       showInMenu
-      //       onClick={() => {
-      //         mutateDelete({
-      //           resource: "routes",
-      //           id: row.id,
-      //           mutationMode: "undoable",
-      //         });
-      //       }}
-      //     />,
-      //   ],
-      // },
+        sortable: false,
+        getActions: ({ row }) => [
+          <GridActionsCellItem
+            key={1}
+            icon={<EditIcon color="success" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.edit")}
+            showInMenu
+            onClick={() => edit("routes", row.id)}
+          />,
+          <GridActionsCellItem
+            key={2}
+            icon={<CloseOutlinedIcon color="error" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.delete")}
+            showInMenu
+            onClick={() => {
+              mutateDelete({
+                resource: "routes",
+                id: row.id,
+                mutationMode: "undoable",
+              });
+            }}
+          />,
+        ],
+      },
     ],
     [t]
   );

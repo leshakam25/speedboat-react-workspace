@@ -59,7 +59,9 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
     () => [
       {
         field: "avatar",
-        headerName: t("users.fields.avatar.label"),
+        headerName: "Фото",
+        align: "center",
+        headerAlign: "center",
         renderCell: function render({ row }) {
           return (
             <Avatar
@@ -69,61 +71,72 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
             />
           );
         },
-        width: 100,
+        width: 80,
       },
       {
         field: "phone",
         headerName: t("users.fields.phone"),
-        minWidth: 140,
+        align: "center",
+        headerAlign: "center",
+        width: 160,
       },
 
       {
         field: "name",
         headerName: t("users.fields.name"),
-        minWidth: 140,
+        align: "center",
+        headerAlign: "center",
+        flex: 1,
+        width: 160,
       },
       {
         field: "email",
         headerName: t("users.fields.email"),
-        minWidth: 180,
+        align: "center",
+        headerAlign: "center",
+        width: 160,
       },
 
       {
         field: "createdAt",
         headerName: t("users.fields.createdAt"),
-        minWidth: 140,
+        align: "center",
+        headerAlign: "center",
+        width: 160,
       },
-      // {
-      //   field: "actions",
-      //   type: "actions",
-      //   headerName: "#",
-      //   minWidth: 10,
-      //   sortable: false,
-      //   getActions: ({ row }) => [
-      //     <GridActionsCellItem
-      //       key={1}
-      //       icon={<EditIcon color="success" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.edit")}
-      //       showInMenu
-      //       onClick={() => edit("users", row.id)}
-      //     />,
-      //     <GridActionsCellItem
-      //       key={2}
-      //       icon={<CloseOutlinedIcon color="error" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.delete")}
-      //       showInMenu
-      //       onClick={() => {
-      //         mutateDelete({
-      //           resource: "users",
-      //           id: row.id,
-      //           mutationMode: "undoable",
-      //         });
-      //       }}
-      //     />,
-      //   ],
-      // },
+      {
+        field: "actions",
+        type: "actions",
+        headerName: "#",
+        align: "center",
+        headerAlign: "center",
+        width: 30,
+        sortable: false,
+        getActions: ({ row }) => [
+          <GridActionsCellItem
+            key={1}
+            icon={<EditIcon color="success" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.edit")}
+            showInMenu
+            onClick={() => edit("users", row.id)}
+          />,
+          <GridActionsCellItem
+            key={2}
+            icon={<CloseOutlinedIcon color="error" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.delete")}
+            showInMenu
+            onClick={() => {
+              mutateDelete({
+                resource: "users",
+                id: row.id,
+                mutationMode: "undoable",
+              });
+            }}
+          />,
+        ],
+      },
     ],
     [t]
   );
@@ -140,8 +153,8 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} lg={12}>
-        <Card sx={{ paddingX: { xs: 2, md: 0 } }}>
+      <Grid item xs={12} lg={6}>
+        <Card sx={{ mb: 2 }}>
           <CardHeader title="Поиск" />
           <CardContent sx={{ pt: 0 }}>
             <Box
@@ -178,8 +191,6 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
             </Box>
           </CardContent>
         </Card>
-      </Grid>
-      <Grid item xs={12} lg={12}>
         <List cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}>
           <DataGrid
             {...dataGridProps}

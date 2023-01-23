@@ -22,7 +22,7 @@ export const RouteShow: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Show
-      title={false}
+      title={<Typography variant="h6">Маршрут: {route?.name}</Typography>}
       breadcrumb={false}
       headerButtons={
         permissionsData?.includes("admin") ? (
@@ -37,8 +37,16 @@ export const RouteShow: React.FC<IResourceComponentsProps> = () => {
         )
       }
     >
-      <Grid container spacing={2}>
-        <Grid item xs={12} lg={5}>
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          display: "flex",
+          flexFlow: "row wrap",
+          justifyContent: "space-between",
+        }}
+      >
+        <Grid item xs={12} lg={4}>
           <Box
             sx={{
               display: "flex",
@@ -48,7 +56,7 @@ export const RouteShow: React.FC<IResourceComponentsProps> = () => {
             }}
           >
             <Typography variant="h5">Название</Typography>
-            <Typography variant="h6">{route?.name}</Typography>{" "}
+            <Typography variant="h6"> {route?.name}</Typography>{" "}
           </Box>{" "}
           <Box
             sx={{
@@ -58,7 +66,7 @@ export const RouteShow: React.FC<IResourceComponentsProps> = () => {
               alignItems: "center",
             }}
           >
-            <Typography variant="h5">Номер маршрута</Typography>
+            <Typography variant="h5">Номер маршрута:</Typography>
             <Typography variant="h6">{route?.id}</Typography>
           </Box>{" "}
           <Box
@@ -105,6 +113,8 @@ export const RouteShow: React.FC<IResourceComponentsProps> = () => {
             <Typography variant="h5">Время в пути</Typography>
             <Typography variant="h6">{route?.time}</Typography>{" "}
           </Box>
+        </Grid>
+        <Grid item xs={12} lg={7}>
           <Box
             sx={{
               display: "flex",
@@ -116,8 +126,7 @@ export const RouteShow: React.FC<IResourceComponentsProps> = () => {
             <Typography variant="h5">Создан</Typography>
             <Typography variant="h6">{route?.createdAt}</Typography>
           </Box>
-        </Grid>
-        <Grid item xs={12} lg={7}>
+          <br />
           <Typography variant="h5">Описание</Typography>
           <Typography variant="h6" textAlign="justify">
             {route?.desc}

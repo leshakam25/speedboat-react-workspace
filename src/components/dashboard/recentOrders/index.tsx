@@ -4,6 +4,7 @@ import {
   DataGrid,
   GridActionsCellItem,
   GridColumns,
+  List,
   useDataGrid,
 } from "@pankod/refine-mui";
 import EditIcon from "@mui/icons-material/Edit";
@@ -11,6 +12,8 @@ import { IOrder } from "interfaces";
 // import { RouteName } from "components/routeName";
 // import { OrderStatus } from "components/orderStatus";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { OrderStatus } from "components/orderStatus";
+import { RouteName } from "components/routeName";
 
 export const RecentOrders: React.FC = () => {
   const t = useTranslate();
@@ -32,65 +35,89 @@ export const RecentOrders: React.FC = () => {
     () => [
       {
         field: "id",
-        headerName: t("orders.fields.orderNumber"),
-        description: t("orders.fields.orderNumber"),
+        headerName: "№",
+        description: "№",
         headerAlign: "center",
         align: "center",
-        flex: 1,
-        minWidth: 40,
+        width: 40,
       },
       {
-        field: "status.text",
-        headerName: t("orders.fields.status"),
+        field: "status",
+        headerName: "Статус",
         headerAlign: "center",
         align: "center",
-        // renderCell: function render({ row }) {
-        //   return <OrderStatus status={row.status.text} />;
-        // },
-        flex: 1,
-        minWidth: 160,
+        renderCell: function render({ row }) {
+          return <OrderStatus status={row.status} />;
+        },
+        width: 180,
       },
       {
-        field: "route.route",
+        field: "route",
         headerName: "Маршрут",
+        // valueGetter: ({ row }) => row.boat.name,
         headerAlign: "center",
         align: "center",
-        // renderCell: function render({ row }) {
-        //   return <RouteName status={row.route} />;
-        // },
-        flex: 1,
-        minWidth: 160,
+        width: 100,
+      },
+      {
+        field: "boat",
+        headerName: "Лодка",
+        // valueGetter: ({ row }) => row.boat.name,
+        headerAlign: "center",
+        align: "center",
+        width: 100,
       },
       {
         field: "date",
-        headerName: t("orders.fields.date"),
+        headerName: "Дата",
         headerAlign: "center",
         align: "center",
-        flex: 1,
-        minWidth: 150,
+        width: 160,
       },
       {
         field: "user",
-        headerName: t("orders.fields.user"),
-        // valueGetter: ({ row }) => row.user,
-        flex: 1,
-        minWidth: 200,
-        sortable: false,
+        headerName: "Пользователь",
+        // valueGetter: ({ row }) => row.user.name,
+        headerAlign: "center",
+        align: "center",
+        width: 200,
       },
-
+      {
+        field: "agent",
+        headerName: "Агент",
+        // valueGetter: ({ row }) => row.agent.name,
+        headerAlign: "center",
+        align: "center",
+        width: 200,
+      },
+      {
+        field: "desc",
+        headerName: "Комментарий",
+        // valueGetter: ({ row }) => row.agent.name,
+        headerAlign: "center",
+        align: "center",
+        width: 200,
+        flex: 1,
+      },
+      {
+        field: "createdAt",
+        headerName: "Создан",
+        headerAlign: "center",
+        align: "center",
+        width: 160,
+      },
       {
         field: "actions",
         type: "actions",
         headerName: "#",
-        flex: 1,
-        minWidth: 20,
+        width: 30,
         sortable: false,
         getActions: ({ row }) => [
           <GridActionsCellItem
             key={1}
             icon={<EditIcon color="success" />}
             sx={{ padding: "2px 6px" }}
-            label={t("buttons.edit")}
+            label="Редактировать"
             showInMenu
             onClick={() => edit("orders", row.id)}
           />,
@@ -98,7 +125,7 @@ export const RecentOrders: React.FC = () => {
             key={2}
             icon={<CloseOutlinedIcon color="error" />}
             sx={{ padding: "2px 6px" }}
-            label={t("buttons.delete")}
+            label="Удалить"
             showInMenu
             onClick={() => {
               mutateDelete({
@@ -111,7 +138,7 @@ export const RecentOrders: React.FC = () => {
         ],
       },
     ],
-    [t]
+    []
   );
 
   return (
@@ -119,15 +146,16 @@ export const RecentOrders: React.FC = () => {
       {...dataGridProps}
       columns={columns}
       autoHeight
-      headerHeight={0}
       rowHeight={80}
       onRowClick={({ id }) => {
         show("orders", id);
       }}
       rowsPerPageOptions={[4]}
       sx={{
-        paddingX: { xs: 3 },
-        border: "none",
+        ...dataGridProps.sx,
+        "& .MuiDataGrid-row": {
+          cursor: "pointer",
+        },
       }}
     />
   );

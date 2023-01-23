@@ -27,7 +27,9 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
   return (
     <Show
       resource="orders"
-      title={false}
+      title={
+        <Typography variant="h5">Номер заказа: {`${record?.id}`}</Typography>
+      }
       breadcrumb={false}
       headerButtons={
         permissionsData?.includes("admin") ? (
@@ -45,25 +47,6 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} lg={3}>
           <Card sx={{ boxShadow: "none", border: "none" }}>
-            <CardHeader
-              sx={{
-                width: "100%",
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-              }}
-              title={
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Typography variant="h6">Номер заказа</Typography>
-                  <Typography variant="h5">{`${record?.id}`}</Typography>
-                </Stack>
-              }
-            />
-
             <CardContent>
               <Box
                 sx={{
@@ -71,7 +54,6 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  my: 1,
                   width: "100%",
                 }}
               >
@@ -84,7 +66,6 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  my: 1,
                 }}
               >
                 <Typography variant="body1">Дата: </Typography>
@@ -96,7 +77,6 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  my: 1,
                 }}
               >
                 <Typography variant="body1">Статус: </Typography>
@@ -108,7 +88,6 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  my: 1,
                 }}
               >
                 <Typography variant="body1">Создан: </Typography>
@@ -120,7 +99,6 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  my: 1,
                 }}
               >
                 <Typography variant="body1">Лодка: </Typography>

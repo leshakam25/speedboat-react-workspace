@@ -21,6 +21,9 @@ import {
   useAutocomplete,
   Edit,
   FormLabel,
+  Typography,
+  ListButton,
+  RefreshButton,
 } from "@pankod/refine-mui";
 import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import { IOrder, IUser } from "interfaces";
@@ -60,6 +63,13 @@ export const OrderEdit: React.FC<IResourceComponentsProps> = () => {
       resource="orders"
       isLoading={formLoading}
       actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
+      title={<Typography variant="h5">Заказы</Typography>}
+      breadcrumb={false}
+      headerButtons={
+        <>
+          <ListButton hideText={true} /> <RefreshButton hideText={true} />
+        </>
+      }
     >
       <Box
         onSubmit={handleSubmit(onFinish)}

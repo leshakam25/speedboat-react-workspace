@@ -4,6 +4,7 @@ import {
   Card,
   CardHeader,
   Grid,
+  List,
   Select,
   TextField,
   Typography,
@@ -33,30 +34,33 @@ export const DashboardPage: React.FC = () => {
   }, []);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} lg={12}>
-        <Typography variant="h3" pl={3}>
+    <List
+      headerButtons={false}
+      breadcrumb={false}
+      title={
+        <Typography variant="h4">
           Заказов сегодня: {orderList.length}
         </Typography>
+      }
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={3}>
+          <DatePicker
+            todayButton={<Button variant="contained">сегодня</Button>}
+            selected={startDate}
+            onChange={(date: Date) => setStartDate(date)}
+          />
+        </Grid>
+        <Grid item xs={12} lg={9}>
+          <ExcursionsList startDate={startDate} />
+        </Grid>
+        <Grid item xs={12} lg={12}>
+          <Card sx={{ height: "100%", paddingX: { xs: 2 }, boxShadow: "none" }}>
+            <CardHeader title={t("dashboard.recentOrders.title")} />
+            <RecentOrders />
+          </Card>
+        </Grid>
       </Grid>
-      <Grid item xs={12} lg={3}>
-        <DatePicker
-          todayButton={<Button variant="contained">сегодня</Button>}
-          selected={startDate}
-          onChange={(date: Date) => setStartDate(date)}
-        />
-      </Grid>
-      <Grid item xs={12} lg={9}>
-        <ExcursionsList startDate={startDate} />
-      </Grid>
-      <Grid item xs={12} lg={12}>
-        <Typography>Заказы</Typography>
-        <Card sx={{ height: "100%", paddingX: { xs: 2 } }}>
-          <CardHeader title={t("dashboard.recentOrders.title")} />
-
-          <RecentOrders />
-        </Card>
-      </Grid>
-    </Grid>
+    </List>
   );
 };

@@ -60,6 +60,9 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "image",
         headerName: "Изображение",
+        headerAlign: "center",
+        align: "center",
+        width: 130,
         renderCell: function render({ row }) {
           return (
             <Avatar
@@ -69,61 +72,70 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
             />
           );
         },
-        minWidth: 130,
       },
       {
         field: "title",
         headerName: "Заголовок",
-        minWidth: 200,
+        headerAlign: "center",
+        align: "center",
+        width: 200,
       },
       {
         field: "text",
         headerName: "Текст",
-
-        minWidth: 300,
+        headerAlign: "center",
+        flex: 1,
+        align: "center",
+        width: 300,
       },
       {
         field: "createdAt",
         headerName: "Создано",
-        minWidth: 160,
+        headerAlign: "center",
+        align: "center",
+        width: 160,
       },
       {
         field: "author",
         headerName: "Автор",
-        minWidth: 180,
+        headerAlign: "center",
+        align: "center",
+        width: 180,
       },
 
-      // {
-      //   field: "actions",
-      //   type: "actions",
-      //   headerName: "#",
-      //   width: 40,
-      //   sortable: false,
-      //   getActions: ({ row }) => [
-      //     <GridActionsCellItem
-      //       key={1}
-      //       icon={<EditIcon color="success" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.edit")}
-      //       showInMenu
-      //       onClick={() => edit("news", row.id)}
-      //     />,
-      //     <GridActionsCellItem
-      //       key={2}
-      //       icon={<CloseOutlinedIcon color="error" />}
-      //       sx={{ padding: "2px 6px" }}
-      //       label={t("buttons.delete")}
-      //       showInMenu
-      //       onClick={() => {
-      //         mutateDelete({
-      //           resource: "news",
-      //           id: row.id,
-      //           mutationMode: "undoable",
-      //         });
-      //       }}
-      //     />,
-      //   ],
-      // },
+      {
+        field: "actions",
+        type: "actions",
+        headerName: "#",
+        headerAlign: "center",
+        align: "center",
+        width: 30,
+        sortable: false,
+        getActions: ({ row }) => [
+          <GridActionsCellItem
+            key={1}
+            icon={<EditIcon color="success" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.edit")}
+            showInMenu
+            onClick={() => edit("news", row.id)}
+          />,
+          <GridActionsCellItem
+            key={2}
+            icon={<CloseOutlinedIcon color="error" />}
+            sx={{ padding: "2px 6px" }}
+            label={t("buttons.delete")}
+            showInMenu
+            onClick={() => {
+              mutateDelete({
+                resource: "news",
+                id: row.id,
+                mutationMode: "undoable",
+              });
+            }}
+          />,
+        ],
+      },
     ],
     [t]
   );

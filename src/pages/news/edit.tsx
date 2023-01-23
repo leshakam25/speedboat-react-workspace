@@ -14,6 +14,9 @@ import {
   FormControl,
   FormLabel,
   TextField,
+  Typography,
+  ListButton,
+  RefreshButton,
 } from "@pankod/refine-mui";
 import { useForm } from "@pankod/refine-react-hook-form";
 import { IUser } from "interfaces";
@@ -43,6 +46,13 @@ export const NewsEdit: React.FC<IResourceComponentsProps> = () => {
       resource="news"
       isLoading={formLoading}
       actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
+      title={<Typography variant="h5">Новость</Typography>}
+      breadcrumb={false}
+      headerButtons={
+        <>
+          <ListButton hideText={true} /> <RefreshButton hideText={true} />
+        </>
+      }
     >
       <Box
         onSubmit={handleSubmit(onFinish)}
