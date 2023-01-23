@@ -73,7 +73,8 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
           );
         },
         width: 100,
-      },{
+      },
+      {
         field: "name",
         headerName: t("users.fields.name"),
         minWidth: 140,
@@ -84,7 +85,6 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
         minWidth: 140,
       },
 
-      
       {
         field: "email",
         headerName: t("users.fields.email"),
@@ -96,37 +96,37 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
         headerName: t("users.fields.createdAt"),
         minWidth: 140,
       },
-      {
-        field: "actions",
-        type: "actions",
-        headerName: "#",
-        minWidth: 10,
-        sortable: false,
-        getActions: ({ row }) => [
-          <GridActionsCellItem
-            key={1}
-            icon={<EditIcon color="success" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.edit")}
-            showInMenu
-            onClick={() => edit("agents", row.id)}
-          />,
-          <GridActionsCellItem
-            key={2}
-            icon={<CloseOutlinedIcon color="error" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.delete")}
-            showInMenu
-            onClick={() => {
-              mutateDelete({
-                resource: "agents",
-                id: row.id,
-                mutationMode: "undoable",
-              });
-            }}
-          />,
-        ],
-      },
+      // {
+      //   field: "actions",
+      //   type: "actions",
+      //   headerName: "#",
+      //   minWidth: 10,
+      //   sortable: false,
+      //   getActions: ({ row }) => [
+      //     <GridActionsCellItem
+      //       key={1}
+      //       icon={<EditIcon color="success" />}
+      //       sx={{ padding: "2px 6px" }}
+      //       label={t("buttons.edit")}
+      //       showInMenu
+      //       onClick={() => edit("agents", row.id)}
+      //     />,
+      //     <GridActionsCellItem
+      //       key={2}
+      //       icon={<CloseOutlinedIcon color="error" />}
+      //       sx={{ padding: "2px 6px" }}
+      //       label={t("buttons.delete")}
+      //       showInMenu
+      //       onClick={() => {
+      //         mutateDelete({
+      //           resource: "agents",
+      //           id: row.id,
+      //           mutationMode: "undoable",
+      //         });
+      //       }}
+      //     />,
+      //   ],
+      // },
     ],
     [t]
   );

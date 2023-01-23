@@ -2,7 +2,7 @@ import { useTranslate } from "@pankod/refine-core";
 import { Chip, ChipProps } from "@pankod/refine-mui";
 
 type OrderStatusProps = {
-  status?: "payment is expected" | "paid" | "done" | "cancelled";
+  status?: string;
 };
 
 export const OrderStatus: React.FC<OrderStatusProps> = ({ status }) => {

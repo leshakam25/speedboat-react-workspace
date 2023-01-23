@@ -1,27 +1,22 @@
 import React from "react";
 import {
   Avatar,
-  DataGrid,
   Grid,
-  GridColumns,
-  List,
-  Paper,
+  DeleteButton,
+  EditButton,
+  ListButton,
+  RefreshButton,
   Show,
   Stack,
   Typography,
-  useDataGrid,
 } from "@pankod/refine-mui";
-import {
-  HttpError,
-  IResourceComponentsProps,
-  useShow,
-  useTranslate,
-} from "@pankod/refine-core";
+import { IResourceComponentsProps, useShow } from "@pankod/refine-core";
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import { IUser, IUserFilterVariables } from "interfaces";
+import { IUser } from "interfaces";
 import { InfoBox } from "components";
+import { usePermissions } from "@pankod/refine-core/";
 
 const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -40,74 +35,30 @@ const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
 );
 
 export const UserShow: React.FC<IResourceComponentsProps> = () => {
-  const t = useTranslate();
-
   const { queryResult } = useShow<IUser>();
   const user = queryResult.data?.data;
-
-  const { dataGridProps } = useDataGrid<IUser, HttpError, IUserFilterVariables>(
-    {
-      resource: "users",
-      initialSorter: [
-        {
-          field: "createdAt",
-          order: "desc",
-        },
-      ],
-      permanentFilter: [
-        {
-          field: "user.id",
-          operator: "eq",
-          value: user?.id,
-        },
-      ],
-      initialPageSize: 4,
-      queryOptions: {
-        enabled: user !== undefined,
-      },
-      syncWithLocation: false,
-    }
-  );
-
-  const columns = React.useMemo<GridColumns<IUser>>(
-    () => [
-      {
-        field: "orderNumber",
-        headerName: t("orders.fields.orderNumber"),
-        width: 100,
-      },
-
-      {
-        field: "route",
-        headerName: t("orders.fields.route"),
-        sortable: false,
-        width: 150,
-      },
-      {
-        field: "status",
-        headerName: t("orders.fields.status"),
-        sortable: false,
-        width: 150,
-      },
-      {
-        field: "createdAt",
-        headerName: t("orders.fields.createdAt"),
-      },
-    ],
-    [t]
-  );
+  const { data: permissionsData } = usePermissions();
 
   return (
-    <Show>
+    <Show
+      resource="users"
+      title={false}
+      breadcrumb={false}
+      headerButtons={
+        permissionsData?.includes("admin") ? (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+            <EditButton hideText={true} /> <DeleteButton hideText={true} />
+          </>
+        ) : (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+          </>
+        )
+      }
+    >
       <Grid container spacing={2}>
-        <Grid
-          item
-          xs={12}
-          lg={3}
-          sx={{
-            m: "0 auto",
-          }}
-        >
+        <Grid item xs={3} lg={3}>
           <Stack alignItems="center">
             <Avatar
               variant="rounded"
@@ -121,41 +72,26 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
             <UserInfoText>
               <InfoBox
                 icon={<LocalPhoneOutlinedIcon />}
-                text={t("orders.fields.phone")}
+                text="Номер телефона"
                 value={user?.phone}
               />
             </UserInfoText>
             <UserInfoText>
               <InfoBox
                 icon={<EmailIcon />}
-                text={t("orders.fields.email")}
+                text="Электронная почта"
                 value={user?.email}
               />
             </UserInfoText>
             <UserInfoText>
               <InfoBox
                 icon={<DateRangeOutlinedIcon />}
-                text={t("orders.fields.createdAt")}
+                text="Создан"
                 value={user?.createdAt}
               />
             </UserInfoText>
           </Stack>
         </Grid>
-        {/* <Grid item xs={12} lg={4}>
-          <Stack direction="column" spacing={2}>
-            <List
-              cardHeaderProps={{ title: t("orders.orders") }}
-              cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
-            >
-              <DataGrid
-                {...dataGridProps}
-                columns={columns}
-                autoHeight
-                rowsPerPageOptions={[4, 10, 20, 100]}
-              />
-            </List>
-          </Stack>
-        </Grid> */}
       </Grid>
     </Show>
   );

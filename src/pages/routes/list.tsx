@@ -102,38 +102,38 @@ export const RouteList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Создан",
         width: 150,
       },
-      {
-        field: "actions",
-        type: "actions",
-        headerName: "#",
-        width: 40,
+      // {
+      //   field: "actions",
+      //   type: "actions",
+      //   headerName: "#",
+      //   width: 40,
 
-        sortable: false,
-        getActions: ({ row }) => [
-          <GridActionsCellItem
-            key={1}
-            icon={<EditIcon color="success" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.edit")}
-            showInMenu
-            onClick={() => edit("routes", row.id)}
-          />,
-          <GridActionsCellItem
-            key={2}
-            icon={<CloseOutlinedIcon color="error" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.delete")}
-            showInMenu
-            onClick={() => {
-              mutateDelete({
-                resource: "routes",
-                id: row.id,
-                mutationMode: "undoable",
-              });
-            }}
-          />,
-        ],
-      },
+      //   sortable: false,
+      //   getActions: ({ row }) => [
+      //     <GridActionsCellItem
+      //       key={1}
+      //       icon={<EditIcon color="success" />}
+      //       sx={{ padding: "2px 6px" }}
+      //       label={t("buttons.edit")}
+      //       showInMenu
+      //       onClick={() => edit("routes", row.id)}
+      //     />,
+      //     <GridActionsCellItem
+      //       key={2}
+      //       icon={<CloseOutlinedIcon color="error" />}
+      //       sx={{ padding: "2px 6px" }}
+      //       label={t("buttons.delete")}
+      //       showInMenu
+      //       onClick={() => {
+      //         mutateDelete({
+      //           resource: "routes",
+      //           id: row.id,
+      //           mutationMode: "undoable",
+      //         });
+      //       }}
+      //     />,
+      //   ],
+      // },
     ],
     [t]
   );

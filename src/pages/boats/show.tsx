@@ -6,45 +6,44 @@ import {
   Show,
   Stack,
   Typography,
-  useDataGrid,
+  DeleteButton,
+  RefreshButton,
+  EditButton,
+  ListButton,
 } from "@pankod/refine-mui";
 import {
-  HttpError,
   IResourceComponentsProps,
   useShow,
   useTranslate,
 } from "@pankod/refine-core";
-import EmailIcon from "@mui/icons-material/Email";
-import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
-import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import { IBoat, IUserFilterVariables } from "interfaces";
-import { InfoBox } from "components";
-import { IsActive } from "components/isActive";
-
-const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
-  <Stack
-    direction="row"
-    alignItems="center"
-    justifyContent={{
-      sm: "center",
-      lg: "flex-start",
-    }}
-    gap={1}
-  >
-    {children}
-  </Stack>
-);
+import { IBoat } from "interfaces";
+import { usePermissions } from "@pankod/refine-core/";
 
 export const BoatShow: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
 
   const { queryResult } = useShow<IBoat>();
   const boat = queryResult.data?.data;
+  const { data: permissionsData } = usePermissions();
 
   return (
-    <Show resource="boats">
+    <Show
+      title={false}
+      resource="boats"
+      breadcrumb={false}
+      headerButtons={
+        permissionsData?.includes("admin") ? (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+            <EditButton hideText={true} /> <DeleteButton hideText={true} />
+          </>
+        ) : (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+          </>
+        )
+      }
+    >
       <Grid
         container
         spacing={2}
@@ -56,7 +55,7 @@ export const BoatShow: React.FC<IResourceComponentsProps> = () => {
         <Grid item xs={12} lg={6}>
           <Stack alignItems="center" spacing={1}>
             <CardMedia
-              sx={{ maxHeight: "400px", width: "auto" }}
+              sx={{ height: "auto", width: "100%" }}
               component="img"
               src={boat?.image}
             />

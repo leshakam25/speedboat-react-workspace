@@ -1,25 +1,22 @@
 import React from "react";
 import {
   Avatar,
-  DataGrid,
+  DeleteButton,
+  EditButton,
   Grid,
-  GridColumns,
-  List,
+  ListButton,
+  RefreshButton,
   Paper,
   Show,
   Stack,
   Typography,
 } from "@pankod/refine-mui";
-import {
-  HttpError,
-  IResourceComponentsProps,
-  useShow,
-  useTranslate,
-} from "@pankod/refine-core";
+import { usePermissions } from "@pankod/refine-core/";
+import { IResourceComponentsProps, useShow } from "@pankod/refine-core";
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import { IUser, IUserFilterVariables } from "interfaces";
+import { IAgent } from "interfaces";
 import { InfoBox } from "components";
 
 const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
@@ -39,14 +36,28 @@ const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
 );
 
 export const AgentShow: React.FC<IResourceComponentsProps> = () => {
-  const t = useTranslate();
-
-  const { queryResult } = useShow<IUser>();
+  const { queryResult } = useShow<IAgent>();
   const user = queryResult.data?.data;
+  const { data: permissionsData } = usePermissions();
 
   return (
-    <Show>
-      {" "}
+    <Show
+      title={false}
+      resource="agents"
+      breadcrumb={false}
+      headerButtons={
+        permissionsData?.includes("admin") ? (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+            <EditButton hideText={true} /> <DeleteButton hideText={true} />
+          </>
+        ) : (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+          </>
+        )
+      }
+    >
       <Grid container spacing={2}>
         <Grid item xs={12} lg={3}>
           <Paper
@@ -70,46 +81,27 @@ export const AgentShow: React.FC<IResourceComponentsProps> = () => {
               <UserInfoText>
                 <InfoBox
                   icon={<LocalPhoneOutlinedIcon />}
-                  text={t("orders.fields.phone")}
+                  text="Номер телефона"
                   value={user?.phone}
                 />
               </UserInfoText>
               <UserInfoText>
                 <InfoBox
                   icon={<EmailIcon />}
-                  text={t("orders.fields.email")}
+                  text="Электронная почта"
                   value={user?.email}
                 />
               </UserInfoText>
               <UserInfoText>
                 <InfoBox
                   icon={<DateRangeOutlinedIcon />}
-                  text={t("orders.fields.createdAt")}
+                  text="Создан"
                   value={user?.createdAt}
                 />
               </UserInfoText>
             </Stack>
           </Paper>
         </Grid>
-        {/* <Grid item xs={12} lg={4}>
-          <Stack
-            sx={{ boxShadow: "none", border: "none" }}
-            direction="column"
-            spacing={2}
-          >
-            <List
-              cardHeaderProps={{ title: t("orders.orders") }}
-              cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
-            >
-              <DataGrid
-                {...dataGridProps}
-                columns={columns}
-                autoHeight
-                rowsPerPageOptions={[4, 10, 20, 100]}
-              />
-            </List>
-          </Stack>
-        </Grid> */}
       </Grid>
     </Show>
   );

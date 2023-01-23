@@ -93,37 +93,37 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         headerName: t("users.fields.createdAt"),
         minWidth: 140,
       },
-      {
-        field: "actions",
-        type: "actions",
-        headerName: "#",
-        minWidth: 10,
-        sortable: false,
-        getActions: ({ row }) => [
-          <GridActionsCellItem
-            key={1}
-            icon={<EditIcon color="success" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.edit")}
-            showInMenu
-            onClick={() => edit("users", row.id)}
-          />,
-          <GridActionsCellItem
-            key={2}
-            icon={<CloseOutlinedIcon color="error" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.delete")}
-            showInMenu
-            onClick={() => {
-              mutateDelete({
-                resource: "users",
-                id: row.id,
-                mutationMode: "undoable",
-              });
-            }}
-          />,
-        ],
-      },
+      // {
+      //   field: "actions",
+      //   type: "actions",
+      //   headerName: "#",
+      //   minWidth: 10,
+      //   sortable: false,
+      //   getActions: ({ row }) => [
+      //     <GridActionsCellItem
+      //       key={1}
+      //       icon={<EditIcon color="success" />}
+      //       sx={{ padding: "2px 6px" }}
+      //       label={t("buttons.edit")}
+      //       showInMenu
+      //       onClick={() => edit("users", row.id)}
+      //     />,
+      //     <GridActionsCellItem
+      //       key={2}
+      //       icon={<CloseOutlinedIcon color="error" />}
+      //       sx={{ padding: "2px 6px" }}
+      //       label={t("buttons.delete")}
+      //       showInMenu
+      //       onClick={() => {
+      //         mutateDelete({
+      //           resource: "users",
+      //           id: row.id,
+      //           mutationMode: "undoable",
+      //         });
+      //       }}
+      //     />,
+      //   ],
+      // },
     ],
     [t]
   );

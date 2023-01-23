@@ -93,37 +93,37 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
         minWidth: 180,
       },
 
-      {
-        field: "actions",
-        type: "actions",
-        headerName: "#",
-        width: 40,
-        sortable: false,
-        getActions: ({ row }) => [
-          <GridActionsCellItem
-            key={1}
-            icon={<EditIcon color="success" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.edit")}
-            showInMenu
-            onClick={() => edit("news", row.id)}
-          />,
-          <GridActionsCellItem
-            key={2}
-            icon={<CloseOutlinedIcon color="error" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.delete")}
-            showInMenu
-            onClick={() => {
-              mutateDelete({
-                resource: "news",
-                id: row.id,
-                mutationMode: "undoable",
-              });
-            }}
-          />,
-        ],
-      },
+      // {
+      //   field: "actions",
+      //   type: "actions",
+      //   headerName: "#",
+      //   width: 40,
+      //   sortable: false,
+      //   getActions: ({ row }) => [
+      //     <GridActionsCellItem
+      //       key={1}
+      //       icon={<EditIcon color="success" />}
+      //       sx={{ padding: "2px 6px" }}
+      //       label={t("buttons.edit")}
+      //       showInMenu
+      //       onClick={() => edit("news", row.id)}
+      //     />,
+      //     <GridActionsCellItem
+      //       key={2}
+      //       icon={<CloseOutlinedIcon color="error" />}
+      //       sx={{ padding: "2px 6px" }}
+      //       label={t("buttons.delete")}
+      //       showInMenu
+      //       onClick={() => {
+      //         mutateDelete({
+      //           resource: "news",
+      //           id: row.id,
+      //           mutationMode: "undoable",
+      //         });
+      //       }}
+      //     />,
+      //   ],
+      // },
     ],
     [t]
   );

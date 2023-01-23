@@ -2,65 +2,60 @@ import React from "react";
 import {
   Box,
   CardMedia,
+  DeleteButton,
+  EditButton,
+  ListButton,
+  RefreshButton,
   Grid,
-  GridColumns,
   Show,
-  Stack,
   Typography,
-  useDataGrid,
 } from "@pankod/refine-mui";
-import {
-  HttpError,
-  IResourceComponentsProps,
-  useShow,
-  useTranslate,
-} from "@pankod/refine-core";
-import { INews, IUser, IUserFilterVariables } from "interfaces";
-import { InfoBox } from "components";
+import { IResourceComponentsProps, useShow } from "@pankod/refine-core";
+import { INews } from "interfaces";
 
-const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
-  <Stack
-    direction="row"
-    alignItems="center"
-    justifyContent={{
-      sm: "center",
-      lg: "flex-start",
-    }}
-    gap={1}
-  >
-    {children}
-  </Stack>
-);
+import { usePermissions } from "@pankod/refine-core/";
 
 export const NewsShow: React.FC<IResourceComponentsProps> = () => {
-  const t = useTranslate();
-
   const { queryResult } = useShow<INews>();
   const news = queryResult.data?.data;
 
+  const { data: permissionsData } = usePermissions();
   return (
-    <Show resource="news">
+    <Show
+      resource="news"
+      title={false}
+      breadcrumb={false}
+      headerButtons={
+        permissionsData?.includes("admin") ? (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+            <EditButton hideText={true} /> <DeleteButton hideText={true} />
+          </>
+        ) : (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+          </>
+        )
+      }
+    >
       <Grid container spacing={2}>
         <Grid
           item
           xs={12}
           lg={4}
           sx={{
-            maxHeight: 540,
-            width: "auto",
             m: "0 auto",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <Typography variant="h3" textAlign="center" lineHeight="140%">
-            {news?.title}
-          </Typography>
           <Box>
             {" "}
+            <Typography variant="h4" textAlign="center" lineHeight="140%">
+              {news?.title}
+            </Typography>
             <Typography variant="body2" textAlign="right" lineHeight="200%">
               {news?.author}
             </Typography>
@@ -73,7 +68,7 @@ export const NewsShow: React.FC<IResourceComponentsProps> = () => {
           <CardMedia
             component="img"
             src={news?.image}
-            sx={{ maxHeight: 540, width: "auto", m: "0 auto" }}
+            sx={{ maxHeight: 540, width: "100%", m: "0 auto" }}
           />
         </Grid>
         <Grid

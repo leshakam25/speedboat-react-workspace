@@ -1,53 +1,47 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { IResourceComponentsProps, useShow } from "@pankod/refine-core";
 import {
-  IResourceComponentsProps,
-  useNavigation,
-  useShow,
-  useTranslate,
-  useUpdate,
-} from "@pankod/refine-core";
-import {
-  Avatar,
   Box,
   Card,
   CardContent,
   CardHeader,
   Stack,
   Typography,
-  useMediaQuery,
-  useTheme,
   Grid,
   Show,
-  FormControl,
-  FormLabel,
-  TextField,
+  DeleteButton,
+  EditButton,
+  ListButton,
+  RefreshButton,
 } from "@pankod/refine-mui";
-import EmailIcon from "@mui/icons-material/Email";
-import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
+import { usePermissions } from "@pankod/refine-core/";
 
-import {
-  InfoBox,
-  // , OrderStatus
-} from "components";
-
-import { IOrder, IOrderStatus } from "interfaces";
-import { RouteName } from "components/routeName";
+import { IOrder } from "interfaces";
+import { OrderStatus } from "components";
 
 export const OrderShow: React.FC<IResourceComponentsProps> = () => {
-  const t = useTranslate();
-
   const { queryResult } = useShow<IOrder>();
   const record = queryResult.data?.data;
-
-  const { goBack } = useNavigation();
-  const { mutate } = useUpdate();
-
-  const theme = useTheme();
-
-  const isSmallOrLess = useMediaQuery(theme.breakpoints.down("sm"));
+  const { data: permissionsData } = usePermissions();
 
   return (
-    <Show>
+    <Show
+      resource="orders"
+      title={false}
+      breadcrumb={false}
+      headerButtons={
+        permissionsData?.includes("admin") ? (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+            <EditButton hideText={true} /> <DeleteButton hideText={true} />
+          </>
+        ) : (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+          </>
+        )
+      }
+    >
       <Grid container spacing={2}>
         <Grid item xs={12} lg={3}>
           <Card sx={{ boxShadow: "none", border: "none" }}>
@@ -64,9 +58,7 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                   alignItems="center"
                   justifyContent="space-between"
                 >
-                  <Typography variant="h6">
-                    {t("orders.fields.orderNumber")}
-                  </Typography>
+                  <Typography variant="h6">Номер заказа</Typography>
                   <Typography variant="h5">{`${record?.id}`}</Typography>
                 </Stack>
               }
@@ -84,7 +76,6 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                 }}
               >
                 <Typography variant="body1">Маршрут: </Typography>
-                {/* <RouteName status={record?.route.route} /> */}
                 {record?.route}
               </Box>
               <Box
@@ -109,9 +100,7 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
                 }}
               >
                 <Typography variant="body1">Статус: </Typography>
-                {/* {record?.status} */}
-                {/* <OrderStatus status={record?.status.text} /> */}
-                {/* {record?.status} */}
+                <OrderStatus status={record?.status} />
               </Box>
               <Box
                 sx={{
@@ -142,11 +131,11 @@ export const OrderShow: React.FC<IResourceComponentsProps> = () => {
         </Grid>
         {/* user */}
         <Grid item xs={12} lg={2}>
-          {/* <Typography variant="h5">Гость: {record?.user}</Typography> */}
+          <Typography variant="h5">Гость: {record?.user}</Typography>
         </Grid>
         {/* agent */}
         <Grid item xs={12} lg={2}>
-          {/* <Typography variant="h5">Агент: {record?.agent}</Typography> */}
+          <Typography variant="h5">Агент: {record?.agent}</Typography>
         </Grid>{" "}
         <Grid item xs={12} lg={5} spacing={2}>
           <Box>

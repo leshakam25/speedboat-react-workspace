@@ -3,48 +3,40 @@ import {
   Avatar,
   Box,
   Grid,
-  GridColumns,
   Show,
   Stack,
+  DeleteButton,
+  EditButton,
+  ListButton,
+  RefreshButton,
   Typography,
-  useDataGrid,
 } from "@pankod/refine-mui";
-import {
-  HttpError,
-  IResourceComponentsProps,
-  useShow,
-  useTranslate,
-} from "@pankod/refine-core";
-import EmailIcon from "@mui/icons-material/Email";
-import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
-import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import { IRoute, IUser, IUserFilterVariables } from "interfaces";
-import { InfoBox } from "components";
-
-const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
-  <Stack
-    direction="row"
-    alignItems="center"
-    justifyContent={{
-      sm: "center",
-      lg: "flex-start",
-    }}
-    gap={1}
-  >
-    {children}
-  </Stack>
-);
+import { IResourceComponentsProps, useShow } from "@pankod/refine-core";
+import { IRoute } from "interfaces";
+import { usePermissions } from "@pankod/refine-core/";
 
 export const RouteShow: React.FC<IResourceComponentsProps> = () => {
-  const t = useTranslate();
-
   const { queryResult } = useShow<IRoute>();
   const route = queryResult.data?.data;
+  const { data: permissionsData } = usePermissions();
 
   return (
-    <Show>
+    <Show
+      title={false}
+      breadcrumb={false}
+      headerButtons={
+        permissionsData?.includes("admin") ? (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+            <EditButton hideText={true} /> <DeleteButton hideText={true} />
+          </>
+        ) : (
+          <>
+            <ListButton hideText={true} /> <RefreshButton hideText={true} />
+          </>
+        )
+      }
+    >
       <Grid container spacing={2}>
         <Grid item xs={12} lg={5}>
           <Box
