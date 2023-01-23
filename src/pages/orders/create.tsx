@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import dayjs, { Dayjs } from "dayjs";
-import { createdAt } from "../../components/createdAt/index.tsx";
 
 import {
   IResourceComponentsProps,
   useTranslate,
   HttpError,
   useGetIdentity,
+  useCreate,
 } from "@pankod/refine-core";
 import {
   Create,
@@ -21,8 +19,6 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
-  Autocomplete,
-  useAutocomplete,
   FormLabel,
   Switch,
   FormGroup,
@@ -32,12 +28,9 @@ import {
   Slider,
   Button,
 } from "@pankod/refine-mui";
-import { Controller, useForm } from "@pankod/refine-react-hook-form";
-import { IBoat, IOrder, IRoute, ITimeSpot, IUser } from "interfaces";
-import { ClockPickerView } from "@mui/x-date-pickers";
+import { useForm } from "@pankod/refine-react-hook-form";
+import { IOrder, IRoute, ITimeSpot, IUser } from "interfaces";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { UserCreate } from "pages/users";
 import PhoneInput from "react-phone-input-2";
 
 const initialUserData = {
@@ -79,18 +72,18 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
     setRoute(event.target.value);
   };
 
-  const { autocompleteProps } = useAutocomplete<IUser>({
-    resource: "users",
-  });
+  // const { autocompleteProps } = useAutocomplete<IUser>({
+  //   resource: "users",
+  // });
 
-  const [valueN, setValueN] = useState<null>();
-  const [valueTime, setValueTime] = useState<null>();
-  // const [value, setValue] = useState<Dayjs | null>(dayjs());
+  const [valueDate, setValueDate] = useState<null>();
   const [routeList, setRouteList] = useState<[IRoute] | []>([]);
   const [personCount, setPersonCount] = useState(1)
   
   const [timeSpotList, setTimeSpotList] = useState<[ITimeSpot] | []>([]);
   const [userData, setUserData] = useState<IUser>(initialUserData)
+  const [currentUser, setCurrentUser] = useState<any>(null)
+  const { mutate } = useCreate();
 
   useEffect(() => {
     getRouteList();
@@ -103,6 +96,10 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   useEffect(() => {
     getLastUserId();
   }, []);
+
+  useEffect(() => {
+    if (currentUser && !isUserRegister) setIsUserRegister(true)
+  }, [currentUser]);
 
   async function getTimeSpotList() {
     let response = await fetch("http://62.217.182.92:4000/time_spots");
@@ -128,35 +125,35 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
 //   return new URLSearchParams(data)
 // }
   
-  async function regNewUser(data:IUser) {
-    const params = new URLSearchParams({id:`${data.id}`, name:`${data.name}`, phone:`${data.phone}`, email:`${data.email}`, createdAt:`${data.createdAt}` })
+  // async function regNewUser(data:IUser) {
+  //   const params = new URLSearchParams({id:`${data.id}`, name:`${data.name}`, phone:`${data.phone}`, email:`${data.email}`, createdAt:`${data.createdAt}` })
     
-    const rawResponse = await fetch(`http://62.217.182.92:4000/users?${params.toString()}`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        body:JSON.stringify(data)
-      },
-    });
-    const content = await rawResponse.json();
-    setValue('user',content)
-    setIsUserRegister(true);
-    return undefined;
-  }
+  //   const rawResponse = await fetch(`http://62.217.182.92:4000/users?${params.toString()}`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json',
+  //       body:JSON.stringify(data)
+  //     },
+  //   });
+  //   const content = await rawResponse.json();
+  //   setValue('user',content.id)
+  //   setIsUserRegister(true);
+  //   return undefined;
+  // }
 
-  function getDisabledTimeFunction(
-    timeValue: number,
-    clockType: ClockPickerView
-  ) {
-    if (clockType === "minutes" && timeValue !== 0) return true;
-    if (clockType === "hours") {
-      const str = `${timeValue}.00`;
-      const list = [...timeSpotList.map((e) => e.time)];
-      return !list.includes(str);
-    }
-    return false;
-  }
+  // function getDisabledTimeFunction(
+  //   timeValue: number,
+  //   clockType: ClockPickerView
+  // ) {
+  //   if (clockType === "minutes" && timeValue !== 0) return true;
+  //   if (clockType === "hours") {
+  //     const str = `${timeValue}.00`;
+  //     const list = [...timeSpotList.map((e) => e.time)];
+  //     return !list.includes(str);
+  //   }
+  //   return false;
+  // }
   function handleChangePersonCount(event: Event, value: number | number[], activeThumb: number) {
     if (typeof value === "number")  setPersonCount(value)
   }
@@ -167,27 +164,62 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
       hour12: false,
     }).format(new Date())
     const obj = {...userData, id:prevUserId+1, createdAt:createdAt}
-    let serParams = new URLSearchParams()
-    // Object.keys(obj).map((el,in)=>{
-    //   return
-    // })
-    // for (const key in obj) {
-    //   if (Object.prototype.hasOwnProperty.call(obj, key)) {
-    //     const element = obj[key];
-    //   }
-    // }
-    // console.log(new URLSearchParams(obj).toString());
-    
-    regNewUser(obj)
+    mutate(
+    {
+        resource: "users",
+        values: {
+           ...obj
+        },
+    },
+    {
+        onError: (error, variables, context) => {
+          console.log("Не удалось сохранить пользователя!", error);
+        },
+        onSuccess: (data, variables, context) => {
+          console.log("Пользователь сохранен!",data);
+          setCurrentUser({...data.data})
+          setValue('user',data.data.id)
+            // Let's celebrate!
+        },
+    },
+);
   }
   return (
     <Create
       isLoading={formLoading}
-      actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
+      actionButtons={<>{<SaveButton disabled={!isUserRegister} onClick={(e)=>{
+        console.log("&&&&&&&&&",);
+    const createdAt = new Intl.DateTimeFormat('ru',{
+      year: 'numeric', month: 'numeric', day: 'numeric',
+      hour: 'numeric', minute: 'numeric',
+      hour12: false,
+    }).format(new Date())
+        mutate(
+            {
+                resource: "orders",
+                values: {
+                  ...getValues(),
+                  status:"payment is expected",
+                  agent:user.id,
+                  createdAt:createdAt,
+                  persons:+getValues().persons
+                },
+            },
+            {
+                onError: (error, variables, context) => {
+                  console.log("Не удалось сохранить заказ!", error);
+                },
+                onSuccess: (data, variables, context) => {
+                  console.log("Заказ сохранен!",data);
+                    // Let's celebrate!
+                },
+            },) 
+        e.preventDefault()
+        // handleSubmit(onFinish)
+      }} />}</>}
     >
       {" "}
       <Box
-        // onSubmit={handleSubmit(onFinish)}
         component="form"
         sx={{
           display: "flex",
@@ -221,31 +253,23 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
               </FormControl>
             </Grid>
             <Grid item xs={6}>
+            {/* date */}
               <FormControl fullWidth>
                 <FormLabel>Дата поездки</FormLabel>{" "}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     {...register("date")}
-                    value={valueN}
+                    value={valueDate}
                     disablePast={true}
-                    // shouldDisableDate={(day)=>{
-                    //   const ddd =new Date()
-                    //   const nnn = day || Date()
-                    //   console.log(nnn.getTime(), ddd.getTime());
-
-                    //   return true
-                    // }}
-                    // shouldDisableTime={getDisabledTimeFunction}
-                    // views={['day','hours','minutes']}
                     onChange={(newValue) => {
-                      setValueN(newValue);
+                      setValueDate(newValue);
                     }}
                     renderInput={(props) => <TextField {...props} />}
-                    // ampm={false}
                   />
                 </LocalizationProvider>
               </FormControl>
             </Grid>
+            {/* time */}
             <Grid item xs={6}>
               <FormControl fullWidth>
                 <FormLabel>Время отправления</FormLabel>{" "}
@@ -269,117 +293,25 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                       );
                     })}
                   </Select>
-                  {/* <TimePicker 
-                  {...register("time")}
-                  value={valueTime}
-                  // disablePast={true}
-                  // shouldDisableDate={(day)=>{
-                  //   const ddd =new Date()
-                  //   const nnn = day || Date()
-                  //   console.log(nnn.getTime(), ddd.getTime());
-                    
-                  //   return true
-                  // }}
-                  shouldDisableTime={getDisabledTimeFunction}
-                  views={['hours']}
-                  onChange={(newValue) => {
-                    setValueN(newValue);
-                  }}
-                  renderInput={(props) => <TextField {...props} />}
-                  ampm={false}
-                /> */}
                 </LocalizationProvider>
               </FormControl>
             </Grid>
-            {/* */}
-            {/*<FormControl fullWidth>
-              <FormLabel> Количество персон</FormLabel>
-              <Controller
-                control={control}
-                name="user"
-                rules={{ required: "This field is required" }}
-                render={({ field }) => (
-                  <Autocomplete
-                    {...autocompleteProps}
-                    {...field}
-                    onChange={(_, value) => {
-                      field.onChange(value);
-                    }}
-                    getOptionLabel={(item) => {
-                      return (
-                        autocompleteProps?.options?.find(
-                          (p) => p?.id?.toString() === item?.id?.toString()
-                        )?.name ?? ""
-                      );
-                    }}
-                    isOptionEqualToValue={(option, value) =>
-                      value === undefined ||
-                      option.id.toString() === value.toString()
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        error={!!errors.users}
-                        // helperText={errors.users?.message}
-                        required
-                      />
-                    )}
-                  />
-                )}
-              />
-            </FormControl>{" "} */}
+            {/* person counter */}
            <Grid item xs={12}>
             <FormControl fullWidth>
               <FormLabel>Количество людей - <b style={{fontSize:22}}>{personCount}</b></FormLabel>
               <Slider
-                    // {...register("persons")}
+              {...register("persons")}
               min={1}
               max={10}
               value={personCount}
               onChange={handleChangePersonCount}
-              >
-
-              </Slider>
-              {/* <Controller
-                control={control}
-                name="user"
-                rules={{ required: "This field is required" }}
-                render={({ field }) => (
-                  <Autocomplete
-                    {...autocompleteProps}
-                    {...field}
-                    onChange={(_, value) => {
-                      field.onChange(value);
-                    }}
-                    getOptionLabel={(item) => {
-                      return (
-                        autocompleteProps?.options?.find(
-                          (p) => p?.id?.toString() === item?.id?.toString()
-                        )?.name ?? ""
-                      );
-                    }}
-                    isOptionEqualToValue={(option, value) =>
-                      value === undefined ||
-                      option.id.toString() === value.toString()
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        error={!!errors.users}
-                        // helperText={errors.users?.message}
-                        required
-                      />
-                    )}
-                  />
-                )}
-              /> */}
-            </FormControl>{" "}
+              />
+            </FormControl>
 
             </Grid>
-              {/**/}
           </Grid>
+            {/*order's comment*/}
           <Grid item xs={12} lg={8} spacing={2}>
             <FormControl fullWidth>
               <FormLabel
@@ -402,8 +334,9 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
               />
             </FormControl>
           </Grid>
+          {/* user block */}
           <Grid item xs={12} spacing={2}>
-            <Typography variant="h6">Заказчик</Typography>
+            <Typography variant="h5">Клиент</Typography>
             <FormGroup>
               <FormControlLabel
                 control={
@@ -418,7 +351,21 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
             </FormGroup>
             {isUserRegister ? (
               <Grid item container xs={12} md={8}>
-                блок поиска пользователя
+                
+                {
+                  currentUser ? <>
+                    <Typography variant="h6" sx={{"&>span":{
+                      fontWeight:400
+                    }}}>
+                      <span>Заказ оформляется на клиента:</span>{" "}
+                    {currentUser.name}<span>{" "}(Тел:</span> +{currentUser.phone}<span>)</span>
+                    </Typography>
+                  </> : <>
+                    <Typography variant="h6">
+                    блок поиска пользователя
+                    </Typography>
+                  </>
+                }
               </Grid>
             ) : (
               <Grid item container xs={12} md={12}>
@@ -436,9 +383,6 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                         Имя
                       </FormLabel>
                       <TextField
-                        // {...register(
-                        //   "name"
-                        // )}
                         value={userData.name}
                         id="name"
                         onChange={(e)=>setUserData({...userData, name:e.target.value})}
@@ -471,20 +415,9 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                       <PhoneInput
                         country={"ru"}
                         value={userData.phone}
-                        // {...register("phone")}
                         specialLabel=""
                         onChange={(phone) => {setUserData({...userData, phone:phone})}}
                       />
-                      {/* <TextField
-                    {...register(
-                      "phone"
-                      // , { required: true }
-                    )}
-                    size="small"
-                    margin="none"
-                    variant="outlined"
-                    type="tel"
-                  /> */}
                     </FormControl>
                     <FormControl>
                       <FormLabel
@@ -498,7 +431,6 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                         Эл. почта
                       </FormLabel>
                       <TextField
-                        // {...register("email")}
                         size="small"
                         margin="none"
                         variant="outlined"
@@ -508,12 +440,12 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                         onChange={(e)=>setUserData({...userData, email:e.target.value})}
                       />
                     </FormControl>
-                    <Button variant="outlined" sx={{width:'300px', height:'40px'}} onClick={()=>handleSubmitUserRegData()}>
+                    <Button variant="contained" sx={{width:'300px', height:'40px'}} onClick={()=>handleSubmitUserRegData()}>
                         Зарегистрировать клиента
                     </Button>
-                    <Box sx={{ display: "none" }}>
+                    {/* <Box sx={{ display: "none" }}>
                       <input value={createdAt()} {...register("createdAt")} />
-                    </Box>
+                    </Box> */}
                   </Stack>
                 </Grid>
               </Grid>
@@ -527,7 +459,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                   {...register("date")}
                   value={value}
                   onChange={(newValue) => {
-                    setValueN(newValue);
+                    setValueDate(newValue);
                   }}
                   renderInput={(props) => <TextField {...props} />}
                   ampm={false}
@@ -572,7 +504,6 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
               />
             </FormControl> */}
           {/* meta data */}
-          <Button type="submit">ggg</Button>
           {/* <Box sx={{ display: "none" }}>
             <input value={Date()} {...register("createdAt")} />
             <input value="payment is expected" {...register("status")} />
