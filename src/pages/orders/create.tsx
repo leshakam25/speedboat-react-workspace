@@ -8,6 +8,7 @@ import {
   HttpError,
   useGetIdentity,
   useCreate,
+  useNavigation,
 } from "@pankod/refine-core";
 import {
   Create,
@@ -45,7 +46,7 @@ const initialUserData = {
 export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
   const { data: user } = useGetIdentity();
-
+  const { list } = useNavigation();
   const {
     refineCore: { onFinish, formLoading },
     register,
@@ -211,6 +212,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                 },
                 onSuccess: (data, variables, context) => {
                   console.log("Заказ сохранен!",data);
+                  list("orders")
                     // Let's celebrate!
                 },
             },) 

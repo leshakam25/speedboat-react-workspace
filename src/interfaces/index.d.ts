@@ -18,8 +18,9 @@ export interface IOrder {
     time: string;
     date: string;
     createdAt: string;
-    desc?: string;
     agent: number;
+    desc?: string;
+    [key: string]: string;
 }
 
 export interface IUser {

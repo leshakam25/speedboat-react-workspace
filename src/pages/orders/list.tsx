@@ -28,6 +28,7 @@ import {
   InputLabel,
   FormControl,
   GridActionsCellItem,
+  GridRowParams,
 } from "@pankod/refine-mui";
 import { Controller, useForm } from "@pankod/refine-react-hook-form";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
@@ -178,8 +179,28 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
     []
   );
 
-  const { show, create } = useNavigation();
-
+  const { show, create,  } = useNavigation();
+  const {rows} = dataGridProps
+  // const newRows = Array(rows).map((row,rowIndex)=>{
+  //   let newRow:object = {}
+  //   for (const key in row)
+  //     {
+  //       const value = row[key];
+  //       switch (key) {
+  //             case "route":
+  //               newRow[key]=value
+  //               break;
+            
+  //             default:
+  //               break;
+  //           }
+  //     }
+  //   Object.keys(row).map((field, fieldInd)=>{
+     
+  //   })
+  //   return newRow
+  // })
+  // console.log(newRows);
   const { isLoading, triggerExport } = useExport<IOrder>({
     sorter,
     filters,
@@ -318,6 +339,7 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
             filterModel={undefined}
             autoHeight
             rowHeight={80}
+            
             onRowClick={({ id }) => {
               show("orders", id);
             }}
