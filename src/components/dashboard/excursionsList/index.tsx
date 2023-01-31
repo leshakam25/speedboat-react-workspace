@@ -101,11 +101,15 @@ export const ExcursionsList: React.FC<{ startDate: Date }> = ({
           boatsList.map((boat, index) => {
             const { name, capacity } = boat;
             return (
-              <Box display={"flex"} alignItems={"center"}>
+              <Box
+                key={"boatsList-" + index}
+                display={"flex"}
+                alignItems={"center"}
+              >
                 {name}
                 <Box display={"flex"} alignItems={"center"}>
                   {[...Array(capacity)].map((customerIcon, index) => (
-                    <AirlineSeatReclineExtraIcon />
+                    <AirlineSeatReclineExtraIcon key={index} />
                   ))}
                 </Box>
               </Box>

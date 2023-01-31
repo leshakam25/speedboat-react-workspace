@@ -10,11 +10,7 @@
     "@pankod/refine-react-hook-form": "^3.37.2",
     "@pankod/refine-react-router-v6": "^3.36.2",
     "@pankod/refine-simple-rest": "^3.35.2",
-<<<<<<< HEAD
-=======
-    "@reduxjs/toolkit": "^1.9.1",
-    "@types/node": "^12.20.11",
->>>>>>> 0f040814afd9148d3562947f145ac67b18120b7a
+    "@reduxjs/toolkit": "^1.9.2",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "dayjs": "^1.11.7",
