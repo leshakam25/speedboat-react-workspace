@@ -8,6 +8,7 @@ import {
   HttpError,
   useGetIdentity,
   useCreate,
+  useNavigation,
 } from "@pankod/refine-core";
 import {
   Create,
@@ -45,7 +46,7 @@ const initialUserData = {
 export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
   const { data: user } = useGetIdentity();
-
+  const { list } = useNavigation();
   const {
     refineCore: { onFinish, formLoading },
     register,
@@ -195,6 +196,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
     <Create
       breadcrumb={false}
       isLoading={formLoading}
+<<<<<<< HEAD
       actionButtons={
         <>
           {
@@ -238,6 +240,39 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
           }
         </>
       }
+=======
+      actionButtons={<>{<SaveButton disabled={!isUserRegister} onClick={(e)=>{
+        console.log("&&&&&&&&&",);
+    const createdAt = new Intl.DateTimeFormat('ru',{
+      year: 'numeric', month: 'numeric', day: 'numeric',
+      hour: 'numeric', minute: 'numeric',
+      hour12: false,
+    }).format(new Date())
+        mutate(
+            {
+                resource: "orders",
+                values: {
+                  ...getValues(),
+                  status:"payment is expected",
+                  agent:user.id,
+                  createdAt:createdAt,
+                  persons:+getValues().persons
+                },
+            },
+            {
+                onError: (error, variables, context) => {
+                  console.log("Не удалось сохранить заказ!", error);
+                },
+                onSuccess: (data, variables, context) => {
+                  console.log("Заказ сохранен!",data);
+                  list("orders")
+                    // Let's celebrate!
+                },
+            },) 
+        e.preventDefault()
+        // handleSubmit(onFinish)
+      }} />}</>}
+>>>>>>> 0f040814afd9148d3562947f145ac67b18120b7a
     >
       {" "}
       <Box

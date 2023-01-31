@@ -15,11 +15,14 @@ import { ExcursionsList, RecentOrders } from "components/dashboard";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { useAppDispatch } from "redux-hooks";
+import { fetchAllAgents, fetchAllBoats, fetchAllRoutes } from "features/AsyncDictionary/dictionatyAsyncActionis";
 export const DashboardPage: React.FC = () => {
   const t = useTranslate();
   const [orderList, setOrderList] = useState([]);
   const [timeList, setTimeList] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
+const dispatch = useAppDispatch()
 
   async function getOrderLost(foo: string, bar: string) {
     let response = await fetch("http://62.217.182.92:4000/orders");
@@ -33,6 +36,11 @@ export const DashboardPage: React.FC = () => {
     getOrderLost("lll", "dddd");
   }, []);
 
+  useEffect(() => {
+    dispatch(fetchAllBoats())
+    dispatch(fetchAllAgents())
+    dispatch(fetchAllRoutes())
+  }, [])
   return (
     <List headerButtons={false} breadcrumb={false}>
       <Grid container spacing={2}>
