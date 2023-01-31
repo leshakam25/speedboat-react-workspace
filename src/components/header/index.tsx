@@ -26,7 +26,6 @@ import {
   DarkModeOutlined,
   LightModeOutlined,
 } from "@mui/icons-material";
-import i18n from "i18n";
 
 import { IAgent, IOrder, IUser } from "interfaces";
 import { ColorModeContext } from "contexts";
@@ -44,12 +43,7 @@ export const Header: React.FC = () => {
 
   const { mode, setMode } = useContext(ColorModeContext);
 
-  const changeLanguage = useSetLocale();
-  const locale = useGetLocale();
-  const currentLocale = locale();
   const { data: user } = useGetIdentity();
-
-  const t = useTranslate();
 
   const { refetch: refetchOrders } = useList<IOrder>({
     resource: "orders",
@@ -64,7 +58,7 @@ export const Header: React.FC = () => {
             label: `${item.id} / #${item.route}`,
             url: "/images/default-order-img.png",
             link: `/orders/show/${item.id}`,
-            category: t("orders"),
+            category: "orders",
           };
         });
         if (orderOptionGroup.length > 0) {
@@ -87,7 +81,7 @@ export const Header: React.FC = () => {
             label: `${item.name} ${item.phone}`,
             url: item.avatar,
             link: `/users/edit/${item.id}`,
-            category: t("users"),
+            category: "users",
           };
         });
         setOptions((prevOptions) => [...prevOptions, ...storeOptionGroup]);
@@ -108,7 +102,7 @@ export const Header: React.FC = () => {
             label: `${item.name} ${item.phone}`,
             url: item.avatar,
             link: `/agents/edit/${item.id}`,
-            category: t("agents"),
+            category: "agents",
           };
         });
         setOptions((prevOptions) => [...prevOptions, ...courierOptionGroup]);
@@ -205,7 +199,7 @@ export const Header: React.FC = () => {
                   >
                     <TextField
                       {...params}
-                      label={t("search.placeholder")}
+                      label="Поиск"
                       InputProps={{
                         ...params.InputProps,
                       }}
@@ -235,43 +229,7 @@ export const Header: React.FC = () => {
             >
               {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
             </IconButton>
-            {/* change language */}
-            {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <Select
-                disableUnderline
-                defaultValue={currentLocale}
-                inputProps={{ "aria-label": "Without label" }}
-                variant="standard"
-              >
-                {[...(i18n.languages ?? [])].sort().map((lang: string) => (
-                  <MenuItem
-                    selected={currentLocale === lang}
-                    key={lang}
-                    defaultValue={lang}
-                    onClick={() => {
-                      changeLanguage(lang);
-                    }}
-                    value={lang}
-                  >
-                    <Stack
-                      direction="row"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      <Avatar
-                        sx={{
-                          width: "16px",
-                          height: "16px",
-                          marginRight: "5px",
-                        }}
-                        src={`/images/flags/${lang}.svg`}
-                      />
-                      {lang === "ru" ? "Русский" : "English"}
-                    </Stack>
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl> */}
+
             <Stack
               direction="row"
               gap="4px"

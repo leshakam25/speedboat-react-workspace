@@ -172,10 +172,12 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
                 {...register("q")}
                 label={t("users.filter.search.label")}
                 placeholder="Поиск новостей"
-                margin="normal"
                 fullWidth
                 autoFocus
                 size="small"
+                sx={{
+                  mr: 2,
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -185,7 +187,7 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
                 }}
               />
               <br />
-              <Button size="small" type="submit" variant="contained">
+              <Button type="submit" variant="contained">
                 Поиск
               </Button>
             </Box>
@@ -193,7 +195,10 @@ export const NewsList: React.FC<IResourceComponentsProps> = () => {
         </Card>
       </Grid>
       <Grid item xs={12} lg={12}>
-        <List cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}>
+        <List
+          title="Новости"
+          cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}
+        >
           <DataGrid
             {...dataGridProps}
             columns={columns}

@@ -34,13 +34,13 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import PhoneInput from "react-phone-input-2";
 
 const initialUserData = {
-    id: 0,
-    name: "",
-    phone: "",
-    email: "",
-    avatar:"",
-    createdAt: ""
-}
+  id: 0,
+  name: "",
+  phone: "",
+  email: "",
+  avatar: "",
+  createdAt: "",
+};
 
 export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   const t = useTranslate();
@@ -53,7 +53,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
     control,
     formState: { errors },
     getValues,
-    setValue
+    setValue,
   } = useForm<
     IOrder,
     HttpError & {
@@ -62,7 +62,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   >();
 
   const [route, setRoute] = React.useState("");
-  const [prevUserId, setPrevUserId] = useState<number>(0)
+  const [prevUserId, setPrevUserId] = useState<number>(0);
   const [time, setTime] = React.useState("");
   const [isUserRegister, setIsUserRegister] = useState<boolean>(false);
   const handleChangeTime = (event: SelectChangeEvent) => {
@@ -78,11 +78,11 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
 
   const [valueDate, setValueDate] = useState<null>();
   const [routeList, setRouteList] = useState<[IRoute] | []>([]);
-  const [personCount, setPersonCount] = useState(1)
-  
+  const [personCount, setPersonCount] = useState(1);
+
   const [timeSpotList, setTimeSpotList] = useState<[ITimeSpot] | []>([]);
-  const [userData, setUserData] = useState<IUser>(initialUserData)
-  const [currentUser, setCurrentUser] = useState<any>(null)
+  const [userData, setUserData] = useState<IUser>(initialUserData);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const { mutate } = useCreate();
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   }, []);
 
   useEffect(() => {
-    if (currentUser && !isUserRegister) setIsUserRegister(true)
+    if (currentUser && !isUserRegister) setIsUserRegister(true);
   }, [currentUser]);
 
   async function getTimeSpotList() {
@@ -118,16 +118,16 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   async function getLastUserId() {
     let response = await fetch("http://62.217.182.92:4000/users");
     let data: any = await response.json();
-    setPrevUserId(data.length-1);
+    setPrevUserId(data.length - 1);
     return undefined;
   }
-// function generateParams<URLSearchParams>(data:IUser) {
-//   return new URLSearchParams(data)
-// }
-  
+  // function generateParams<URLSearchParams>(data:IUser) {
+  //   return new URLSearchParams(data)
+  // }
+
   // async function regNewUser(data:IUser) {
   //   const params = new URLSearchParams({id:`${data.id}`, name:`${data.name}`, phone:`${data.phone}`, email:`${data.email}`, createdAt:`${data.createdAt}` })
-    
+
   //   const rawResponse = await fetch(`http://62.217.182.92:4000/users?${params.toString()}`, {
   //     method: 'POST',
   //     headers: {
@@ -154,69 +154,90 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
   //   }
   //   return false;
   // }
-  function handleChangePersonCount(event: Event, value: number | number[], activeThumb: number) {
-    if (typeof value === "number")  setPersonCount(value)
+  function handleChangePersonCount(
+    event: Event,
+    value: number | number[],
+    activeThumb: number
+  ) {
+    if (typeof value === "number") setPersonCount(value);
   }
-  const handleSubmitUserRegData=()=> {
-    const createdAt = new Intl.DateTimeFormat('ru',{
-      year: 'numeric', month: 'numeric', day: 'numeric',
-      hour: 'numeric', minute: 'numeric',
+  const handleSubmitUserRegData = () => {
+    const createdAt = new Intl.DateTimeFormat("ru", {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
       hour12: false,
-    }).format(new Date())
-    const obj = {...userData, id:prevUserId+1, createdAt:createdAt}
+    }).format(new Date());
+    const obj = { ...userData, id: prevUserId + 1, createdAt: createdAt };
     mutate(
-    {
+      {
         resource: "users",
         values: {
-           ...obj
+          ...obj,
         },
-    },
-    {
+      },
+      {
         onError: (error, variables, context) => {
           console.log("Не удалось сохранить пользователя!", error);
         },
         onSuccess: (data, variables, context) => {
-          console.log("Пользователь сохранен!",data);
-          setCurrentUser({...data.data})
-          setValue('user',data.data.id)
-            // Let's celebrate!
+          console.log("Пользователь сохранен!", data);
+          setCurrentUser({ ...data.data });
+          setValue("user", data.data.id);
+          // Let's celebrate!
         },
-    },
-);
-  }
+      }
+    );
+  };
   return (
     <Create
+      breadcrumb={false}
       isLoading={formLoading}
-      actionButtons={<>{<SaveButton disabled={!isUserRegister} onClick={(e)=>{
-        console.log("&&&&&&&&&",);
-    const createdAt = new Intl.DateTimeFormat('ru',{
-      year: 'numeric', month: 'numeric', day: 'numeric',
-      hour: 'numeric', minute: 'numeric',
-      hour12: false,
-    }).format(new Date())
-        mutate(
-            {
-                resource: "orders",
-                values: {
-                  ...getValues(),
-                  status:"payment is expected",
-                  agent:user.id,
-                  createdAt:createdAt,
-                  persons:+getValues().persons
-                },
-            },
-            {
-                onError: (error, variables, context) => {
-                  console.log("Не удалось сохранить заказ!", error);
-                },
-                onSuccess: (data, variables, context) => {
-                  console.log("Заказ сохранен!",data);
-                    // Let's celebrate!
-                },
-            },) 
-        e.preventDefault()
-        // handleSubmit(onFinish)
-      }} />}</>}
+      actionButtons={
+        <>
+          {
+            <SaveButton
+              disabled={!isUserRegister}
+              onClick={(e) => {
+                console.log("&&&&&&&&&");
+                const createdAt = new Intl.DateTimeFormat("ru", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: false,
+                }).format(new Date());
+                mutate(
+                  {
+                    resource: "orders",
+                    values: {
+                      ...getValues(),
+                      status: "payment is expected",
+                      agent: user.id,
+                      createdAt: createdAt,
+                      persons: +getValues().persons,
+                    },
+                  },
+                  {
+                    onError: (error, variables, context) => {
+                      console.log("Не удалось сохранить заказ!", error);
+                    },
+                    onSuccess: (data, variables, context) => {
+                      console.log("Заказ сохранен!", data);
+                      // Let's celebrate!
+                    },
+                  }
+                );
+                e.preventDefault();
+                // handleSubmit(onFinish)
+              }}
+            />
+          }
+        </>
+      }
     >
       {" "}
       <Box
@@ -253,7 +274,7 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
               </FormControl>
             </Grid>
             <Grid item xs={6}>
-            {/* date */}
+              {/* date */}
               <FormControl fullWidth>
                 <FormLabel>Дата поездки</FormLabel>{" "}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -297,21 +318,23 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
               </FormControl>
             </Grid>
             {/* person counter */}
-           <Grid item xs={12}>
-            <FormControl fullWidth>
-              <FormLabel>Количество людей - <b style={{fontSize:22}}>{personCount}</b></FormLabel>
-              <Slider
-              {...register("persons")}
-              min={1}
-              max={10}
-              value={personCount}
-              onChange={handleChangePersonCount}
-              />
-            </FormControl>
-
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <FormLabel>
+                  Количество людей -{" "}
+                  <b style={{ fontSize: 22 }}>{personCount}</b>
+                </FormLabel>
+                <Slider
+                  {...register("persons")}
+                  min={1}
+                  max={10}
+                  value={personCount}
+                  onChange={handleChangePersonCount}
+                />
+              </FormControl>
             </Grid>
           </Grid>
-            {/*order's comment*/}
+          {/*order's comment*/}
           <Grid item xs={12} lg={8} spacing={2}>
             <FormControl fullWidth>
               <FormLabel
@@ -351,26 +374,40 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
             </FormGroup>
             {isUserRegister ? (
               <Grid item container xs={12} md={8}>
-                
-                {
-                  currentUser ? <>
-                    <Typography variant="h6" sx={{"&>span":{
-                      fontWeight:400
-                    }}}>
+                {currentUser ? (
+                  <>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        "&>span": {
+                          fontWeight: 400,
+                        },
+                      }}
+                    >
                       <span>Заказ оформляется на клиента:</span>{" "}
-                    {currentUser.name}<span>{" "}(Тел:</span> +{currentUser.phone}<span>)</span>
-                    </Typography>
-                  </> : <>
-                    <Typography variant="h6">
-                    блок поиска пользователя
+                      {currentUser.name}
+                      <span> (Тел:</span> +{currentUser.phone}
+                      <span>)</span>
                     </Typography>
                   </>
-                }
+                ) : (
+                  <>
+                    <Typography variant="h6">
+                      блок поиска пользователя
+                    </Typography>
+                  </>
+                )}
               </Grid>
             ) : (
               <Grid item container xs={12} md={12}>
                 <Grid item xs={12}>
-                  <Stack gap="24px" direction="row" alignItems={'flex-end'} flexWrap="wrap" justifyContent={'space-between'}>
+                  <Stack
+                    gap="24px"
+                    direction="row"
+                    alignItems={"flex-end"}
+                    flexWrap="wrap"
+                    justifyContent={"space-between"}
+                  >
                     <FormControl>
                       <FormLabel
                         sx={{
@@ -385,7 +422,9 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                       <TextField
                         value={userData.name}
                         id="name"
-                        onChange={(e)=>setUserData({...userData, name:e.target.value})}
+                        onChange={(e) =>
+                          setUserData({ ...userData, name: e.target.value })
+                        }
                         size="small"
                         margin="none"
                         type="text"
@@ -416,7 +455,9 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                         country={"ru"}
                         value={userData.phone}
                         specialLabel=""
-                        onChange={(phone) => {setUserData({...userData, phone:phone})}}
+                        onChange={(phone) => {
+                          setUserData({ ...userData, phone: phone });
+                        }}
                       />
                     </FormControl>
                     <FormControl>
@@ -437,11 +478,17 @@ export const OrderCreate: React.FC<IResourceComponentsProps> = () => {
                         type={"email"}
                         value={userData.email}
                         id="email"
-                        onChange={(e)=>setUserData({...userData, email:e.target.value})}
+                        onChange={(e) =>
+                          setUserData({ ...userData, email: e.target.value })
+                        }
                       />
                     </FormControl>
-                    <Button variant="contained" sx={{width:'300px', height:'40px'}} onClick={()=>handleSubmitUserRegData()}>
-                        Зарегистрировать клиента
+                    <Button
+                      variant="contained"
+                      sx={{ width: "300px", height: "40px" }}
+                      onClick={() => handleSubmitUserRegData()}
+                    >
+                      Зарегистрировать клиента
                     </Button>
                     {/* <Box sx={{ display: "none" }}>
                       <input value={createdAt()} {...register("createdAt")} />

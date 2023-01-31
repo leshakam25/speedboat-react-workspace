@@ -16,7 +16,6 @@ import { OrderStatus } from "components/orderStatus";
 import { RouteName } from "components/routeName";
 
 export const RecentOrders: React.FC = () => {
-  const t = useTranslate();
   const { show, edit } = useNavigation();
   const { mutate: mutateDelete } = useDelete();
   const { dataGridProps } = useDataGrid<IOrder>({
@@ -90,22 +89,22 @@ export const RecentOrders: React.FC = () => {
         align: "center",
         width: 200,
       },
-      {
-        field: "desc",
-        headerName: "Комментарий",
-        // valueGetter: ({ row }) => row.agent.name,
-        headerAlign: "center",
-        align: "center",
-        width: 200,
-        flex: 1,
-      },
-      {
-        field: "createdAt",
-        headerName: "Создан",
-        headerAlign: "center",
-        align: "center",
-        width: 160,
-      },
+      // {
+      //   field: "desc",
+      //   headerName: "Комментарий",
+      //   // valueGetter: ({ row }) => row.agent.name,
+      //   headerAlign: "center",
+      //   align: "center",
+      //   width: 200,
+      //   flex: 1,
+      // },
+      // {
+      //   field: "createdAt",
+      //   headerName: "Создан",
+      //   headerAlign: "center",
+      //   align: "center",
+      //   width: 160,
+      // },
       {
         field: "actions",
         type: "actions",

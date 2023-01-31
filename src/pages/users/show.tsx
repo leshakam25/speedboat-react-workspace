@@ -18,22 +18,6 @@ import { IUser } from "interfaces";
 import { InfoBox } from "components";
 import { usePermissions } from "@pankod/refine-core/";
 
-const UserInfoText: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
-  <Stack
-    direction="row"
-    alignItems="center"
-    justifyContent={{
-      sm: "center",
-      lg: "flex-start",
-    }}
-    gap={1}
-  >
-    {children}
-  </Stack>
-);
-
 export const UserShow: React.FC<IResourceComponentsProps> = () => {
   const { queryResult } = useShow<IUser>();
   const user = queryResult.data?.data;
@@ -58,33 +42,39 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
       }
     >
       <Grid container spacing={2}>
-        <Grid item xs={12} lg={4}>
+        <Grid item xs={12} lg={3}>
           <Avatar
             variant="rounded"
             src={user?.avatar}
-            sx={{ width: 240, height: 240 }}
+            sx={{ width: 234, height: 234 }}
           />
-          <UserInfoText>
-            <InfoBox
-              icon={<LocalPhoneOutlinedIcon />}
-              text="Номер телефона"
-              value={user?.phone}
-            />
-          </UserInfoText>
-          <UserInfoText>
-            <InfoBox
-              icon={<EmailIcon />}
-              text="Электронная почта"
-              value={user?.email}
-            />
-          </UserInfoText>
-          <UserInfoText>
-            <InfoBox
-              icon={<DateRangeOutlinedIcon />}
-              text="Создан"
-              value={user?.createdAt}
-            />
-          </UserInfoText>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          lg={3}
+          gap={2}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {" "}
+          <InfoBox
+            icon={<LocalPhoneOutlinedIcon />}
+            text="Номер телефона"
+            value={user?.phone}
+          />
+          <InfoBox
+            icon={<EmailIcon />}
+            text="Электронная почта"
+            value={user?.email}
+          />
+          <InfoBox
+            icon={<DateRangeOutlinedIcon />}
+            text="Создан"
+            value={user?.createdAt}
+          />
         </Grid>
       </Grid>
     </Show>

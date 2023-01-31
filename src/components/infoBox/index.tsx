@@ -23,6 +23,7 @@ export const InfoBox: React.FC<CourierInfoBoxProps> = ({
         padding: "10px 12px",
         backgroundColor: "primary.main",
         maxHeight: "100px",
+        // my: 1,
       }}
     >
       <Avatar

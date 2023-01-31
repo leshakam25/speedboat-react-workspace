@@ -40,6 +40,7 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Create
+      breadcrumb={false}
       isLoading={formLoading}
       actionButtons={<>{<SaveButton onClick={handleSubmit(onFinish)} />}</>}
     >

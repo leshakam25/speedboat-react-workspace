@@ -34,17 +34,13 @@ export const DashboardPage: React.FC = () => {
   }, []);
 
   return (
-    <List
-      headerButtons={false}
-      breadcrumb={false}
-      title={
-        <Typography variant="h4">
-          Заказов сегодня: {orderList.length}
-        </Typography>
-      }
-    >
+    <List headerButtons={false} breadcrumb={false}>
       <Grid container spacing={2}>
         <Grid item xs={12} lg={3}>
+          {" "}
+          <Typography variant="h5">
+            Заказов сегодня: {orderList.length}
+          </Typography>
           <DatePicker
             todayButton={<Button variant="contained">сегодня</Button>}
             selected={startDate}
@@ -56,7 +52,7 @@ export const DashboardPage: React.FC = () => {
         </Grid>
         <Grid item xs={12} lg={12}>
           <Card sx={{ height: "100%", paddingX: { xs: 2 }, boxShadow: "none" }}>
-            <CardHeader title={t("dashboard.recentOrders.title")} />
+            <CardHeader title="Последние заказы" />
             <RecentOrders />
           </Card>
         </Grid>

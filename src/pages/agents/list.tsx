@@ -14,7 +14,6 @@ import {
   GridColumns,
   Avatar,
   useDataGrid,
-  DateField,
   Button,
   TextField,
   Box,
@@ -34,7 +33,6 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { IAgent, IAgentFilterVariables } from "interfaces";
 
 export const AgentList: React.FC<IResourceComponentsProps> = () => {
-  const t = useTranslate();
   const { mutate: mutateDelete } = useDelete();
   const { edit, show } = useNavigation();
 
@@ -78,7 +76,7 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
       },
       {
         field: "phone",
-        headerName: t("users.fields.phone"),
+        headerName: "Телефон",
         align: "center",
         headerAlign: "center",
         width: 160,
@@ -86,7 +84,7 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
 
       {
         field: "name",
-        headerName: t("users.fields.name"),
+        headerName: "Имя",
         align: "center",
         headerAlign: "center",
         flex: 1,
@@ -94,7 +92,7 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
       },
       {
         field: "email",
-        headerName: t("users.fields.email"),
+        headerName: "Почта",
         align: "center",
         headerAlign: "center",
         width: 160,
@@ -102,7 +100,7 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
 
       {
         field: "createdAt",
-        headerName: t("users.fields.createdAt"),
+        headerName: "Создан",
         align: "center",
         headerAlign: "center",
         width: 160,
@@ -120,7 +118,7 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
             key={1}
             icon={<EditIcon color="success" />}
             sx={{ padding: "2px 6px" }}
-            label={t("buttons.edit")}
+            label="Редактировать"
             showInMenu
             onClick={() => edit("agents", row.id)}
           />,
@@ -128,7 +126,7 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
             key={2}
             icon={<CloseOutlinedIcon color="error" />}
             sx={{ padding: "2px 6px" }}
-            label={t("buttons.delete")}
+            label="Удалить"
             showInMenu
             onClick={() => {
               mutateDelete({
@@ -141,7 +139,7 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
         ],
       },
     ],
-    [t]
+    []
   );
 
   const { register, handleSubmit } = useForm<
@@ -155,66 +153,61 @@ export const AgentList: React.FC<IResourceComponentsProps> = () => {
   });
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} lg={6}>
-        <Card sx={{ mb: 2 }}>
-          <CardHeader title="Поиск" />
-          <CardContent sx={{ pt: 0 }}>
-            <Box
-              component="form"
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                my: 2,
-              }}
-              autoComplete="off"
-              onSubmit={handleSubmit(search)}
-            >
-              <TextField
-                {...register("q")}
-                label={t("users.filter.search.label")}
-                placeholder={t("users.filter.search.placeholder")}
-                margin="normal"
-                fullWidth
-                autoFocus
-                size="small"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <br />
-              <Button size="small" type="submit" variant="contained">
-                {t("orders.filter.submit")}
-              </Button>
-            </Box>
-          </CardContent>
-        </Card>
-        <List cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}>
-          <DataGrid
-            {...dataGridProps}
-            columns={columns}
-            filterModel={undefined}
-            autoHeight
-            rowHeight={80}
-            onRowClick={({ id }) => {
-              show("agents", id);
-            }}
-            rowsPerPageOptions={[10, 20, 50, 100]}
+    <>
+      <Card sx={{ mb: 2 }}>
+        <CardHeader title="Поиск" />
+        <CardContent sx={{ pt: 0 }}>
+          <Box
+            component="form"
             sx={{
-              ...dataGridProps.sx,
-              "& .MuiDataGrid-row": {
-                cursor: "pointer",
-              },
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
-          />
-        </List>
-      </Grid>
-    </Grid>
+            onSubmit={handleSubmit(search)}
+          >
+            <TextField
+              {...register("q")}
+              label="Поиск"
+              fullWidth
+              size="small"
+              sx={{
+                mr: 2,
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchOutlinedIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Button type="submit" variant="contained">
+              Отправить
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
+      <List cardProps={{ sx: { paddingX: { xs: 2, md: 0 } } }}>
+        <DataGrid
+          {...dataGridProps}
+          columns={columns}
+          filterModel={undefined}
+          autoHeight
+          rowHeight={80}
+          onRowClick={({ id }) => {
+            show("agents", id);
+          }}
+          rowsPerPageOptions={[10, 20, 50, 100]}
+          sx={{
+            ...dataGridProps.sx,
+            "& .MuiDataGrid-row": {
+              cursor: "pointer",
+            },
+          }}
+        />
+      </List>
+    </>
   );
 };

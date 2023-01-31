@@ -13,24 +13,21 @@ export const OrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
   switch (status) {
     case "payment is expected":
       color = "warning";
+      status = "Ожидается оплата";
       break;
     case "paid":
       color = "info";
+      status = "Оплачено";
       break;
     case "done":
       color = "success";
+      status = "Выполнено";
       break;
     case "cancelled":
       color = "error";
+      status = "Отменено";
       break;
   }
 
-  return (
-    <Chip
-      variant="outlined"
-      size="small"
-      color={color}
-      label={t(`enum.orderStatuses.${status}`)}
-    />
-  );
+  return <Chip variant="outlined" size="small" color={color} label={status} />;
 };
